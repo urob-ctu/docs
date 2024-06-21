@@ -1,8 +1,30 @@
-title: Just the Docs Template
-description: A starter template for a Jeykll site using the Just the Docs theme!
+title: Robot Learning Course
+description: A course for teaching robot learning
 theme: just-the-docs
 
 url: https://just-the-docs.github.io
 
 aux_links:
-  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+  CourseWare: https://cw.fel.cvut.cz/b231/courses/b3b33urob/start
+  BRUTE: https://cw.felk.cvut.cz/brute/student/
+  GitHub: https://github.com/urob-ctu
+
+
+color_scheme: nil
+
+callouts_level: quiet # or loud
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  definition:
+    title: Definition
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red

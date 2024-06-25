@@ -19,24 +19,56 @@ mathjax: true
 {:toc}
 </details>
 
-Classification is a fundamental concept in machine learning where the goal is to categorize data into predefined classes or labels. For example, an email might be classified as "spam" or "not spam," and a medical image could be classified as showing "cancerous" or "non-cancerous" tissue.
+## Introduction
 
+Classification is a basic concept in machine learning where we categorize data into predefined classes or labels. For example, an email might be classified as "spam" or "not spam," and a medical image could be classified as showing "cancerous" or "non-cancerous" tissue.
+
+## Definition of Classification
+
+Before we dive into the details of classification, let's introduce **Features** and **Labels**.
+
+1. **Features** - These are the characteristics that describe the data. They can be a number, a vector, an image, etc. In this assignment, we'll use $x$ to denote the features. The feature space will be referred to as $\mathcal{X}$.
+
+2. **Labels** - These are the values we aim to predict. We'll use $y$ to denote the labels. The set of all possible labels will be referred to as $\mathcal{Y}$. For example, in an image classification problem where we want to predict whether an image is a dog or a cat, $\mathcal{Y}$ would be {dog,cat}.
+
+{: .definition }
+>**The Classification** is the task of mapping from a feature space to a label space. The goal is to learn a function $\mathcal{P}$ that maps features to labels. This function is called the **Prediction Function** or **Prediction Strategy** or **Inference Rule**.
+>
+>$$\mathcal{P}: \mathcal{X} \rightarrow \mathcal{Y}$$
+>
+>$$\mathcal{P}(x) = y, \quad x \in \mathcal{X}, \quad y \in \mathcal{Y}$$
+
+Although this definition is correct, we will make a few simplifications for our course.
+
+1. We will assume the feature space is a vector space of dimension $d$, where $d$ is the number of features. Therefore, we will denote the feature space as $\mathcal{X} = \mathbb{R}^{d}$ and feature vectors as $\boldsymbol{x} \in \mathbb{R}^{d}$.
+2. We will assume the label space is a finite set of natural numbers. Therefore, we will denote the label space as $\mathcal{Y} = \mathbb{N}$.
+3. We will also differentiate between the **prediction** and the **label**. We will denote the label as $y \in \mathcal{Y}$ and the prediction as $\hat{y} \in \mathcal{Y}$.
+
+{: .note }
+>For this course **Classification** is the process of mapping from a feature space $\mathbb{R}^{d}$ to a label space $\mathbb{N}$. The task is to learn a prediction function $\mathcal{P}$ that creates a prediction $\hat{y}$ from the feature vector $\boldsymbol{x}$ and we want the prediction to be as close as possible to the true label $y$.
+>
+>$$\mathcal{P}(x) = \hat{y}, \quad x \in \mathbb{R}^{d}, \quad \hat{y} \in \mathbb{N}$$
+
+This can be visualized as the following schematic:
+
+<br>
+<div align="center">
+    <img src="{{ site.baseurl }}/assets/images/predictor_function.png" width="300px"/>
+</div>
+<br>
 
 ## Dataset
 
-In supervised machine learning, a typical dataset consists of two main components:
+You should already be familiar with the concept of a dataset. But let's define it for our classification task.
 
-1. **Features** - These are the characteristics that describe the data. Usually, a sample is represented as a vector of features, denoted as $\boldsymbol{x} = (x_{1}, x_{2}, ..., x_{d})$. In this assignment, the number of features will be referred to as $d$.
+{: .definition }
+>**Dataset** $$\mathcal{D}$$ is a collection of **samples** $$(\boldsymbol{x}, y)$$ where $$\boldsymbol{x}$$ is a feature vector and $$y$$ is a label.
+>
+>$$\mathcal{D} = \{(\boldsymbol{x}_{1}, y_{1}), \ldots, (\boldsymbol{x}_{n}, y_{n})\}, \quad \boldsymbol{x} \in \mathbb{R}^{d}, \quad y \in \mathbb{N}$$
 
-2. **Labels** - These are the values we aim to predict. In this assignment, we'll use $y$ to denote the labels.
+The dataset is used for training, validation, and testing of the model, so it is usually divided into these three subsets.
 
-The role of the classifier is to take a feature vector $\boldsymbol{x}$ and predict the corresponding label $y$. Mathematically, this can be represented as a function $f$ that maps features to labels:
-
-$$f: \mathbb{R}^{d} \rightarrow \mathcal{Y}$$
-
-$$f(\boldsymbol{x}) = y, \quad \boldsymbol{x} \in \mathbb{R}^{d}, \quad y \in \mathcal{Y}$$
-
-Once you have your dataset with features and labels, it's crucial to divide it into distinct subsets for training, validation, and testing. These subsets serve specific purposes during the model development and evaluation process:
+### Dataset Splits
 
 1. **Training Set** - This is the largest portion of your dataset and is used to train the model. The model learns underlying patterns in the data by adjusting its parameters based on the training examples. A larger training set generally helps the model learn more accurate and generalizable patterns.
 
@@ -54,62 +86,10 @@ Typical ratios for splitting the dataset include allocating 70-80% for training,
     <hr>
 </div>
 
-## Examples
+## Expected Knowledge
 
-You have already come across various classifiers during your studies. Here are some examples to refresh your memory.
+From this text, you should understand the following concepts:
 
-### First Example: Nearest Neighbors Classifier
-
-The Nearest Neighbors classifier is a straightforward algorithm that operates as follows:
-
-1. **Training** - The classifier essentially memorizes the training dataset. The training set is stored in the classifier and used for prediction.
-2. **Prediction** - When making predictions, the classifier identifies the closest sample in the training set to the given input and assigns the label of the closest sample to the input.
-
-There are various methods to determine the closest sample, but for this assignment, we'll utilize the Euclidean distance metric. The Euclidean distance between two samples, denoted as $$\boldsymbol{x}_{1}$$ and $$\boldsymbol{x}_{2}$$, is defined as:
-
-$$d(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}) = \sqrt{\sum_{i=1}^{d} (x_{1i} - x_{2i})^{2}}$$
-
-Here, $\boldsymbol{x}_{1}$ and $$\boldsymbol{x}_{2}$$ represent two samples from the dataset.
-
-### Second Example: k-Nearest Neighbors Classifier
-
-The k-Nearest Neighbors classifier is akin to the Nearest Neighbors classifier, with one key difference. In the k-Nearest Neighbors classifier, instead of considering just the single closest sample, we find the $k$ closest samples from the training set. The classifier then assigns the label that is most prevalent among these $k$ closest samples to the given input.
-
-To illustrate, here's an example of k-Nearest Neighbors classification with $k=3$ (the yellow point represents the point we want to classify):
-
-<br>
-<br>
-
-<div align="center">
-      <img src="{{ site.baseurl }}/assets/images/knn_principle.png" alt="k-Nearest Neighbors principle"/>
-</div>
-
-<br>
-<br>
-
-In this example, the two nearest neighbors belong to the green class, while one belongs to the red class. Consequently, the yellow point is classified as part of the green class.
-
-## Summary
-
-- **What is Classification?**
-  - Categorization of data into predefined classes or labels.
-  - Mathematically it is a function $f: \mathbb{R}^{d} \rightarrow \mathcal{Y}$.
-  - Examples: Email classification (spam/not spam), medical image classification (cancerous/non-cancerous).
-
-- **Dataset Components**
-  - **Features**: Characteristics describing the data, represented as a vector $\boldsymbol{x}$.
-  - **Labels**: Values to be predicted, denoted as $y$.
-
-- **Dataset Splitting**
-  - **Training Set**: Largest portion, used to train the model.
-  - **Validation Set**: Used for hyperparameter tuning and model selection.
-  - **Test Set**: Independent set for final model evaluation to assess generalization.
-  - **Typical Ratios**: 70-80% training, 10-15% validation, 10-15% testing.
-
-- **Basic Classifiers**
-  - **Nearest Neighbors Classifier**
-    - Memorizes training data.
-    - Predicts based on the closest sample using Euclidean distance.
-  - **k-Nearest Neighbors Classifier**
-    - Considers the $k$ closest samples for prediction.
-    - Assigns the most prevalent label among the $k$ nearest samples.
+- **Features** and **Labels**: What are they and some examples.
+- **Prediction Function**: The definition of the prediction function.
+- **Dataset splits**: The training, validation, and test sets, and their roles in model development. 

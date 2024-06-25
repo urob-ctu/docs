@@ -14,7 +14,8 @@ color_scheme: nil
 
 callouts_level: quiet # or loud
 callouts:
-  highlight:
+  slogan:
+    title: Slogan
     color: yellow
   important:
     title: Important

@@ -75,7 +75,7 @@ Where $$\boldsymbol{s}$$ refers to the logits of the neural network.
 
 ## Under the Hood of Neural Networks
 
-To understand neural networks better, we can break them down into two main components. The first part involves a non-linear transformation of the feature space $\mathbb{R}^{d}$ into a higher-dimensional space, enhancing the data's separability. The second part functions as a linear classifier, akin to what we discussed in the [Linear Classifier section]({{ site.baseurl }}{% link classification/linear_classifier.md %}).
+To understand neural networks better, we can break them down into two main components. The first part involves a non-linear transformation of the feature space $\mathbb{R}^{d}$ into a higher-dimensional space, enhancing the data's separability. The second part functions as a linear classifier, akin to what we discussed in the [Linear Classifier section]({{ site.baseurl }}{% link docs/classification/linear_classifier.md %}).
 
 The behavior of the first part heavily relies on the activation function chosen. We'll illustrate this using the example of the spiral dataset, initially not linearly separable. The following videos demonstrate how different activation functions affect network behavior."
 

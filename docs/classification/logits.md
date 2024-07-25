@@ -101,7 +101,7 @@ This function maps a feature vector $\boldsymbol{x}$ to a logits vector $\boldsy
 </div>
 <br>
 
-Understanding logits is fundamental as we move forward to more advanced classifiers, such as the [Linear Classifier]({{ site.baseurl }}{% link classification/linear_classifier.md %}).
+Understanding logits is fundamental as we move forward to more advanced classifiers, such as the [Linear Classifier]({{ site.baseurl }}{% link docs/classification/linear_classifier.md %}).
 
 ## Expected Knowledge
 

@@ -12,7 +12,7 @@ layout: home
 | 7.10.2024 | Lec 3: Where the hell does the loss come from? MAP and ML estimate, KL divergence and losses. | Loss, MLP  | Ales | HW1 - MLP |
 | 14.10.2024 | Lec 4: The story of the cat's brain surgery: fully-connected NN + fast backpropagation via Vector-Jacobian-Product (VJP), cortex + convolutional layer  | Convolutional neural networks. | Honza | - |
 | 21.10.2024 | Lec 5: Under the hood of auto-differentiation: Vector-Jacobian-Product (VJP) vs chainrule and multiplication of Jacobians, convolutional layer and its VJP | Backpropagation | Honza | HW2 - Autograd |
-| 28.10.2024 | Den vzniku samostatného československa | - | -  | - |
+| 28.10.2024 | Independence Day of Czechoslovakia | - | -  | - |
 | 4.11.2024 | **Midterm test** | - | -  | - |
 | 11.11.2024 | Lec 6: Why is learning prone to fail? - Structural issues: layers + issues, batch-norm, drop-out | Layers | Roman | HW3 - Segmentation |
 | 18.11.2024 | Lec 7: Why is learning prone to fail? - Optimization issues: optimization vs learning, KL divergence, SGD, momentum, convergence rate, Adagrad, RMSProp, AdamOptimizer, diminishing/exploding gradient, oscillation, double descent  | Optimization | Karel | - |

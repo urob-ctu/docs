@@ -32,7 +32,7 @@ To enhance our classifier, we need a way to measure its performance. This measur
 >
 > Here the $$\boldsymbol{s}$$ represents the logits of the classifier, and the $$y$$ represents the true label in one-hot vector form. The loss function outputs a scalar value $$\ell$$ that quantifies how well the classifier is performing.
 
-It's important to note that the loss function typically requires the true label in a one-hot encoded format, which will be explained further in the section on [loss]({{ site.baseurl }}/classification/loss.md).
+It's important to note that the loss function typically requires the true label in a one-hot encoded format, which will be explained further in the section on [loss]({{ site.baseurl }}{% link docs/classification/loss.md %}).
 
 ## Gradient Descent
 
@@ -59,7 +59,7 @@ Gradient descent is efficient for optimizing complex models with large amounts o
 
 ## Forward Pass and Backward Pass
 
-The [prediction function]({{ site.baseurl }}{% link classification/logits.md %}#predictor_detailed), which we previously discussed in the context of generating predictions, is part of the broader training process. The training function $$\mathcal{T}(\boldsymbol{x}, y)$$ extends this concept by incorporating the true labels into the process. Training involves two main computations: the **Forward Pass** and the **Backward Pass**.
+The [prediction function]({{ site.baseurl }}{% link docs/classification/logits.md %}#predictor_detailed), which we previously discussed in the context of generating predictions, is part of the broader training process. The training function $$\mathcal{T}(\boldsymbol{x}, y)$$ extends this concept by incorporating the true labels into the process. Training involves two main computations: the **Forward Pass** and the **Backward Pass**.
 
 ### Forward Pass
 

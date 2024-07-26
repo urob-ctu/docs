@@ -42,7 +42,7 @@ The linear classifier differs primarily in how it calculates the logits. Instead
 
 ## Training and Inference
 
-- **Training**: The process of training a linear classifier involves finding the optimal weight matrix $$\boldsymbol{W}$$ and bias vector $$\boldsymbol{b}$$. This is typically done using a method called **gradient descent**, which will be discussed in detail in the next section on how to [train classifiers]({{ site.baseurl }}{% link classification/training.md %}).
+- **Training**: The process of training a linear classifier involves finding the optimal weight matrix $$\boldsymbol{W}$$ and bias vector $$\boldsymbol{b}$$. This is typically done using a method called **gradient descent**, which will be discussed in detail in the next section on how to [train classifiers]({{ site.baseurl }}{% link docs/classification/training.md %}).
 - **Inference**: Once the model is trained, inference refers to the process of making a prediction for a given input $$\boldsymbol{x}$$. The prediction of the linear classifier is made by finding the class corresponding to the maximum value of the logits:
   
   $$
@@ -103,7 +103,7 @@ We trained a linear classifier on this dataset and visualized the rows of the we
 
 For example, if we look at the *plane* or *ship* templates, we see mostly blue backgrounds. This is because planes are typically seen in the sky and ships in the water. We also see a template of a green *frog* in the middle of the image.
 
-We have mentioned the training of classifiers multiple times. Let's now proceed to the next section, which covers how to [train classifiers]({{ site.baseurl }}{% link classification/training.md %}).
+We have mentioned the training of classifiers multiple times. Let's now proceed to the next section, which covers how to [train classifiers]({{ site.baseurl }}{% link docs/classification/training.md %}).
 
 ## Expected Knowledge
 

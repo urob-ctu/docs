@@ -9,6 +9,7 @@ aux_links:
   BRUTE: https://cw.felk.cvut.cz/brute/student/
   GitHub: https://github.com/urob-ctu
 
+favicon_ico: "/assets/images/favicon.ico"
 
 color_scheme: nil
 

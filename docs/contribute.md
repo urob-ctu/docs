@@ -39,7 +39,7 @@ First, fork the [repository](https://github.com/urob-ctu/docs) to your own accou
 Then, clone the forked repository by running:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/docs.git
+git clone git@github.com:YOUR-USERNAME/docs.git
 ```
 
 Navigate to the cloned repository:

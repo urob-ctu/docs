@@ -22,6 +22,3 @@ nav_order: 1
 | 9.12.2024 | Lec 10: Reinforcement learning: Approximated Q-learning, DQN, DDPG, Derivation of the policy gradient (REINFORCE), A2C, TRPO, PPO, Reward shaping, Inverse RL, Applications,  | Reinforcement learning I | Typek od Romana | - |
 | 16.12.2024 | Lec 11: Implicit layers  | Reinforcement learning II | Typek od Romana | HW5 - RL |
 | 6.1.2024 | **Exam** | - | -  | - |
-
-
-

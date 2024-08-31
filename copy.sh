@@ -17,3 +17,4 @@ if [ -z "$container_id" ]; then
 fi
 
 docker cp ./docs "$container_id":/usr/src/docs/
+docker cp ./assets "$container_id":/usr/src/docs/

@@ -2,7 +2,7 @@
 title: Backpropagation
 layout: default
 has_children: false
-nav_order: 3
+nav_order: 4
 mathjax: true
 ---
 
@@ -20,9 +20,10 @@ mathjax: true
 
 ## Introduction
 
-Backpropagation is a method used in artificial neural networks to calculate the gradient of the loss function with respect to the weights of the network. It is a supervised learning algorithm, which means that it requires labeled data to train the network. The backpropagation algorithm is the foundation of training neural networks and is used in many different neural network architectures.
+Backpropagation is a cornerstone algorithm in the field of machine learning, particularly in the training of neural networks. It serves as the engine that enables the training of deep learning models. In this text, we will explain the backpropagation algorithm and its components.
 
-This may seem like a complex concept, but we will break it down into simpler parts to understand it better.
+{: .note }
+>Note that we will not explain every term used in this text. We assume that you are familiar with the basic concepts of neural networks. If you are not yet, we recommend reading the previous texts in this course.
 
 ## The Computation graph
 
@@ -36,23 +37,58 @@ Depending on the architecture of the network, the computation graph can be simpl
 
 We can easily visualize the forward and backward pass of the network using the computation graph.
 
-## The Forward Pass
+## Components of the Backpropagation Algorithm
+
+The backpropagation algorithm consists of three main components: the forward pass, the backward pass, and updating the weights.
+
+We will explain each of these components in more detail and we will use this simple neural network as an example.
+
+<div align="center">
+  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+</div>
+
+### The Forward Pass
 
 The forward pass is the first step in the backpropagation algorithm. In the forward pass, the input data is passed through the network, and the output is calculated. The output is then compared to the true output, and the error is calculated using a loss function. The loss function is a measure of how far the predicted output is from the true output.
 
 In the computational graph it is presented as calculation of the output of the network. It is represented by arrows that go from left to right.
 
-## The Backward Pass
+<div align="center">
+  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+</div>
+
+### The Backward Pass
 
 The backward pass is the second step in the backpropagation algorithm. In the backward pass, the gradient of the loss function with respect to the weights of the network is calculated.
 
-The backward pass the chain-rule is used to calculate the gradients as we propagate through the network.
+In the backward pass the chain-rule is used to calculate the gradients as we propagate through the network.
 
-## Updating the Weights
+{: .definition }
+>**Chain Rule** is a formula that expresses the derivative of the composition of the differentiable functions $f$ and $g$ in terms of the derivatives of $f$ and $g$. More precisely, if $h = f \circ g$ is the function such that $h(x) = f(g(x))$ for every $x$, then the chain rule is, in Lagrange's notation:
+>
+>$$h'(x) = f'(g(x)) g'(x)$$.
+>
+>In Leibniz's notation (if $y = f(z)$ and $z = g(x)$):
+>
+>$$\frac{dy}{dx} = \frac{dy}{dz} \frac{dz}{dx}$$.
+
+In the computational graph it is presented as calculation of the gradients of the loss function with respect to the weights of the network. It is represented by arrows that go from right to left.
+
+<div align="center">
+  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+</div>
+
+### Updating the Weights
 
 After the gradients are calculated, the weights of the network are updated using an optimization algorithm. The most common optimization algorithm used in neural networks is stochastic gradient descent (SGD). The weights are updated in the opposite direction of the gradient to minimize the loss function.
 
-Many variations of the SGD algorithm exist, such as Adam, RMSprop, and Adagrad, which have different ways of updating the weights. More about these algorithms can be found [here](https://musstafa0804.medium.com/optimizers-in-deep-learning-7bf81fed78a0)
+Many variations of optimization algorithms exist, such as Adam, RMSprop, and Adagrad, which have different ways of updating the weights. More about these algorithms can be found [here](https://musstafa0804.medium.com/optimizers-in-deep-learning-7bf81fed78a0)
+
+In the computational graph it is presented as updating the weights of the network.
+
+<div align="center">
+  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+</div>
 
 ## Vector-Jacobian Product
 
@@ -66,3 +102,5 @@ From this text, you should understand the following concepts:
 - **Forward pass**: The step in the backpropagation algorithm where the input data is passed through the network, and the output is calculated.
 - **Backward pass**: The step in the backpropagation algorithm where the gradient of the loss function with respect to the weights of the network is calculated.
 - **Vector-Jacobian product**: An efficient way to calculate the gradients in the backward pass using the chain rule.
+
+In practice, the backpropagation algorithm is implemented using automatic differentiation libraries such as TensorFlow and PyTorch. These libraries handle the computation of the gradients automatically, so you don't have to worry about the details of the backpropagation algorithm, while using them. However, understanding the backpropagation algorithm is essential for understanding how neural networks are trained.

@@ -77,13 +77,13 @@ If you prefer to use Docker, we provide a Dockerfile that you can use. First, bu
 bash build.sh
 ```
 
-Then run the Docker container:
+To run the Docker container use the same `run.sh` script:
 
 ```bash
-bash start.sh
+bash run.sh
 ```
 
-This will autotaically build the website and start the Jekyll server. You can access the website at `localhost:4000`.
+The script will start the container and automatically build the website and start the Jekyll server. You can access the website normaly at `localhost:4000`, it will not automatically open it.
 
 When exiting the Docker container, run:
   

@@ -97,12 +97,6 @@ This will stop the Jekyll server and stop the container.
 
 When you make changes to the website, the website will automatically rebuild and refresh in your browser. You can now make changes to the website and see the results in real-time.
 
-If you run through the Docker container you will need to copy the changes to the docker container. You can do this by running:
-
-```bash
-bash copy.sh
-```
-
 ## Contribution Guidelines
 
 To make the materials consistent and easy to read, follow these guidelines:

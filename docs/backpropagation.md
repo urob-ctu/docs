@@ -39,7 +39,7 @@ We can easily visualize the forward and backward pass of the network using the c
 
 ## Components of the Backpropagation Algorithm
 
-The backpropagation algorithm consists of three main components: the forward pass, the backward pass, and updating the weights.
+The backpropagation algorithm consists of three main components: the forward pass, the backward pass, and updating the weights. The forward pass is sometimes not considered a part of the backpropagation algorithm, but it is essential for understanding how the algorithm works.
 
 We will explain each of these components in more detail and we will use this simple neural network as an example.
 

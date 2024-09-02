@@ -8,11 +8,11 @@ if [ $(echo "$containers" | wc -l) -eq 1 ]; then
 fi
 
 # Extract the container ID corresponding the line with image name "docs"
-container_id=$(echo "$containers" | awk 'NR > 1' | grep docs | awk 'NR == 1 {print $1}')
+container_id=$(echo "$containers" | awk 'NR > 1' | grep docs | grep run.sh | awk 'NR == 1 {print $1}')
 
 # Check if a valid container ID was obtained
 if [ -z "$container_id" ]; then
-    echo "Invalid container ID obtained."
+    echo "No valid container found."
     exit 1
 fi
 

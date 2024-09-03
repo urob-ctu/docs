@@ -1,8 +1,7 @@
 #!/usr/bin/bash
 
 # Help message
-Help()
-{
+Help() {
     echo "Find and kill container running the Jekyll server."
     echo "The script assumes only one such container is running"
     echo "as only one server may run at a time. In interactive"
@@ -14,20 +13,22 @@ Help()
     echo "i     Run in interactive mode."
 }
 
-# Deal with flags
+# Process flags
 interactive=false
 while getopts ":hi" option; do
     case $option in
-        h)  # display Help
-            Help
-            exit;;
-        i)  # interactive mode
-            interactive=true;;
-        \?)  # invalid option
-            echo "Error: Invalid option"
-            echo
-            Help
-            exit;;
+    h) # display Help
+        Help
+        exit
+        ;;
+    i) # interactive mode
+        interactive=true ;;
+    \?) # invalid option
+        echo "Error: Invalid option"
+        echo
+        Help
+        exit
+        ;;
     esac
 done
 
@@ -61,8 +62,8 @@ if $interactive; then
     # Extract the job ID corresponding to the selected number
     container_id=$(echo "$containers" | awk 'NR > 1' | awk -v container_number="$container_number" 'NR == container_number {print $1}')
 else
-# Extract the container ID corresponding the line with image name "docs"
-container_id=$(echo "$containers" | awk 'NR > 1' | grep docs | grep run.sh | awk 'NR == 1 {print $1}')
+    # Extract the container ID corresponding the line with image name "urob-docs"
+    container_id=$(echo "$containers" | awk 'NR > 1' | grep urob-docs | grep run.sh | awk 'NR == 1 {print $1}')
 fi
 
 # Check if a valid container ID was obtained

@@ -1,4 +1,5 @@
-FROM arm64v8/ruby:3.3
+ARG ARCH=amd64 # default option
+FROM ${ARCH}/ruby:3.3
 
 RUN apt-get update && apt-get -y -qq install vim
 

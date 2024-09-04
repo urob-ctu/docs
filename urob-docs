@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Function to print the usage information for this script
+print_usage() {
+    cat <<EOF
+Usage: bash urob-docs [OPTIONS]
+
+Options:
+    -r, --run       Run the urob-docs container
+    -b, --build     Build the urob-docs container
+    -h, --help      Display this help message and exit
+EOF
+}
+
+
+PROJECT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+DOCKER_PROJECT_DIR="/usr/src/docs"
+
+run() {
+    docker run \
+        --network="host" \
+        -v "$PROJECT_DIR:$DOCKER_PROJECT_DIR" \
+        -it \
+        urob-docs
+}
+
+build() {
+    docker build \
+        --build-arg DOCKER_PROJECT_DIR="$DOCKER_PROJECT_DIR" \
+        -t \
+        urob-docs $PROJECT_DIR
+}
+
+main() {
+    if [[ $# -lt 1 ]]; then
+        print_usage
+        echo "Error: An option must be provided" >&2
+        exit 1
+    fi
+
+    case "$1" in
+        -r|--run)
+            run
+            ;;
+        -b|--build)
+            build
+            ;;
+        -h|--help)
+            print_usage
+            exit 0
+            ;;
+        *)
+            print_usage
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+}
+
+set -e
+main "$@"

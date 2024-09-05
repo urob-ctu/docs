@@ -1,49 +1,79 @@
 #!/usr/bin/bash
 
 # Help message
-Help() {
+usage() {
     echo "Start the Jekyll server for local version of the website."
     echo "If the server cannot be run natively start a docker container"
     echo "and inside it start the server. If the docker image docs"
     echo "does not exist build it first."
     echo
-    echo "Syntax: run.sh [-h|-d]"
-    echo "options:"
-    echo "h     Print this help message."
-    echo "d     Force the script to use docker."
+    echo "Syntax: bash run.sh [options]"
+    echo "options:              Every option must be set separately."
+    echo "-h, --help            Print this help message."
+    echo "-i, --interactive     Docker in interactive mode."
+    echo "-b, --build           Force docker image build."
+    # echo "-d, --docker          Force the script to use docker."
 }
 
-# Process flags
-force_docker=false
-while getopts ":hd" option; do
-    case $option in
-    h) # display Help
-        Help
-        exit
-        ;;
-    d) # force docker
-        force_docker=true ;;
-    \?) # invalid option
-        echo "Error: Invalid option"
-        echo
-        Help
-        exit
-        ;;
-    esac
-done
+PROJECT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+DOCKER_PROJECT_DIR="/usr/src/docs"
 
 # If running in docker
-run_docker() {
+run() {
     # Check if image is available
     if [[ $(docker image inspect urob-docs 2>/dev/null) == "[]" ]]; then
-        echo "Building docker image"
-        bash ./build.sh # Build image
+        build
     fi
     echo "Running in docker"
-    docker run --network="host" -v ./docs:/usr/src/docs/docs -v ./assets:/usr/src/docs/assets -t urob-docs
+    docker run \
+        --network="host" \
+        -v "$PROJECT_DIR:$DOCKER_PROJECT_DIR"\
+        $docker_mode urob-docs
 }
 
-# Main
-if $force_docker || ! bundle exec jekyll serve -l -o; then
-    run_docker
-fi
+build() {
+    echo "Building docker image"
+    docker build \
+        --build-arg DOCKER_PROJECT_DIR="$DOCKER_PROJECT_DIR" \
+        -t urob-docs \
+        $PROJECT_DIR
+}
+
+main() {
+    # Process flags
+    docker_mode="-td"
+    # force_docker=false
+    force_build=false
+    while [ $# -gt 0 ]; do
+        case $1 in
+            -h|--help) # display Help
+                usage
+                exit 0
+                ;;
+            -i|--interactive) # interactive mode
+                docker_mode="-it" ;;
+            # -d|--docker) # force docker
+            #     force_docker=true ;;
+            -b|--build) # force build
+                force_build=true ;;
+            *) # invalid option
+                echo "Error: Invalid option"
+                echo
+                usage
+                exit 1
+                ;;
+        esac
+        shift
+    done
+
+    if $force_build; then
+        build
+    fi
+    run
+    # if $force_docker || ! bundle exec jekyll serve -l -o; then
+    #     run
+    # fi
+}
+
+set -e
+main "$@"

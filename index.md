@@ -22,6 +22,3 @@ nav_order: 1
 | 9.12.2024 | Lec 10: What can('t) we do with a deep net?: Classification (ResNet, Squeeze and Excitation Nets), Segmentation (DeepLab), Detection (Yolo, fast-RCNN), Regression (OpenPose), Spatial Transformer Nets | Architectures | Roman | - |
 | 16.12.2024 | Lec 11: | - | -  | - |
 | 6.1.2024 | **Exam** | - | -  | - |
-
-
-

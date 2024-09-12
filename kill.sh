@@ -63,7 +63,7 @@ if $interactive; then
     container_id=$(echo "$containers" | awk 'NR > 1' | awk -v container_number="$container_number" 'NR == container_number {print $1}')
 else
     # Extract the container ID corresponding the line with image name "urob-docs"
-    container_id=$(echo "$containers" | awk 'NR > 1' | grep urob-docs | grep run.sh | awk 'NR == 1 {print $1}')
+    container_id=$(echo "$containers" | awk 'NR > 1' | grep urob-docs | awk 'NR == 1 {print $1}')
 fi
 
 # Check if a valid container ID was obtained

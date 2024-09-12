@@ -92,7 +92,20 @@ In the computational graph it is presented as updating the weights of the networ
 
 ## Vector-Jacobian Product
 
-TODO
+The vector-jacobian product is a way to efficiently calculate the gradient for large matrices. It utilizes linear algebra and matrix multiplication.
+
+It is more efficient to calculate the gradient of the loss function with respect to the weights of the network using the vector-jacobian product as the jacobian matrix can be very large for high-dimensional data. The vector-jacobian product allows us to calculate the gradient without explicitly calculating the jacobian matrix. It also preserves the dimensionality of the input data in the backward pass.
+
+{: .note }
+>The vector-jacobian product is in essence the following snippet (we will mix code with mathematical expresions)
+>
+>def $\textrm{vjp}_{f}(\boldsymbol{v}, \boldsymbol{z}):$
+>
+>&nbsp;&nbsp;&nbsp;&nbsp;return $\boldsymbol{v}^{T}\cdot\frac{\partial f}{\partial\boldsymbol{z}}$
+
+<div align="center">
+  <img src="{{ site.baseurl }}/assets/images/vjp_graph.png" width="800">
+</div>
 
 ## Expected Knowledge
 

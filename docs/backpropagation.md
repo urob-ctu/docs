@@ -44,8 +44,10 @@ The backpropagation algorithm consists of three main components: the forward pas
 We will explain each of these components in more detail and we will use this simple neural network as an example.
 
 <div align="center">
-  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+  <img src="{{ site.baseurl }}/assets/images/simple_network.png" width="800">
 </div>
+
+$$ \boldsymbol{x}=\begin{bmatrix}{0.5 \\ 0.7}\end{bmatrix} \bar{\boldsymbol{w}}=\begin{bmatrix}{1.0 \\ 0.7 \\ 2.0}\end{bmatrix} z^{*}=3.5 $$
 
 ### The Forward Pass
 
@@ -54,7 +56,7 @@ The forward pass is the first step in the backpropagation algorithm. In the forw
 In the computational graph it is presented as calculation of the output of the network. It is represented by arrows that go from left to right.
 
 <div align="center">
-  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+  <img src="{{ site.baseurl }}/assets/images/simple_network_fwd.png" width="800">
 </div>
 
 ### The Backward Pass
@@ -75,7 +77,7 @@ In the backward pass the chain-rule is used to calculate the gradients as we pro
 In the computational graph it is presented as calculation of the gradients of the loss function with respect to the weights of the network. It is represented by arrows that go from right to left.
 
 <div align="center">
-  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+  <img src="{{ site.baseurl }}/assets/images/simple_network_bwd.png" width="800">
 </div>
 
 ### Updating the Weights
@@ -84,10 +86,10 @@ After the gradients are calculated, the weights of the network are updated using
 
 Many variations of optimization algorithms exist, such as Adam, RMSprop, and Adagrad, which have different ways of updating the weights. More about these algorithms can be found [here](https://musstafa0804.medium.com/optimizers-in-deep-learning-7bf81fed78a0)
 
-In the computational graph it is presented as updating the weights of the network.
+In the computational graph it is presented as updating the weights of the network. We will use the standard gradient descent with $\alpha=1.0$.
 
 <div align="center">
-  <img src="{{ site.baseurl }}/assets/images/placeholder.png" width="800">
+  <img src="{{ site.baseurl }}/assets/images/simple_network_update.png" width="800">
 </div>
 
 ## Vector-Jacobian Product
@@ -96,12 +98,12 @@ The vector-jacobian product is a way to efficiently calculate the gradient for l
 
 It is more efficient to calculate the gradient of the loss function with respect to the weights of the network using the vector-jacobian product as the jacobian matrix can be very large for high-dimensional data. The vector-jacobian product allows us to calculate the gradient without explicitly calculating the jacobian matrix. It also preserves the dimensionality of the input data in the backward pass.
 
-{: .note }
->The vector-jacobian product is in essence the following snippet (we will mix code with mathematical expresions)
+{: .definition }
+>The **vector-jacobian** product is defined as the following snippet (note that we will mix pseudocode with mathematical expresions)
 >
 >def $\textrm{vjp}_{f}(\boldsymbol{v}, \boldsymbol{z}):$
 >
->&nbsp;&nbsp;&nbsp;&nbsp;return $\boldsymbol{v}^{T}\cdot\frac{\partial f}{\partial\boldsymbol{z}}$
+>&nbsp;&nbsp;&nbsp;&nbsp;return $\boldsymbol{v}^{\top}\cdot\frac{\partial f}{\partial\boldsymbol{z}}$
 
 <div align="center">
   <img src="{{ site.baseurl }}/assets/images/vjp_graph.png" width="800">

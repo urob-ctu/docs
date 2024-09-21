@@ -69,6 +69,33 @@ bash run.sh
 
 The website should automatically open in your browser. If not, you can find it at `localhost:4000`.
 
+### Using Docker
+
+If you prefer to use Docker, we provide a Dockerfile that you can use. First, build the Docker image:
+
+```bash
+bash build.sh
+```
+
+To run the Docker container use the same `run.sh` script:
+
+```bash
+bash run.sh
+```
+
+The script will start the container and automatically build the website and start the Jekyll server. You can access the website normaly at `localhost:4000`, it will not automatically open it.
+
+When exiting the Docker container, run:
+  
+```bash
+bash kill.sh
+```
+
+This will stop the Jekyll server and stop the container.
+
+### Making Changes
+
+When you make changes to the website, the website will automatically rebuild and refresh in your browser. You can now make changes to the website and see the results in real-time.
 
 ## Contribution Guidelines
 

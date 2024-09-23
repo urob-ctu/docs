@@ -1,15 +1,11 @@
 # How to Contribute
 
-{: .no_toc }
-
-<details open markdown="block">
-  <summary>
-    Table of Contents
-  </summary>
-  {: .text-delta }
-1. TOC
-{:toc}
-</details>
+- [Introduction](#introduction)
+- [Run the Website Locally](#run-the-website-locally)
+  - [Fork and Clone the Repoitory](#fork-and-clone-the-repository)
+  - [Building and Previewing the Website](#building-and-previewing-the-website)
+  - [Making Changes](#making-changes)
+  - [Without Docker](#without-docker)
 
 ## Introduction
 
@@ -26,7 +22,7 @@ When making more complex changes to the website, you should run the website loca
 First, fork the [repository](https://github.com/urob-ctu/docs) to your own account by clicking the button at the top of the page.
 
 <div align="center">
-    <img src="{{ site.baseurl }}/assets/images/fork-button.webp" width="800">
+    <img src="./assets/images/fork-button.webp" width="800">
 </div>
 
 Then, clone the forked repository by running:

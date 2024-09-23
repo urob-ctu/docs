@@ -6,6 +6,7 @@
   - [Building and Previewing the Website](#building-and-previewing-the-website)
   - [Making Changes](#making-changes)
   - [Without Docker](#without-docker)
+- [Contribution Guidelines](#contribution-guidelines)
 
 ## Introduction
 

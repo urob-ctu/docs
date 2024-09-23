@@ -73,7 +73,7 @@ In the forward pass the loss is computed given the input $$\boldsymbol{x}x$$ and
 
 ### Backward Pass
 
-The backward pass, also known as **backpropagation**, is where the gradients of the loss function with respect to each parameter (weight and bias) are computed. These gradients guide the updates made to the parameters during gradient descent. The steps involved in the backward pass are:
+The backward pass, also known as [**backpropagation**]({{ site.baseurl }}{% link docs/backpropagation.md %}), is where the gradients of the loss function with respect to each parameter (weight and bias) are computed. These gradients guide the updates made to the parameters during gradient descent. The steps involved in the backward pass are:
 
 - **Gradient Calculation**: Compute the gradient of the loss $$\ell$$ with respect to the parameters $$\boldsymbol{w}$$.
 - **Parameter Update**: Update the parameters using the gradients. The parameters are adjusted in the opposite direction of the gradient to minimize the loss function.

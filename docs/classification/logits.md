@@ -30,7 +30,7 @@ As we previously discussed, a classifier can be viewed as a function that maps f
 </div>
 <br>
 
-While this approach is effective, it can sometimes be limiting. Let's consider a scenario where we use a 100-Nearest Neighbors classifier in a 2-dimensional space ($\mathbb{R}^{2}$). Suppose we have two samples, $\boldsymbol{x}_{1}$ and $\boldsymbol{x}_{2}$, and we want to make predictions for them. We will use a function:
+While this approach is effective, it can sometimes be limiting. Let's consider a scenario where we use a 100-Nearest Neighbors classifier in a 2-dimensional space ($\mathbb{R}^{2}$). Suppose we have two samples, $$\boldsymbol{x}_{1}$$ and $$\boldsymbol{x}_{2}$$, and we want to make predictions for them. We will use a function:
 
 ```
    nearest_neighbors(x, k) -> {n1, n2}

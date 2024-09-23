@@ -1,174 +1,162 @@
-# just-the-docs-template
+# How to Contribute
 
-This is a *bare-minimum* template to create a [Jekyll] site that:
+{: .no_toc }
 
-- uses the [Just the Docs] theme;
-- can be built and published on [GitHub Pages];
-- can be built and previewed locally, and published on other platforms.
+<details open markdown="block">
+  <summary>
+    Table of Contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
-More specifically, the created site:
+## Introduction
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem;
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages.
+The materials you see are primarily written by the teachers of the UROB course, but you can also contribute! If you notice an error or a typo, please simply [open an issue](https://github.com/urob-ctu/urob-ctu.github.io/issues) on GitHub. If you have a more complex suggestion or an entirely new section, follow these contribution guidelines.
 
-To get started with creating a site, simply:
+Why should you contribute? First, it helps you gain a better understanding of the subject. Second, it helps us improve the course. Most importantly, you can **earn points for your contribution**.
 
-1. click "[use this template]" to create a GitHub repository
-2. go to Settings > Pages > Build and deployment > Source, and select GitHub Actions
+## Run the Website Locally
 
-If you want to maintain your docs in the `docs` directory of an existing project repo, see [Hosting your docs from an existing project repo](#hosting-your-docs-from-an-existing-project-repo).
+When making more complex changes to the website, you should run the website locally to see the results of your changes. To develop the website locally, follow these steps:
 
-After completing the creation of your new site on GitHub, update it as needed:
+### Fork and Clone the Repository
 
-## Replace the content of the template pages
+First, fork the [repository](https://github.com/urob-ctu/docs) to your own account by clicking the button at the top of the page.
 
-Update the following files to your own content:
+<div align="center">
+    <img src="{{ site.baseurl }}/assets/images/fork-button.webp" width="800">
+</div>
 
-- `index.md` (your new home page)
-- `README.md` (information for those who access your site repo on GitHub)
+Then, clone the forked repository by running:
 
-## Changing the version of the theme and/or Jekyll
+```bash
+git clone git@github.com:YOUR-USERNAME/docs.git
+```
 
-Simply edit the relevant line(s) in the `Gemfile`.
+Navigate to the cloned repository:
 
-## Adding a plugin
+```bash
+cd docs
+```
 
-The Just the Docs theme automatically includes the [`jekyll-seo-tag`] plugin.
+### Building and Previewing the Website
 
-To add an extra plugin, you need to add it in the `Gemfile` *and* in `_config.yml`. For example, to add [`jekyll-default-layout`]:
+We prepared a Docker container that contains all the dependencies needed to build and run the website.
 
-- Add the following to your site's `Gemfile`:
+To run the Docker container use the same `run.sh` script:
 
-  ```ruby
-  gem "jekyll-default-layout"
-  ```
+```bash
+bash run.sh
+```
 
-- And add the following to your site's `_config.yml`:
+The script will start the container and automatically build the website and start the Jekyll server. You can access the website at `localhost:4000`, it will not automatically open it.
 
-  ```yaml
-  plugins:
-    - jekyll-default-layout
-  ```
+You do not need to build the docker image, it will be automatically built the first time you run the script.
 
-Note: If you are using a Jekyll version less than 3.5.0, use the `gems` key instead of `plugins`.
+If you would like for some reason to rebuild the docker image run the `run.sh` script with the `--build` or `-b` flag:
 
-## Publishing your site on GitHub Pages
+```bash
+bash run.sh --build
+```
 
-1.  If your created site is `YOUR-USERNAME/YOUR-SITE-NAME`, update `_config.yml` to:
+The docker is run in a detached mode, so you can continue working in the same terminal. This means that to stop the Jekyll server and the container, you need to run the `kill.sh` script.
+  
+```bash
+bash kill.sh
+```
 
-    ```yaml
-    title: YOUR TITLE
-    description: YOUR DESCRIPTION
-    theme: just-the-docs
+To run the docker in normal mode, you can use the `--interactive` or `-i` flag:
 
-    url: https://YOUR-USERNAME.github.io/YOUR-SITE-NAME
+```bash
+bash run.sh --interactive
+```
 
-    aux_links: # remove if you don't want this link to appear on your pages
-      Template Repository: https://github.com/YOUR-USERNAME/YOUR-SITE-NAME
+This will stop the Jekyll server and stop the container.
+
+### Making Changes
+
+When you make changes to the website, the website will automatically rebuild and refresh in your browser. You can now make changes to the website and see the results in real-time.
+
+### Without Docker
+
+The following dependencies are required to build the website locally:
+
+- [Jekyll](https://jekyllrb.com)
+- [Bundler](https://bundler.io)
+
+Assuming you are in the cloned repository directory, run:
+
+```bash
+bundle install
+```
+
+Then run the following script to start the Jekyll server:
+
+```bash
+bundle exec jekyll serve -l -o
+```
+
+The website should automatically open in your browser. If not, you can find it at `localhost:4000`.
+
+## Contribution Guidelines
+
+To make the materials consistent and easy to read, follow these guidelines:
+
+1. **Language:** Write only in English.
+2. **Table of Contents:** Include a table of contents at the top of each page using the following snippet:
+
+    ```markdown
+    # Header
+    {: .no_toc }
+
+    <details open markdown="block">
+    <summary>
+        Table of contents
+    </summary>
+    {: .text-delta }
+    1. TOC
+    {:toc}
+    </details>
     ```
 
-2.  Push your updated `_config.yml` to your site on GitHub.
+3. **Introduction:** Include an introduction at the beginning of each page that describes the purpose of the page.
+{% raw %}
+1. **Images:** Use the following snippet for images:
 
-3.  In your newly created repo on GitHub:
-    - go to the `Settings` tab -> `Pages` -> `Build and deployment`, then select `Source`: `GitHub Actions`.
-    - if there were any failed Actions, go to the `Actions` tab and click on `Re-run jobs`.
+   ```markdown
+   <div align="center">
+     <img src="{{ site.baseurl }}/assets/images/IMAGE_NAME.png" width="800">
+   </div>
+   ```
 
-## Building and previewing your site locally
+    - The `<div align="center">` tag centers the image.
+    - The `{{ site.baseurl }}` is the path to the website directory. Then add the relative path to the image in the `assets/images` folder. Always add images to the `assets/images` folder.
+    - The `width="800"` is the width of the image. You can adjust it as needed.
 
-Assuming [Jekyll] and [Bundler] are installed on your computer:
+2. **Videos:** Use the following snippet for videos:
 
-1.  Change your working directory to the root directory of your site.
+   ```markdown
+   <div align="center">
+     <video src="{{ site.baseurl }}/assets/videos/spirals_relu.mp4" width="640" autoplay loop controls muted></video>
+   </div>
+   ```
 
-2.  Run `bundle install`.
+    - The `width="640"` attribute sets the video width. You can adjust it as needed.
+    - The `{{ site.baseurl }}` is the path to the website directory. Then add the relative path to the video in the `assets/videos` folder. Always add videos to the `assets/videos` folder.
 
-3.  Run `bundle exec jekyll serve` to build your site and preview it at `localhost:4000`.
+6. **Callouts:** You can use the following callouts:
+   - `{: .definition }` for definitions
+   - `{: .slogan }` for important information
+   - `{: .warning }` for warnings
+   - `{: .important }` for important information
+   - `{: .note }` for notes
+  
+   More about callouts [here](https://just-the-docs.com/docs/ui-components/callouts/).
 
-    The built site is stored in the directory `_site`.
+7. **Commit message guidelines:** Follow these [commit message guidelines](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53) when making changes.
 
-## Publishing your built site on a different platform
+{% endraw %}
 
-Just upload all the files in the directory `_site`.
-
-## Customization
-
-You're free to customize sites that you create with this template, however you like!
-
-[Browse our documentation][Just the Docs] to learn more about how to use this theme.
-
-## Hosting your docs from an existing project repo
-
-You might want to maintain your docs in an existing project repo. Instead of creating a new repo using the [just-the-docs template](https://github.com/just-the-docs/just-the-docs-template), you can copy the template files into your existing repo and configure the template's Github Actions workflow to build from a `docs` directory. You can clone the template to your local machine or download the `.zip` file to access the files.
-
-### Copy the template files
-
-1.  Create a `.github/workflows` directory at your project root if your repo doesn't already have one. Copy the `pages.yml` file into this directory. GitHub Actions searches this directory for workflow files.
-
-2.  Create a `docs` directory at your project root and copy all remaining template files into this directory.
-
-### Modify the GitHub Actions workflow
-
-The GitHub Actions workflow that builds and deploys your site to Github Pages is defined by the `pages.yml` file. You'll need to edit this file to that so that your build and deploy steps look to your `docs` directory, rather than the project root.
-
-1.  Set the default `working-directory` param for the build job.
-
-    ```yaml
-    build:
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: docs
-    ```
-
-2.  Set the `working-directory` param for the Setup Ruby step.
-
-    ```yaml
-    - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1'
-          bundler-cache: true
-          cache-version: 0
-          working-directory: '${{ github.workspace }}/docs'
-    ```
-
-3.  Set the path param for the Upload artifact step:
-
-    ```yaml
-    - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: "docs/_site/"
-    ```
-
-4.  Modify the trigger so that only changes within the `docs` directory start the workflow. Otherwise, every change to your project (even those that don't affect the docs) would trigger a new site build and deploy.
-
-    ```yaml
-    on:
-      push:
-        branches:
-          - "main"
-        paths:
-          - "docs/**"
-    ```
-
-## Licensing and Attribution
-
-This repository is licensed under the [MIT License]. You are generally free to reuse or extend upon this code as you see fit; just include the original copy of the license (which is preserved when you "make a template"). While it's not necessary, we'd love to hear from you if you do use this template, and how we can improve it for future use!
-
-The deployment GitHub Actions workflow is heavily based on GitHub's mixed-party [starter workflows]. A copy of their MIT License is available in [actions/starter-workflows].
-
-----
-
-[^1]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
-
-[Jekyll]: https://jekyllrb.com
-[Just the Docs]: https://just-the-docs.github.io/just-the-docs/
-[GitHub Pages]: https://docs.github.com/en/pages
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[Bundler]: https://bundler.io
-[use this template]: https://github.com/just-the-docs/just-the-docs-template/generate
-[`jekyll-default-layout`]: https://github.com/benbalter/jekyll-default-layout
-[`jekyll-seo-tag`]: https://jekyll.github.io/jekyll-seo-tag
-[MIT License]: https://en.wikipedia.org/wiki/MIT_License
-[starter workflows]: https://github.com/actions/starter-workflows/blob/main/pages/jekyll.yml
-[actions/starter-workflows]: https://github.com/actions/starter-workflows/blob/main/LICENSE
+A good rule of thumb is to look at existing pages and follow the same structure. If you can't find something, refer to the documentation of the [Just the Docs](https://just-the-docs.com/) template we use.

@@ -20,7 +20,7 @@ mathjax: true
 
 ## Introduction
 
-The materials you see are primarily written by the teachers of the UROB course, but you can also contribute! If you notice an error or a typo, please simply [open an issue](https://github.com/urob-ctu/urob-ctu.github.io/issues) on GitHub. If you have a more complex suggestion or an entirely new section, follow these contribution guidelines.
+The materials you see are primarily written by the teachers of the UROB course, but you can also contribute! In fact we encourage you to do so! If you notice an error or a typo, please simply [open an issue](https://github.com/urob-ctu/urob-ctu.github.io/issues) on GitHub. If you have a more complex suggestion or an entirely new section, follow these contribution guidelines.
 
 Why should you contribute? First, it helps you gain a better understanding of the subject. Second, it helps us improve the course. Most importantly, you can **earn points for your contribution**.
 
@@ -52,15 +52,15 @@ cd docs
 
 We prepared a Docker container that contains all the dependencies needed to build and run the website.
 
-To run the Docker container use the same `run.sh` script:
+To run the Docker container use the `run.sh` script:
 
 ```bash
 bash run.sh
 ```
 
-The script will start the container and automatically build the website and start the Jekyll server. You can access the website at `localhost:4000`, it will not automatically open it.
+The script will start the container and automatically build the website and start the Jekyll server. You can access the website at `localhost:4000`, it will not open it automatically.
 
-You do not need to build the docker image, it will be automatically built the first time you run the script.
+You do not need to build the docker image, it will be built automatically the first time you run the script.
 
 If you would like for some reason to rebuild the docker image run the `run.sh` script with the `--build` or `-b` flag:
 
@@ -74,19 +74,22 @@ The docker is run in a detached mode, so you can continue working in the same te
 bash kill.sh
 ```
 
-To run the docker in normal mode, you can use the `--interactive` or `-i` flag:
+This will stop the Jekyll server and the container.
+
+To run the docker in normal (interactive) mode, you can use the `--interactive` or `-i` flag:
 
 ```bash
 bash run.sh --interactive
 ```
 
-This will stop the Jekyll server and stop the container.
 
 ### Making Changes
 
 When you make changes to the website, the website will automatically rebuild and refresh in your browser. You can now make changes to the website and see the results in real-time.
 
 ### Without Docker
+
+We encourage you to use the Docker image; if you are, however, unable or unwilling to do so, you can run the whole thing natively.
 
 The following dependencies are required to build the website locally:
 

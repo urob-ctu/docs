@@ -11,8 +11,8 @@ nav_order: 1
 | 23.9.2024 | Lec 1: Machine learning 101: model, loss, learning, issues, regression, classification | Intro: ML | Ales | - |
 | 30.9.2024 | Lec 2: Under the hood of a linear classifier: two-class and multi-class linear classifier on RGB images  | 1D regression and 2D classification: Revision of the regression and classification theory, analytic gradient computation, gradient in computational graph and loss minimization. | Karel  | - |
 | 7.10.2024 | Lec 3: Where the hell does the loss come from? MAP and ML estimate, KL divergence and losses. | Loss, MLP  | Ales | HW1 - MLP |
-| 14.10.2024 | Lec 4: The story of the cat's brain surgery: fully-connected NN + fast backpropagation via Vector-Jacobian-Product (VJP), cortex + convolutional layer  | Convolutional neural networks. | Honza | - |
-| 21.10.2024 | Lec 5: Under the hood of auto-differentiation: Vector-Jacobian-Product (VJP) vs chainrule and multiplication of Jacobians, convolutional layer and its VJP | Backpropagation | Honza | HW2 - Autograd |
+| 14.10.2024 | Lec 4: The story of the cat's brain surgery: fully-connected NN + fast backpropagation via Vector-Jacobian-Product (VJP), cortex + convolutional layer  | Backpropagation | Honza | - |
+| 21.10.2024 | Lec 5: Under the hood of auto-differentiation: Vector-Jacobian-Product (VJP) vs chainrule and multiplication of Jacobians, convolutional layer and its VJP | Convolutional neural networks | Honza | HW2 - Autograd |
 | 28.10.2024 | Independence Day of Czechoslovakia | Preparation for midterm test | - | - |
 | 4.11.2024 | **Midterm test** | HPC Tutorial | Roman  | - |
 | 11.11.2024 | Lec 6: Why is learning prone to fail? - Structural issues: layers + issues, batch-norm, drop-out | Layers | Roman | HW3 - Segmentation |

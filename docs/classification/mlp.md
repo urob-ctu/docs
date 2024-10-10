@@ -19,7 +19,7 @@ parent: Classification
 
 ## Introduction
 
-Neural networks have a long history but have recently gained immense popularity due to advances in computational power and the availability of large datasets. Artificial Neural Networks (ANNs) are models inspired by the human brain's complexity.
+Neural networks have a long history but have recently gained immense popularity due to advances in computational power and the availability of large datasets. Artificial Neural Networks (ANNs) are models inspired by the human brain.
 
 These networks consist of **artificial neurons** or **perceptrons**. Each neuron acts as a computational unit, processing inputs, performing computations, and passing the results to other neurons.
 

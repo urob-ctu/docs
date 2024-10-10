@@ -27,7 +27,7 @@ Classification is a basic concept in machine learning where we categorize data i
 
 Before we dive into the details of classification, let's introduce **Features** and **Labels**.
 
-1. **Features** - These are the characteristics that describe the data. They can be a number, a vector, an image, etc. In this assignment, we'll use $x$ to denote the features. The feature space will be referred to as $\mathcal{X}$.
+1. **Features** - These are the attributes or properties that represent the data. A feature can take different forms, such as a numerical value, a vector, or even an image. In this assignment, we'll use $x$ to represent the features. The collection of all possible features, or the set of all feature values, is called the feature space, and we will denote it by $\mathcal{X}$.
 
 2. **Labels** - These are the values we aim to predict. We'll use $y$ to denote the labels. The set of all possible labels will be referred to as $\mathcal{Y}$. For example, in an image classification problem where we want to predict whether an image is a dog or a cat, $\mathcal{Y}$ would be {dog,cat}.
 
@@ -70,11 +70,18 @@ The dataset is used for training, validation, and testing of the model, so it is
 
 ### Dataset Splits
 
-1. **Training Set** - This is the largest portion of your dataset and is used to train the model. The model learns underlying patterns in the data by adjusting its parameters based on the training examples. A larger training set generally helps the model learn more accurate and generalizable patterns.
-
-2. **Validation Set** - This subset is used during training for hyperparameter tuning and model selection. Hyperparameters are settings that are not learned by the model during training, such as the learning rate or the number of hidden layers in a neural network. The model's performance on the validation set helps in selecting the best hyperparameters and prevents overfitting, where the model becomes too tailored to the training data and performs poorly on new, unseen data.
-
-3. **Test Set** - This set is entirely independent of the training and validation data. Its purpose is to evaluate the final model's performance after it has been trained and tuned. Using a separate test set provides an unbiased estimate of how well the model is likely to perform on new, unseen data. This step is essential for assessing the model's generalization capabilities.
+1. **Training Set** - 
+    - **Purpose**: The training set is used to train the machine learning model. The model learns the relationships between the input features and the target labels in this set.
+    - **How it's used**: During training, the algorithm iteratively adjusts its parameters (like weights in neural networks) to minimize the error (or loss) in predicting the target variable based on the input features.
+    - **Goal**: To enable the model to generalize from the data, learning patterns and relationships in the input data that help make accurate predictions.
+2. **Validation Set** -
+    - **Purpose**: The validation set is used to fine-tune the model and to perform hyperparameter tuning (like selecting the learning rate, number of layers, etc.). It's also used to prevent overfitting (when a model performs well on training data but poorly on unseen data).
+    - **How it's used**: The model’s performance on the validation set is evaluated after each training epoch. Based on this evaluation, adjustments can be made to improve the model.
+    - **Goal**: To provide an unbiased evaluation during training and help select the best model configuration without exposing the model to the test set.
+3. **Test Set** -
+    - **Purpose**: The test set is used for the final evaluation of the model. This set contains data that the model has never seen during training or validation.
+    - **How it's used**: After training and fine-tuning, the test set is used to evaluate the model’s generalization ability on completely new data.
+    - **Goal**: To provide an objective measure of the model’s performance in a real-world setting, ensuring that it can generalize well to unseen data.
 
 {: .note } 
 In some situations, the terms "validation set" and "test set" may be used interchangeably. For example, in online literature, the validation set is often referred to as the test set. Additionally, in certain research papers, there may not be a distinct test set, and model evaluation is performed solely on the validation set. However, for this assignment, we will treat the validation and testing sets as separate entities.*

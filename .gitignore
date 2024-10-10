@@ -14,5 +14,7 @@ _site/
 .bundle/
 vendor/
 
-.vscode
-.idea
+.vscode/
+.idea/
+
+.DS_Store

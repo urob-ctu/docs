@@ -2,11 +2,12 @@
 title: Convolutional Neural Networks
 layout: default
 has_children: false
-nav_order: 3
+nav_order: 4
 mathjax: true
 ---
 
 # Convolutional Neural Networks
+
 {: .no_toc }
 
 <details open markdown="block">
@@ -89,7 +90,7 @@ The dilation therefore stretches the kernel and increases the number of elements
 
 The size of the resulting matrix may be calculated with the following formula:
 
-$$ d_{out} = \left\lfloor\frac{d_{in} + 2p - k \cdot (d - 1)}{s}\right\rfloor + 1, $$
+$$ d_{out} = \left\lfloor\frac{d_{in} + 2p - k - (k - 1)\cdot (d - 1)}{s}\right\rfloor + 1, $$
 
 where $d_{in}$ is the size of input matrix, $d_{out}$ is the size of output matrix, $k$ is the kernel size, $s$ is the stride, $p$ is the padding and $d$ is the dilation.
 
@@ -124,7 +125,7 @@ $$ \mathrm{vjp_{conv\_w}}\left(\frac{\partial\boldsymbol{p}}{\partial\boldsymbol
 
 **Backpropagation with respect to the input feature map:**
 
-$$ \mathrm{vjp_{conv\_x}}\left(\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{y}},\boldsymbol{w}\right) = \begin{bmatrix} \frac{\partial\boldsymbol{p}}{\partial x_{11}} & \frac{\partial\boldsymbol{p}}{\partial x_{12}} & \frac{\partial\boldsymbol{p}}{\partial x_{13}} \\ \frac{\partial\boldsymbol{p}}{\partial x_{21}} & \frac{\partial\boldsymbol{p}}{\partial x_{22}} & \frac{\partial\boldsymbol{p}}{\partial x_{23}} \\ \frac{\partial\boldsymbol{p}}{\partial x_{31}} & \frac{\partial\boldsymbol{p}}{\partial x_{32}} & \frac{\partial\boldsymbol{p}}{\partial x_{33}} \end{bmatrix} = \mathrm{conv}\left(\begin{bmatrix} 0 & 0 & 0 & 0 \\ 0 & \frac{\partial\boldsymbol{p}}{\partial y_{11}} & \frac{\partial\boldsymbol{p}}{\partial y_{12}} & 0 \\ 0 & \frac{\partial\boldsymbol{p}}{\partial y_{21}} & \frac{\partial\boldsymbol{p}}{\partial y_{22}} & 0 \\ 0 & 0 & 0 & 0\end{bmatrix}, \begin{bmatrix} w_{11} & w_{12} \\ w_{21} & w_{22} \end{bmatrix} \right) $$
+$$ \mathrm{vjp_{conv\_x}}\left(\frac{\partial\boldsymbol{p}}{\partial\boldsymbol{y}},\boldsymbol{w}\right) = \begin{bmatrix} \frac{\partial\boldsymbol{p}}{\partial x_{11}} & \frac{\partial\boldsymbol{p}}{\partial x_{12}} & \frac{\partial\boldsymbol{p}}{\partial x_{13}} \\ \frac{\partial\boldsymbol{p}}{\partial x_{21}} & \frac{\partial\boldsymbol{p}}{\partial x_{22}} & \frac{\partial\boldsymbol{p}}{\partial x_{23}} \\ \frac{\partial\boldsymbol{p}}{\partial x_{31}} & \frac{\partial\boldsymbol{p}}{\partial x_{32}} & \frac{\partial\boldsymbol{p}}{\partial x_{33}} \end{bmatrix} = \mathrm{conv}\left(\begin{bmatrix} 0 & 0 & 0 & 0 \\ 0 & \frac{\partial\boldsymbol{p}}{\partial y_{11}} & \frac{\partial\boldsymbol{p}}{\partial y_{12}} & 0 \\ 0 & \frac{\partial\boldsymbol{p}}{\partial y_{21}} & \frac{\partial\boldsymbol{p}}{\partial y_{22}} & 0 \\ 0 & 0 & 0 & 0\end{bmatrix}, \begin{bmatrix} w_{22} & w_{21} \\ w_{12} & w_{11} \end{bmatrix} \right) $$
 
 {: .important }
 >Very important property of the convolutional layer is:

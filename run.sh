@@ -15,7 +15,7 @@ usage() {
 }
 
 PROJECT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
-DOCKER_PROJECT_DIR="/usr/src/docs"
+DOCKER_PROJECT_DIR="/home/ondra/UROB/BonusPointsUROB/run.sh"
 
 # If running in docker
 run() {

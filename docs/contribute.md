@@ -1,4 +1,24 @@
-1. **Images:** Use the following snippet for images# How to Contribute
+---
+title: How to Contribute
+layout: default
+nav_order: 10
+mathjax: true
+---
+
+# How to Contribute
+
+{: .no_toc }
+
+<details open markdown="block">
+  <summary>
+    Table of Contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
+
+1. **Images:** Use the following snippet for images
 
 - [Introduction](#introduction)
 - [Local Development Setup](#local-development-setup)

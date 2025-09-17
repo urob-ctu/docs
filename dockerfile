@@ -1,17 +1,37 @@
+# Use the official Ruby 3.3 image to match your previous setup
 FROM ruby:3.3
 
-ARG DOCKER_PROJECT_DIR
+# Install essential dependencies for building gems and for Jekyll's JS runtime.
+# We've included 'vim' from your old file for convenience.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    nodejs \
+    npm \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get -y -qq install vim
+# Set the working directory. This path is used in the docker-compose.yml volumes.
+WORKDIR /usr/src/app
 
-# Copy the Gemfile and Gemfile.lock into the image and run bundle install
-RUN mkdir -p $DOCKER_PROJECT_DIR
-COPY Gemfile Gemfile.lock $DOCKER_PROJECT_DIR/
+# Copy Gemfiles first to leverage Docker's layer caching.
+# Gems will only be re-installed if these files change.
+COPY Gemfile* ./
 
-WORKDIR $DOCKER_PROJECT_DIR
-
-# throw errors if Gemfile has been modified since Gemfile.lock
+# From your old Dockerfile: excellent practice!
+# Ensures bundle install fails if Gemfile.lock is out-of-sync.
 RUN bundle config --global frozen 1
+
+# Install the gems
 RUN bundle install
 
-CMD ["bash", "-c", "bundle exec jekyll serve --livereload --open"]
+# Copy the rest of your application's code into the container.
+COPY . .
+
+# Expose the ports for Jekyll and LiveReload.
+EXPOSE 4000
+EXPOSE 35729
+
+# This is the command that will run when the container starts.
+# We've removed --open and added --host=0.0.0.0.
+CMD [ "bundle", "exec", "jekyll", "serve", "--host=0.0.0.0", "--livereload", "--incremental" ]
+

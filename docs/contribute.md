@@ -1,22 +1,22 @@
-1. **Images:** Use the following snippet for images# How to Contribute
+---
+title: How to Contribute
+layout: default
+nav_order: 10
+mathjax: true
+---
 
-- [Introduction](#introduction)
-- [Local Development Setup](#local-development-setup)
-  - [Prerequisites](#prerequisites)
-  - [Fork and Clone the Repository](#fork-and-clone-the-repository)
-  - [Running the Development Server](#running-the-development-server)
-- [Making and Submitting Changes](#making-and-submitting-changes)
-- [Content & Style Guidelines](#content--style-guidelines)
+# How to Contribute
 
-1. **Images:** Use the following snippet for images
+{: .no_toc }
 
-- [Introduction](#introduction)
-- [Local Development Setup](#local-development-setup)
-  - [Prerequisites](#prerequisites)
-  - [Fork and Clone the Repository](#fork-and-clone-the-repository)
-  - [Running the Development Server](#running-the-development-server)
-- [Making and Submitting Changes](#making-and-submitting-changes)
-- [Content & Style Guidelines](#content--style-guidelines)
+<details open markdown="block">
+  <summary>
+    Table of Contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
 ## Introduction
 

@@ -1,7 +1,5 @@
 # How to contribute 
 
-1. **Images:** Use the following snippet for images
-
 - [Introduction](#introduction)
 - [Local Development Setup](#local-development-setup)
   - [Prerequisites](#prerequisites)

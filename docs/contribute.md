@@ -42,9 +42,9 @@ You must have **Docker and Docker Compose** installed. This is available as a si
 
 1.  **Fork** the repository to your own GitHub account using the button at the top of the project page.
 
-    <div align="center">
-        <img src="./assets/images/fork-button.webp" width="800">
-    </div>
+<div align="center">
+    <img src="{{ site.baseurl }}/assets/images/fork-button.webp" width="800">
+</div>
 
 2.  **Clone** your forked repository to your local machine and navigate into the project directory:
     ```bash

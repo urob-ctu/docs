@@ -1,4 +1,6 @@
-1. **Images:** Use the following snippet for images# How to Contribute
+# How to contribute 
+
+1. **Images:** Use the following snippet for images
 
 - [Introduction](#introduction)
 - [Local Development Setup](#local-development-setup)

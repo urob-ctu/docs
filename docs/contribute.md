@@ -8,6 +8,16 @@
 - [Making and Submitting Changes](#making-and-submitting-changes)
 - [Content & Style Guidelines](#content--style-guidelines)
 
+1. **Images:** Use the following snippet for images
+
+- [Introduction](#introduction)
+- [Local Development Setup](#local-development-setup)
+  - [Prerequisites](#prerequisites)
+  - [Fork and Clone the Repository](#fork-and-clone-the-repository)
+  - [Running the Development Server](#running-the-development-server)
+- [Making and Submitting Changes](#making-and-submitting-changes)
+- [Content & Style Guidelines](#content--style-guidelines)
+
 ## Introduction
 
 The materials you see are primarily written by the teachers of the UROB course, but community contributions are highly encouraged! If you notice an error, a typo, or think something could be explained better, we invite you to help us improve the course.

@@ -26,14 +26,95 @@ The [previous page]({% link docs/reinforcement_learning/reinforcement_learning.m
 $$\pi^* = \arg \max_\pi J$$
 
 where $$J$$ is return.
-In this page we will continue with equations to derive the policy gradient: $$\nabla J $$
+In this page we will continue with equations to derive the policy gradient: $$\nabla J $$. Later, we will come up with the PPO[^1] algorithm.
 
-Before we continue, we have to assume that our policy $$ \pi $$ is:
+## Simplest Policy Gradient
+
+Before we continue, we will assume that our policy $$ \pi $$ is:
 
 - **parametrized**: We are using neural network with learnable parameters $$\theta$$. This network provides mapping: $$\mathcal{S} \rightarrow_\theta \mathcal{A}$$. From this point now, the symbol $\pi_\theta$ denotes policy parametrized by parameters $\theta$.
 - **stochastic**: Instead of directly outputting the action, our neural network will output parameters for a probability distribution. As an example our network outputs $\mu_\theta$, $\sigma_\theta$ and this will be used in normal distribution $\mathcal{N}(\mu,\sigma)$.
 
-  {: .proof}
+We will now derive the approximation of gradient:
+$$ \nabla_\theta J \approx \dfrac{1}{N} \sum_{i=1}^N \nabla_\theta \log (p(\tau_i | \theta)) R(\tau_i) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) $$
+where $R(\tau_i)$ is the return of the ith trajectory.
 
-> Pbbb
-> ASDAS
+<details open markdown="block"><summary><b>click to open/collapse the proof</b></summary>
+
+{: .proof}
+> Following the source[^2]. The maximization objective is
+>
+>$$
+>\mathbb{E}_\tau[R(\tau)|\theta] = \int_\tau p(\tau | \theta) R(\tau) d\tau
+>$$
+>
+>$$\begin{align*}
+>\nabla_{\theta} J &= \nabla_{\theta} \mathbb{E}_{\tau \sim \pi_{\theta}}{R(\tau)} & \\
+>&= \nabla_{\theta} \int_{\tau} p(\tau|\theta) R(\tau) & \text{Expand expectation} \\
+>&= \int_{\tau} \nabla_{\theta} p(\tau|\theta) R(\tau) & \text{Bring gradient under integral} \\
+>&= \int_{\tau} p(\tau|\theta) \nabla_{\theta} \log p(\tau|\theta) R(\tau) & \text{Log-derivative trick} \\
+>&= \mathbb{E}_{\tau \sim \pi_{\theta}}{\nabla_{\theta} \log p(\tau|\theta) R(\tau)} & \text{Return to expectation form} \\
+> &= \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta} (a_t |s_t) R(\tau)} & \text{Expression for grad-log-prob} \\
+> &\approx  \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) & \text{Estimatation via sample mean}
+>\end{align*}$$
+>
+>In the derivation a few tricks were used:
+> - **Probability of the trajectory**: The probability of a trajectory $\tau = (s_0, a_0, ..., s_{T+1})$ given that actions  come from $\pi_{\theta}$ is
+> $$ p(\tau|\theta) = \rho_0 (s_0) \prod_{t=0}^{T} p(s_{t+1}|s_t, a_t) \pi_{\theta}(a_t |s_t) $$
+> where $\rho_0 (s_0)$ is the probability, that the initial state is $s_0$. Applying logarithm to both sides, we obtain:  
+> $$\log P(\tau|\theta) = \log \rho_0 (s_0) + \sum_{t=0}^{T} \bigg( \log P(s_{t+1}|s_t, a_t)  + \log \pi_{\theta}(a_t |s_t)\bigg)$$
+> and taking gradient operation...
+>
+>$$ \nabla_\theta \log p(\tau | \theta) = \sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t)  $$
+>
+> - **Log-Derivative trick**: The log-derivative trick is based on a simple rule from calculus: the derivative of $\log x$ with respect to $x$ is $1/x$. When rearranged and combined with chain rule, we get:
+>
+> $$ \nabla_{\theta} p(\tau | \theta) = p(\tau | \theta) \nabla_{\theta} \log p(\tau | \theta) $$
+>
+</details>
+
+Nevertheless, if we use directly this approximation for a RL problem, the results will not be satisfying. Our estimation is unbiased, but high variance causes instability, making learning impractically slow. Our next steps will go towards the goal of variance reduction
+
+## Introducing rewards-to-go
+
+The current formula
+$$\mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta} (a_t |s_t) R(\tau)}$$ takes into account whole reward of the trajectory, but this does not make much sense. Imagine a trajectory where at the first half suboptimal actions are performed and in the second half really great actions are taken. The reward of this trajectory will reinforce all the actions of the trajectory.
+
+But since we are dealing with MDP, the chosen action affects only rewards obtained after performing this action.
+We edit formula for our gradient to the form:
+
+$$ \nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})} $$
+
+This form is also justified mathematically. It can be proven that rewards taken before action has zero mean, but non-zero variance. The reward-to-go formula is still unbiased, but with lower variance.  
+
+## Introducing discount factor
+
+Another effect that we can take into account is the fact, that rewards occuring far in the future are highly variable and weakly correlated with current actions. Due to this fact, we can introduce a discount factor $\gamma \in (0,1)$ and compute rewards of trajectory as:
+
+$$ R(\tau) = \sum_{t=0}^{\infty} \gamma^{t} r_t $$
+
+Plugin this intro our previous estimator, we obtain:
+
+$$ \nabla_{\theta} J_\gamma = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T \gamma^{t'-t} R(s_{t'}, a_{t'}, s_{t'+1})}  $$
+
+Nevertheless, this estimator is biased, we are no longer converging to the true objective
+$$
+ J= \mathbb{E}_{\tau}[\sum^{T-1}_{t=0}r_t]
+ $$, but rather the discounted objective $$
+ J_\gamma= \mathbb{E}_{\tau}[\sum^{T-1}_{t=0}  \gamma^t r_t]
+ $$. Thus
+
+ $$
+\nabla_\theta J \neq \nabla_\theta J_\gamma
+ $$
+
+The close is $\gamma$ to zero, the more we are conerging to a policy that prefers immediate rewards (better to rob a bank now, then to gradually invest...)
+
+## TODO
+
+- [ ] add GIF of inverse pendulum for vanilla policy-grad and its improvements
+
+## References
+
+[^1]: Schulman, J., et al. (2017). *Proximal Policy Optimization Algorithms*. [arXiv:1707.06347](https://arxiv.org/abs/1707.06347)
+[^2]: [Spinning up](https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html)

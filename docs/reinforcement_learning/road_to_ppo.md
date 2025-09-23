@@ -32,7 +32,7 @@ In this page we will continue with equations to derive the policy gradient: $$\n
 
 Before we continue, we will assume that our policy $$ \pi $$ is:
 
-- **parametrized**: We are using neural network with learnable parameters $$\theta$$. This network provides mapping: $$\mathcal{S} \rightarrow_\theta \mathcal{A}$$. From this point now, the symbol $\pi_\theta$ denotes policy parametrized by parameters $\theta$.
+- **parametrized**: We are using neural network with learnable parameters $$\theta$$. This network provides mapping: $$\mathcal{S} \rightarrow_\theta \mathcal{A}$$. From this point now, the symbol $\pi_\theta$ denotes policy parametrized by parameters $\theta$. This neural network is often called an *actor network*.
 - **stochastic**: Instead of directly outputting the action, our neural network will output parameters for a probability distribution. As an example our network outputs $\mu_\theta$, $\sigma_\theta$ and this will be used in normal distribution $\mathcal{N}(\mu,\sigma)$.
 
 We will now derive the approximation of gradient:
@@ -108,11 +108,73 @@ $$
 \nabla_\theta J \neq \nabla_\theta J_\gamma
  $$
 
-The close is $\gamma$ to zero, the more we are conerging to a policy that prefers immediate rewards (better to rob a bank now, then to gradually invest...)
+The closer is $\gamma$ to zero, the more we are converging to a policy that prefers immediate rewards (better to rob a bank now, then to gradually invest...)
+
+## Subtracting the baseline
+
+In this section, we will show that subtracting any baseline function $b(s_t)$ depending only on states, does not change the policy gradient $\nabla_\theta J$.
+
+For this approach we use the fact known as EGLP lemma:
+
+$$
+\mathbb{E}*{a_t \sim \pi*\theta}[\nabla_\theta \log(P_\theta(x))]=0
+$$
+
+<details collapse markdown="block"><summary><b>click to open/collapse the proof</b></summary>
+
+{: .proof}
+> Approach based on **openAI spinning up**[^2].
+>
+> one can observe the fact:
+>
+> $$
+> \nabla_\theta \int_{a_t} \pi_\theta(a_t|s_t) = \nabla_\theta 1 = 0
+> $$
+>
+> According to the Leibniz rule,
+>
+> $$
+> \nabla_\theta \int_{a_t} \pi_\theta(a_t|s_t) =  \int_{a_t}  \nabla_\theta \pi_\theta(a_t|s_t)
+> $$
+>
+> Using the log-trick
+>
+> $$
+> 0 = \int_{a_t}  \nabla_\theta \pi_\theta(a_t|s_t) = \int_{a_t} \pi_\theta(a_t|s_t) \nabla_\theta \log(\pi_\theta(a_t|s_t)) = \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))]
+> $$
+</details>
+
+Now using the known fact about mean value
+
+$$
+\mathbb{E}*{a_t \sim \pi*\theta}[\nabla_\theta \log(P_\theta(x)) b(s_t)] = b(s_t) \mathbb{E}*{a_t \sim \pi*\theta}[\nabla_\theta \log(P_\theta(x))] = b(s_t) \cdot 0 = 0
+$$
+
+for arbitrary function $b$ which only depends on state.
+This allows us to add or subtract any number of terms like this from our expression for the policy gradient, without changing it in expectation:
+
+$$
+\nabla_{\theta} J = \mathbb{E}*{\tau \sim \pi*{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \left((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t)\right)}.
+$$
+
+The common choice of baseline is on-policy value function $b(s_t) = V^\pi(s_t) $
+We are unable to have the *real* value function (otherwise it would be a solution to whole RL problem), so we use approximation of it.
+Usually, a neural network $V_\phi(s_t)$ is used (often called *critic network*).
+
+This value (critic) network is trained in parallel with the policy to regress value targets $V^*(s)$, which are estimated from the trajectory rewards. This is typically done by minimizing the L2 distance between the value network and the value targets
+
+$$
+L_v(\theta) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N \sum_{t=0}^{T-1}  \left( \hat{V}_\theta(s_t^i) - V^*(s_t^i)\right)^2
+$$
+
+
+The architecture pf actor and critic networks can be totally isolated or share some common layers.
+
 
 ## TODO
 
 - [ ] add GIF of inverse pendulum for vanilla policy-grad and its improvements
+- [ ] Leibniz rule
 
 ## References
 

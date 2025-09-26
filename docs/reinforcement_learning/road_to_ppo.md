@@ -116,9 +116,7 @@ In this section, we will show that subtracting any baseline function $b(s_t)$ de
 
 For this approach we use the fact known as EGLP lemma:
 
-$$
-\mathbb{E}*{a_t \sim \pi*\theta}[\nabla_\theta \log(P_\theta(x))]=0
-$$
+$$ \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))]=0 $$
 
 <details collapse markdown="block"><summary><b>click to open/collapse the proof</b></summary>
 
@@ -146,18 +144,16 @@ $$
 
 Now using the known fact about mean value
 
-$$
-\mathbb{E}*{a_t \sim \pi*\theta}[\nabla_\theta \log(P_\theta(x)) b(s_t)] = b(s_t) \mathbb{E}*{a_t \sim \pi*\theta}[\nabla_\theta \log(P_\theta(x))] = b(s_t) \cdot 0 = 0
+$$ \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x)) b(s_t)] = b(s_t) \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))] = b(s_t) \cdot 0 = 0
 $$
 
 for arbitrary function $b$ which only depends on state.
 This allows us to add or subtract any number of terms like this from our expression for the policy gradient, without changing it in expectation:
 
-$$
-\nabla_{\theta} J = \mathbb{E}*{\tau \sim \pi*{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \left((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t)\right)}.
+$$ \nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi*{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \left((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t)\right)}.
 $$
 
-The common choice of baseline is on-policy value function $b(s_t) = V^\pi(s_t) $
+The common choice of baseline is **on-policy value function** $b(s_t) = V^\pi(s_t) $
 We are unable to have the *real* value function (otherwise it would be a solution to whole RL problem), so we use approximation of it.
 Usually, a neural network $V_\phi(s_t)$ is used (often called *critic network*).
 
@@ -167,9 +163,7 @@ $$
 L_v(\theta) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N \sum_{t=0}^{T-1}  \left( \hat{V}_\theta(s_t^i) - V^*(s_t^i)\right)^2
 $$
 
-
 The architecture pf actor and critic networks can be totally isolated or share some common layers.
-
 
 ## TODO
 

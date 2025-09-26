@@ -155,22 +155,51 @@ $$
 
 The common choice of baseline is **on-policy value function** $b(s_t) = V^\pi(s_t) $
 We are unable to have the *real* value function (otherwise it would be a solution to whole RL problem), so we use approximation of it.
-Usually, a neural network $V_\phi(s_t)$ is used (often called *critic network*).
+Usually, a neural network $V_\phi(s_t)$ is used (often called *critic network*). The part of the formula $$((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t))$$ is estimate of the advantage function $A^\pi(s_t,a_t)$  
 
 This value (critic) network is trained in parallel with the policy to regress value targets $V^*(s)$, which are estimated from the trajectory rewards. This is typically done by minimizing the L2 distance between the value network and the value targets
 
 $$
-L_v(\theta) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N \sum_{t=0}^{T-1}  \left( \hat{V}_\theta(s_t^i) - V^*(s_t^i)\right)^2
+L_v(\theta) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N \sum_{t=0}^{T-1}  \left( \hat{V}_\phi(s_t^i) - V^*(s_t^i)\right)^2
 $$
 
-The architecture pf actor and critic networks can be totally isolated or share some common layers.
+The architecture of actor and critic networks can be totally isolated ($\phi$ and $\theta$ do not overlap) or share some common layers. Do not forget, that when discount factor $\gamma$ is used, the network learns to predict already the discounted rewards.
+
+## Idea of bootstraping
+
+For feeding the rewards of trajectories into our *critic* network, two options are available:
+
+- We feed only discounted trajectory rewards: for value target $V^*(s_t)$ we feed   $r_t + \gamma r_{t+1}+ \gamma^2 r_{t+2} + \dots + r_{T-1} $
+
+This means that for last state in the trajectory, we are trying to learn to regress to $V^*(s_{T-1})=r_{T-1}$ - only one reward, this brings high variance, so netowrk is hard to learn!
+
+- To mitigate this issue we append at the end of trajectory our estimate of value function from the terminal state: $$r_t + \gamma r_{t+1}+ \gamma^2 r_{t+2} + \dots + (r_{T-1} + \gamma \hat{V}_\phi (s_{T-1}) )$$. **This idea is called bootstrapping**.
+
+If our estimate of value function is good, the bootstraping reduces variance. Nevertheless, this sword is double-edge. For bad estimate, we are introducing bias.
+
+## Generalized advantage estimate (Optional)
+
+The article[^3] introduces another hyperpameter for tuning $\lambda$. This parameter gives us a way to mix estimation between TD(0) and TD(1).
+
+- If $\lambda=0$ we estimate:
+$$A^\pi(s_t,a_t) = r_t + \gamma \hat{V}_\phi(s_{t+1})- \hat{V}_\phi(s_t)$$.
+  Meaning "I trust more to my estimate than to my current experience". This is nice at the end of the learning, if good value estimate is present. Otherwise, we are introducing bias.
+- If $\lambda=1$ we estimate:
+$$A^\pi(s_t,a_t) = (\sum_{l=0}^{T-1} \gamma^l (r_{t+l} + \gamma \hat{V}_\phi (s_{T-1}))) - V(s_t)$$.
+ As one can observe with this setting it is the same as learning the Critic network with enabled bootstraping.
+
+Further explanation of GAE is in [this article](https://arxiv.org/abs/1506.02438).
+
+## Proximal Policy Optimization
 
 ## TODO
 
 - [ ] add GIF of inverse pendulum for vanilla policy-grad and its improvements
 - [ ] Leibniz rule
+- [ ] drawing explaining bootstrapping
 
 ## References
 
 [^1]: Schulman, J., et al. (2017). *Proximal Policy Optimization Algorithms*. [arXiv:1707.06347](https://arxiv.org/abs/1707.06347)
 [^2]: [Spinning up](https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html)
+[^3]: [GAE](https://arxiv.org/abs/1506.02438)

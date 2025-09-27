@@ -23,10 +23,10 @@ mathjax: true
 
 The [previous page]({% link docs/reinforcement_learning/reinforcement_learning.md %}) introduced a RL task and informed us, that the ultimate goal of the RL algorithm is to find a policy $$\pi^*: \mathcal{S} \rightarrow \mathcal{A}$$, such that:
 
-$$\pi^* = \arg \max_\pi J$$
+$$\pi^* = \arg \max_\pi J_\pi$$
 
-where $$J$$ is return.
-In this page we will continue with equations to derive the policy gradient: $$\nabla J $$. Later, we will come up with the PPO[^1] algorithm.
+where $$J_\pi$$ is an expected return of policy $\pi$.
+In this page we will continue with equations to derive the policy gradient: $$\nabla J_\pi $$. Later, we will come up with the PPO[^1] algorithm.
 
 ## Simplest Policy Gradient
 
@@ -34,6 +34,9 @@ Before we continue, we will assume that our policy $$ \pi $$ is:
 
 - **parametrized**: We are using neural network with learnable parameters $$\theta$$. This network provides mapping: $$\mathcal{S} \rightarrow_\theta \mathcal{A}$$. From this point now, the symbol $\pi_\theta$ denotes policy parametrized by parameters $\theta$. This neural network is often called an _actor network_.
 - **stochastic**: Instead of directly outputting the action, our neural network will output parameters for a probability distribution. As an example our network outputs $\mu_\theta$, $\sigma_\theta$ and this will be used in normal distribution $\mathcal{N}(\mu,\sigma)$.
+
+{: .warning}
+> From this point we will write expected return just as $J$ and we interpret it as a function of weights $\theta$
 
 We will now derive the approximation of gradient:
 $$ \nabla_\theta J \approx \dfrac{1}{N} \sum_{i=1}^N \nabla_\theta \log (p(\tau_i | \theta)) R(\tau_i) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) $$
@@ -111,7 +114,7 @@ $$
 
 $$
 
-\nabla_\theta J \neq \nabla_\theta J\_\gamma
+\nabla_\theta J \neq \nabla_\theta J_\gamma
 
 $$
 

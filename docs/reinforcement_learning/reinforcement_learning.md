@@ -33,15 +33,15 @@ We start with an introductory example, which mentions important terms from the w
 
 {: .note}
 
-> Consider the problem of financial decision making over a person's lifetime.
+> As an example, consider the problem of financial decision making over a person's lifetime.
 > This problem can be formulated as a reinforcement learning task, where the goal is to maximize cumulative wealth.
 >
-> The **state** of the person might consist of the financial situation, qualifications, and age of the person.
-> At each decision point, the person can choose from a set of **actions**, such as starting a job (providing immediate income), enrolling in a paid course to improve qualifications (incurring an immediate cost but potentially increasing future income), or making financial investments (with uncertain long-term returns).
-> The person can also **exploit** - keep its current salary in a company or **explore** - decide starting its own business, where the resulting **reward** is unsure.
-> The reward function assigns immediate rewards based on the chosen action, such as receiving a salary or incurring a cost, while also considering long-term rewards, such as increased earning potential or financial stability.
->
-> This example highlights the trade-off between immediate and delayed rewards, a fundamental aspect of reinforcement learning. The person must balance short-term gains with long-term benefits.
+> The **state** $s\in\mathcal{S}$ of the person might consist of the financial situation, qualifications, and age of the person.
+> At each decision point, the person can choose from a set of **actions** $a\in\mathcal{A}$ , such as starting a job (providing immediate income), enrolling in a paid course to improve qualifications (incurring an immediate cost but potentially increasing future income), or making financial investments (with uncertain long-term returns).
+> The person can also **exploit** - keep its current salary in a company or **explore** - decide starting its own business, where the resulting **rewards** $r_x,r_{x+1},r_{x+2}, ...$ are unsure.
+> The reward function $r: \mathcal{S}\times\mathcal{A} \rightarrow \mathbb{R}$ assigns immediate rewards (based on the previously taken actions and state in which you are now).
+
+Formally, a _RL_ task is oftem formularized as infitnite-horizon Markov decision process (MDP), defined by the tuple $\mathcal{S},\mathcal{A},p,r$, where $\mathcal{S}$ is a set of states, $\mathcal{A}$ is a set of actions, p is a transition function $p: \mathcal{S}\times\mathcal{A} \times \mathcal{S} \rightarrow [0,1] $. Reward function $r(s,a)$ assigns returns a value, after action $a$ was taken in a state $s$.
 
 ## TODO
 

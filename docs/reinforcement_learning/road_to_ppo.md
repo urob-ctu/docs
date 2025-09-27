@@ -36,7 +36,7 @@ Before we continue, we will assume that our policy $$ \pi $$ is:
 - **stochastic**: Instead of directly outputting the action, our neural network will output parameters for a probability distribution. As an example our network outputs $\mu_\theta$, $\sigma_\theta$ and this will be used in normal distribution $\mathcal{N}(\mu,\sigma)$.
 
 We will now derive the approximation of gradient:
-$$ \nabla*\theta J \approx \dfrac{1}{N} \sum*{i=1}^N \nabla*\theta \log (p(\tau_i | \theta)) R(\tau_i) = \dfrac{1}{N}\dfrac{1}{T} \sum*{i=1}^N R(\tau*i) \sum*{t=0}^{T-1} \nabla*\theta \log (\pi*\theta(a^i_t | s^i_t)) $$
+$$ \nabla_\theta J \approx \dfrac{1}{N} \sum_{i=1}^N \nabla_\theta \log (p(\tau_i | \theta)) R(\tau_i) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) $$
 where $R(\tau_i)$ is the return of the ith trajectory.
 
 <details open markdown="block"><summary><b>click to open/collapse the proof</b></summary>
@@ -64,16 +64,16 @@ where $R(\tau_i)$ is the return of the ith trajectory.
 > In the derivation a few tricks were used:
 >
 > - **Probability of the trajectory**: The probability of a trajectory $\tau = (s_0, a_0, ..., s_{T+1})$ given that actions come from $\pi_{\theta}$ is
->   $$ p(\tau|\theta) = \rho*0 (s_0) \prod*{t=0}^{T} p(s*{t+1}|s_t, a_t) \pi*{\theta}(a*t |s_t) $$
+>   $$ p(\tau|\theta) = \rho_0 (s_0) \prod_{t=0}^{T} p(s_{t+1}|s_t, a_t) \pi_{\theta}(a_t |s_t) $$
 > where $\rho_0 (s_0)$ is the probability, that the initial state is $s_0$. Applying logarithm to both sides, we obtain:  
-> $$\log P(\tau|\theta) = \log \rho_0 (s_0) + \sum*{t=0}^{T} \bigg( \log P(s*{t+1}|s_t, a_t) + \log \pi*{\theta}(a_t |s_t)\bigg)$$
+> $$\log P(\tau|\theta) = \log \rho_0 (s_0) + \sum_{t=0}^{T} \bigg( \log P(s_{t+1}|s_t, a_t) + \log \pi_{\theta}(a_t |s_t)\bigg)$$
 >   and taking gradient operation...
 >
-> $$ \nabla*\theta \log p(\tau | \theta) = \sum*{t=0}^{T} \nabla*{\theta} \log \pi*{\theta}(a_t |s_t) $$
+> $$ \nabla_\theta \log p(\tau | \theta) = \sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) $$
 >
 > - **Log-Derivative trick**: The log-derivative trick is based on a simple rule from calculus: the derivative of $\log x$ with respect to $x$ is $1/x$. When rearranged and combined with chain rule, we get:
 >
-> $$ \nabla*{\theta} p(\tau | \theta) = p(\tau | \theta) \nabla*{\theta} \log p(\tau | \theta) $$
+> $$ \nabla_{\theta} p(\tau | \theta) = p(\tau | \theta) \nabla_{\theta} \log p(\tau | \theta) $$
 
 </details>
 
@@ -87,7 +87,7 @@ $$\mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\
 But since we are dealing with MDP, the chosen action affects only rewards obtained after performing this action.
 We edit formula for our gradient to the form:
 
-$$ \nabla*{\theta} J = \mathbb{E}*{\tau \sim \pi*{\theta}}{\sum*{t=0}^{T} \nabla*{\theta} \log \pi*{\theta}(a*t |s_t) \sum*{t'=t}^T R(s*{t'}, a*{t'}, s\_{t'+1})} $$
+$$ \nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T R(s_{t'}, a_{t'}, s\_{t'+1})} $$
 
 This form is also justified mathematically. It can be proven that rewards taken before action has zero mean, but non-zero variance. The reward-to-go formula is still unbiased, but with lower variance.
 
@@ -99,7 +99,7 @@ $$ R(\tau) = \sum\_{t=0}^{\infty} \gamma^{t} r_t $$
 
 Plugin this intro our previous estimator, we obtain:
 
-$$ \nabla*{\theta} J*\gamma = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum*{t=0}^{T} \nabla*{\theta} \log \pi*{\theta}(a_t |s_t) \sum*{t'=t}^T \gamma^{t'-t} R(s*{t'}, a*{t'}, s\_{t'+1})} $$
+$$ \nabla_{\theta} J_\gamma = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T \gamma^{t'-t} R(s_{t'}, a_{t'}, s\_{t'+1})} $$
 
 Nevertheless, this estimator is biased, we are no longer converging to the true objective
 
@@ -109,10 +109,9 @@ $$
  J_\gamma= \mathbb{E}_{\tau}[\sum^{T-1}_{t=0}  \gamma^t r_t]
  $$. Thus
 
-
 $$
 
-\nabla*\theta J \neq \nabla*\theta J\_\gamma
+\nabla_\theta J \neq \nabla_\theta J\_\gamma
 
 $$
 
@@ -136,7 +135,7 @@ $$ \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))]=0 $$
 >
 $$
 
-> \nabla*\theta \int*{a*t} \pi*\theta(a*t|s_t) = \nabla*\theta 1 = 0
+> \nabla_\theta \int_{a_t} \pi_\theta(a_t|s_t) = \nabla_\theta 1 = 0
 >
 > $$
 >
@@ -145,7 +144,7 @@ $$
 >
 > $$
 >
-> \nabla*\theta \int*{a*t} \pi*\theta(a*t|s_t) = \int*{a*t} \nabla*\theta \pi\_\theta(a_t|s_t)
+> \nabla_\theta \int_{a_t} \pi_\theta(a_t|s_t) = \int_{a_t} \nabla_\theta \pi\_\theta(a_t|s_t)
 >
 > $$
 >
@@ -154,7 +153,7 @@ $$
 >
 > $$
 >
-> 0 = \int*{a_t} \nabla*\theta \pi*\theta(a_t|s_t) = \int*{a*t} \pi*\theta(a*t|s_t) \nabla*\theta \log(\pi*\theta(a_t|s_t)) = \mathbb{E}*{a*t \sim \pi*\theta}[\nabla_\theta \log(P_\theta(x))]
+> 0 = \int_{a_t} \nabla_\theta \pi_\theta(a_t|s_t) = \int_{a_t} \pi_\theta(a_t|s_t) \nabla_\theta \log(\pi_\theta(a_t|s_t)) = \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))]
 > $$
 
 </details>
@@ -169,14 +168,14 @@ for arbitrary function $b$ which only depends on state.
 This allows us to add or subtract any number of terms like this from our expression for the policy gradient, without changing it in expectation:
 
 $$
-\nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi*{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \left((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t)\right)}.
+\nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \left((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t)\right)}.
 $$
 
 The common choice of baseline is **on-policy value function** $b(s_t) = V^\pi(s_t) $
 We are unable to have the *real* value function (otherwise it would be a solution to whole RL problem), so we use approximation of it.
 Usually, a neural network $V_\phi(s_t)$ is used (often called _critic network_). The part of the formula $$((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t))$$ is estimate of the advantage function $A^\pi(s_t,a_t)$
 
-This value (critic) network is trained in parallel with the policy to regress value targets $V^*(s)$, which are estimated from the trajectory rewards. This is typically done by minimizing the L2 distance between the value network and the value targets
+This value (critic) network is trained in parallel with the policy to regress value targets $V^_(s)$, which are estimated from the trajectory rewards. This is typically done by minimizing the L2 distance between the value network and the value targets
 
 $$
 L_v(\theta) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N \sum_{t=0}^{T-1}  \left( \hat{V}_\phi(s_t^i) - V^*(s_t^i)\right)^2
@@ -188,9 +187,9 @@ The architecture of actor and critic networks can be totally isolated ($\phi$ an
 
 For feeding the rewards of trajectories into our _critic_ network, two options are available:
 
-- We feed only discounted trajectory rewards: for value target $V^*(s_t)$ we feed $r*t + \gamma r*{t+1}+ \gamma^2 r*{t+2} + \dots + r*{T-1} $
+- We feed only discounted trajectory rewards: for value target $V^*(s_t)$ we feed $r_t + \gamma r_{t+1}+ \gamma^2 r_{t+2} + \dots + r_{T-1} $
 
-This means that for last state in the trajectory, we are trying to learn to regress to $V^*(s_{T-1})=r_{T-1}$ - only one reward, this brings high variance, so netowrk is hard to learn!
+This means that for last state in the trajectory, we are trying to learn to regress to $V^_(s_{T-1})=r_{T-1}$ - only one reward, this brings high variance, so netowrk is hard to learn!
 
 - To mitigate this issue we append at the end of trajectory our estimate of value function from the terminal state: $$r_t + \gamma r_{t+1}+ \gamma^2 r_{t+2} + \dots + (r_{T-1} + \gamma \hat{V}_\phi (s_{T-1}) )$$. **This idea is called bootstrapping**.
 
@@ -277,7 +276,6 @@ $$
 
 \nabla_{\theta} J_{PPO} = \frac{1}{N}\frac{1}{T} \sum_{i=1}^N \sum_{t=0}^{T-1} \nabla_\theta \min \left( \hat{A} \cdot r_\theta(a_t | s_t), \quad \hat{A} \cdot \text{clip}(r_\theta(a_t | s_t), 1-\epsilon, 1+\epsilon) \right)
 
-
 $$
 
 ### The idea behind PPO
@@ -318,6 +316,3 @@ The following image illustrates the clipping objective for positive and negative
 [^1]: Schulman, J., et al. (2017). _Proximal Policy Optimization Algorithms_. [arXiv:1707.06347](https://arxiv.org/abs/1707.06347)
 [^2]: [Spinning up](https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html)
 [^3]: [GAE](https://arxiv.org/abs/1506.02438)
-
-    $$
-    $$

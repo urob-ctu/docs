@@ -175,7 +175,7 @@ $$
 $$
 
 The common choice of baseline is **on-policy value function** $b(s_t) = V^\pi(s_t) $
-We are unable to have the *real* value function (otherwise it would be a solution to whole RL problem), so we use approximation of it.
+We are unable to have the _real_, so we use approximation of it.
 Usually, a neural network $V_\phi(s_t)$ is used (often called _critic network_). The part of the formula $$((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t))$$ is estimate of the advantage function $A^\pi(s_t,a_t)$
 
 This value (critic) network is trained in parallel with the policy to regress value targets $V^_(s)$, which are estimated from the trajectory rewards. This is typically done by minimizing the L2 distance between the value network and the value targets

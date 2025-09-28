@@ -23,9 +23,9 @@ mathjax: true
 
 This page covers reinforcement learning **(RL)** concepts and algorithms. Some formulations in this document might be a bit informal, since the goal is to provide the natural explanation of the terms, rather than keeping the strict formalism.
 
-This page describes introduction to formalization of RL task and provides an explanation of terms like: *RL task, RL algorithm, states, rewards, actions, value function, action-value function, return, advantage, policy.*
+At first, we provide introduction to formalization of RL task, and then we explain terms like: *RL task, RL algorithm, states, rewards, actions, value function, action-value function, return, advantage, policy.*
 
-The page [Road to PPO]({% link docs/reinforcement_learning/road_to_ppo.md %}) than use the mentioned terms to explain what is a [policy gradient](https://en.wikipedia.org/wiki/Policy_gradient_method) and how the popular [PPO](https://en.wikipedia.org/wiki/Proximal_policy_optimization) algorithm can be derived from it.
+The page [Road to PPO]({% link docs/reinforcement_learning/road_to_ppo.md %}) then uses the mentioned terms to explain what is a [policy gradient](https://en.wikipedia.org/wiki/Policy_gradient_method) and how the popular [PPO](https://en.wikipedia.org/wiki/Proximal_policy_optimization) algorithm can be derived from it.
 
 ## RL task
 
@@ -43,9 +43,11 @@ We start with an introductory example, which mentions important terms from the w
 
 {: .definition}
 
-> Formally, a _RL_ task is oftem formularized as infitnite-horizon Markov decision process (MDP), defined by the tuple $\mathcal{S},\mathcal{A},p,r$, where $\mathcal{S}$ is a set of states, $\mathcal{A}$ is a set of actions, p is a transition function $p: \mathcal{S}\times\mathcal{A} \times \mathcal{S} \rightarrow [0,1] $. Reward function $r(s,a)$  returns a value, after action $a$ was taken in a state $s$.
+> Formally, a *RL* task is oftem formularized as infitnite-horizon Markov decision process (MDP), defined by the tuple $\mathcal{S},\mathcal{A},p,r$, where $\mathcal{S}$ is a set of states, $\mathcal{A}$ is a set of actions, p is a transition function $p: \mathcal{S}\times\mathcal{A} \times \mathcal{S} \rightarrow [0,1] $. Reward function $r(s,a)$  returns a value, after action $a$ was taken in a state $s$.
 
-We can now imagine that our agent roams in the enviroment picks actions and moves from one state to another. This picture is easier to imagine for discrete actions and states, but can be generalized to an environment with continous actions and spaces. **For our course, we only assume that time is discretized**,
+We can now imagine that our agent roams in the enviroment picks actions and moves from one state to another. This picture is easier to imagine for discrete actions and states, but can be generalized to an environment with continous actions and spaces.
+
+ As regards the time domain, **we assume that time is discretized**,
  meaning that we have exact points, when a chosen action is applied. (for simulators in computers, we are often discretize time to some $\Delta t$)
 
 If we track how our agent moves in the environment and what rewards he is receiving, we obtain a trajectory $\tau$. Trajectory is represented as a sequence $s_0,a_0,r_0,s_1,a_1,r_1,s_2,a_2,r_2,...$, where triplet $s_t,a_t,r_t$ represents one *step*.
@@ -91,22 +93,24 @@ Since we are possibly dealing with a stochastic environment (remember the transi
 
 ## Real applications  
 
-Before moving to another boring explanation of RL algortihm-realated definitions, we should provide a big picture overview and discuss how solving a problem via RL looks like.
+Now that you have initial intuition, what a formulation of RL-task consist of, we should provide a big picture overview and discuss how solving a problem via RL looks like.
 
-In practice, someone approaches you with "I want you to make this robot go through an obstacle course", "I want you to make computer play League of Legends" or in our introductory case "I want to learn how to be rich in average case person". This is a problem.
+In practice, someone approaches you with "I want you to make this robot go through an obstacle course", "I want you to make computer play League of Legends" or in our introductory case "I want to learn how to be rich in average case person". This is a RL problem.
 
 Our job is then to formalize this problem as a RL-task: define what will be states, action and reward function (Multiple formulations can be made - do it as an excercise!).
 
-The choice is crucial - We need to represent states that are easy to understand by a neural network ([Road to PPO explains]({% link docs/reinforcement_learning/road_to_ppo.md %}) why) and choose a reward function, that provides suitable feedback for agent to learn (not too sparse, but also not exploitable).
+The choice is crucial - We need to represent states that are easy to understand by a neural network ([Road to PPO explains]({% link docs/reinforcement_learning/road_to_ppo.md %}) why). Our states also have to satisfy markov property. The choice of a reward function is also important, we need a function that provides suitable feedback for agent to learn (not too sparse, but also not exploitable).
 
 If wrong choices of state, actions or reward function are made, no RL-algorithm will help us.
 
-Finally we have a reasonable RL formulation and we can apply an RL algorithm to it (typically we use an algorithm that was successful on similar tasks to ours,). Popular library of pre-implemented algorithms is [Stable baselines 3](https://stable-baselines3.readthedocs.io/en/master/).
+Finally, we have a reasonable RL formulation and can apply an RL algorithm to it (typically we use an algorithm that was successful on similar tasks to ours). Popular library of pre-implemented algorithms is [Stable baselines 3](https://stable-baselines3.readthedocs.io/en/master/).
  We need to tune hyperparameters and hope, it will learn...
 
 The following diagram summarizes the tweaks we can make when using RL in practice:
 
-## RL algorithm-related definitions (value function,...)
+<img src="{{ site.baseurl }}/assets/images/rl-task-result.svg" width="95%">
+
+## RL algorithm-related definitions (value function, ...)
 
 ## TODO
 
@@ -114,8 +118,9 @@ The following diagram summarizes the tweaks we can make when using RL in practic
   - [x] What are states? Actions - discrete vs continous
   - [x] Note about reward
 - [x] Definition of Policy
-- [ ] what is goal, RL formulation and RL algorithms
-  - [ ] diagram
+- [x] what is goal, RL formulation and RL algorithms
+  - [x] diagram
 - [ ] Definition of Value Function, Advantage function
+  - [ ] action value function
   - [ ] example RL task to compute value functions,...
 - [ ] Sources

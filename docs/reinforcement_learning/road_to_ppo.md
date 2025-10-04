@@ -28,6 +28,10 @@ $$\pi^* = \arg \max_\pi J_\pi$$
 where $$J_\pi$$ is an expected return of policy $\pi$.
 In this page we will continue with equations to derive the policy gradient: $$\nabla J_\pi $$. Later, we will come up with the PPO[^1] algorithm.
 
+<figure>
+<img src="{{ site.baseurl }}/assets/gifs/random_policy.gif" width="65%"><figcaption><strong>Random policy</strong></figcaption>
+</figure>
+
 ## Simplest Policy Gradient
 
 Before we continue, we will assume that our policy $$ \pi $$ is:
@@ -80,7 +84,10 @@ where $R(\tau_i)$ is the return of the ith trajectory.
 
 </details>
 
-Nevertheless, if we use directly this approximation for a RL problem, the results will not be satisfying. Our estimation is unbiased, but high variance causes instability, making learning impractically slow. Our next steps will go towards the goal of variance reduction
+Nevertheless, if we use directly this approximation for a RL problem, the results will not be satisfying. Our estimation is unbiased, but high variance causes instability, making learning impractically slow. Our next steps will go towards the goal of variance reduction.
+<figure>
+<img src="{{ site.baseurl }}/assets/gifs/policy_gradient.gif" width="95%"><figcaption><strong>Vanilla Policy gradient</strong></figcaption>
+</figure>
 
 ## Introducing rewards-to-go
 
@@ -93,6 +100,10 @@ We edit formula for our gradient to the form:
 $$ \nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T R(s_{t'}, a_{t'}, s\_{t'+1})} $$
 
 This form is also justified mathematically. It can be proven that rewards taken before action has zero mean, but non-zero variance. The reward-to-go formula is still unbiased, but with lower variance.
+
+<figure>
+<img src="{{ site.baseurl }}/assets/gifs/reward_to_go_undiscounted.gif" width="95%"><figcaption><strong>Rewards to go</strong></figcaption>
+</figure>
 
 ## Introducing discount factor
 
@@ -119,6 +130,10 @@ $$
 $$
 
 The closer is $\gamma$ to zero, the more we are converging to a policy that prefers immediate rewards (better to rob a bank now, then to gradually invest...)
+
+<figure>
+<img src="{{ site.baseurl }}/assets/gifs/reward_to_go_discounted.gif" width="95%"><figcaption><strong>Rewards to go + discount factor</strong></figcaption>
+</figure>
 
 ## Subtracting the baseline
 
@@ -185,6 +200,10 @@ L_v(\theta) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N \sum_{t=0}^{T-1}  \left( \ha
 $$
 
 The architecture of actor and critic networks can be totally isolated ($\phi$ and $\theta$ do not overlap) or share some common layers. Do not forget, that when discount factor $\gamma$ is used, the network learns to predict already the discounted rewards.
+
+<figure>
+<img src="{{ site.baseurl }}/assets/gifs/actor_critic.gif" width="95%"><figcaption><strong>Subtracted baseline</strong></figcaption>
+</figure>
 
 ## Idea of bootstraping
 
@@ -308,11 +327,15 @@ The following image illustrates the clipping objective for positive and negative
 
 <img src="https://miro.medium.com/v2/resize:fit:1400/1*RUEQ7RXzywlV63nZ0ldJUg.png" width="600" align="center"/>
 
+<figure>
+<img src="{{ site.baseurl }}/assets/gifs/ppo.gif" width="95%"><figcaption><strong>PPO</strong></figcaption>
+</figure>
+
 ## TODO
 
-- [ ] add GIF of inverse pendulum for vanilla policy-grad and its improvements
-- [ ] Leibniz rule
-- [ ] drawing explaining bootstrapping
+- [x] add GIF of inverse pendulum for vanilla policy-grad and its improvements
+<!-- - [ ] Leibniz rule
+- [ ] drawing explaining bootstrapping -->
 
 ## References
 

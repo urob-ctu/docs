@@ -129,6 +129,16 @@ Last, but not least we have the Advantage function:
 
 We can interpret it as: "how much better or worse is this action in comparison with other actions on average".
 
+### Finding the optimal policy
+
+As it was stated before, the optimal policy must fullfill the requirement:
+
+$$ \arg\max_\pi J $$
+
+From this fact it is natural to expect that optimal policy has an optimal value function. This value function can be expressed in terms of optimal action value function:
+
+$$ V^*(s) =  \max_a Q^*(s,a)$$
+
 ## Practice problem
 
 <img src="{{ site.baseurl }}/assets/images/rl_problem.svg" width="90%">
@@ -136,11 +146,39 @@ We can interpret it as: "how much better or worse is this action in comparison w
 1. Given the diagram and $\gamma=0.8$, calculate:
     1. $V^\pi(\textbf{s}_2)$
     2. $V^\pi(\textbf{s}_3)$
-    3. $Q^\pi(\textbf{s}_1,a=\\{ 1,2 \\})$
-    4. $V^\pi(\textbf{s}_1)$
-    5. $A^\pi(\textbf{s}_1,a=\\{ 1,2 \\})$
-2. Assume, that states $\textbf{s}_4,\textbf{s}_5,\textbf{s}_6$ are terminal.
+    3. $Q^\pi(\textbf{s}_1,a=1)$
+    4. $Q^\pi(\textbf{s}_1,a=2)$
+    5. $V^\pi(\textbf{s}_1)$
+    6. $A^\pi(\textbf{s}_1,a=1)$
+    7. $A^\pi(\textbf{s}_1,a=2)$
+2. Assume $\gamma=0.8$, for this RL MDP compute (**hint**: start computation from last states):
+    1. $Q^{\pi^*}$
+    2. $V^{\pi^*}$
+    3. $\pi^*$
 
+<details collapse markdown="block"><summary><b>click to open/collapse the results</b></summary>
+
+1. ---
+    1. $$V^{\pi}({\bf s}_{2})=0.5[1.0(-1)]+0.5[0.6(-1)+0.4(1)]=-\,0.6$$
+    2. $$V^{\pi}({\bf s}_{3})=0.9[1.0(1)]+0.1[1.0(-1)]=0.8$$
+    3. $$Q^{\pi}({\textbf{s}_{1}},{\bf a}=1)=0.7[1+0.8V^{\pi}({\bf s_{2}})]+0.3[-1+0.8V^{\pi}({\bf s_{3}})]=0.256$$
+    4. $$Q^{\pi}({\bf s}_{1},{\bf a}=2)=1.0[-1+0.8\,V^{\pi}({\bf s}_{3})]=-0.36$$
+    5. $$V^{\pi}({\bf s}_{1})=0.8Q^{\pi}({\bf s}_{1},{\bf a}=1)+0.2Q^{\pi}({\bf s}_{1},{\bf a}=2)=0.1328 $$
+    6. $$A^{\pi}({\bf s}_{1},{\bf a}=1)=Q^{\pi}({\bf s}_{1},{\bf a}=1)-V^{\pi}({\bf s}_{1})=0.1232$$
+    7. $$A^{\pi}({\bf s}_{1},{\bf a}=2)=Q^{\pi}({\bf s}_{1},{\bf a}=2)-V^{\pi}({\bf s}_{1})=-0.4928$$
+2. ---
+1. $$Q^{\pi^{*}}({\bf s}_{2},{\bf a}=1)=1.0\cdot(-1+0.8\cdot0)=-1$$
+2. $$Q^{\pi^{*}}(\mathbf{s}_{2},\mathbf{a}=2)=0.4\cdot(1+0.8\cdot0)+0.6\cdot(-1+0.8\cdot0)=-0.2$$
+3. $$Q^{\pi^{*}}(\mathbf{s}_{3},\mathbf{a}=1)=1.0\cdot(1+0.8\cdot0)=1$$
+4. $$Q^{\pi^{*}}(\mathbf{x}_{3},\mathbf{u}=2)=1.0\cdot(-1+0.8\cdot0)=-1$$
+5. $$Q^{\pi^\ast}({\bf x}_{1},{\bf u}=1)=0.7\cdot(1+0.8\cdot(-0.2))+0.3\cdot(-1+0.8\cdot1)=0.528$$
+6. $$Q^{\pi^{*}}({\bf x}_{1},{\bf u}=2)=1.0\cdot(-1+0.8\cdot1)=-\,0.2$$
+7. $$V^{\pi^{*}}(\mathbf{x}_{2})=-\,0.2$$
+8. $$V^{\pi^{*}}({\bf x}_{3})=1$$
+9. $$V^{\pi^{*}}(\mathbf{x}_{1})=0.528$$
+10. $$\pi^*(\bf s_i) =\begin{cases} \textbf{a}=1 \  \text{if} \ i=1 \\ \textbf{a}=2 \ \text{if} \ i=2 \\ \textbf{a}=1 \ \text{if} \ i=3     \end{cases}$$
+
+</details>
 
 ## Real applications  
 
@@ -171,8 +209,8 @@ The following diagram summarizes the tweaks we can make when using RL in practic
   * [x] diagram
 * [x] Definition of Value Function, Advantage function
   * [x] action value function
-* [ ] example RL task to compute value functions,...
-* [ ] Sources
+* [x] example RL task to compute value functions,...
+* [x] Sources
 
 ## References
 

@@ -91,6 +91,34 @@ Since we are possibly dealing with a stochastic environment (remember the transi
 {: .note}
 > Note the difference between return $R$ and mean return $J$
 
+## RL algorithm-related definitions (value function, ...)
+
+After introduction of  RL-task, we need to define a few terms that occurs during explanation of RL-algorithms.
+
+{: .definition}
+> A **value function** for a policy $\pi$ is
+>
+> $$ v_\pi:\mathcal{S} \rightarrow \mathbb{R} $$
+>
+> It is a function assigning each state $s$ the expected return
+> $v_\pi(s)=\mathbb{E}_\pi R$
+
+Just remember that value function depends on policy.
+
+Value function is our guide saying "this action pays you more in long term, you should use it more often". Except for trivial examples, we cannot compute value function directly, we can only approximate it.
+
+If we would have finite and reasonable number of states, we could just store running mean for each state to obtain an estimator of Value function. In many ocasions this is not possible, so we learn a neural network which gets state and tries to predict value function.
+
+Now we can define the action-value function. As the name says, it gives us what reward we can expect, if we take an action and then follow a policy,
+
+{: .definition}
+> An **Action-Value function** for a policy $\pi$ is
+>
+>$$Q_\pi(s,a) = r(s,a)+V_\pi(s') $$
+>
+
+Action-Value function can give advice in style: "What if we keep everything as it is but make change in this action". This is important for us to come up with better and better policy.
+
 ## Real applications  
 
 Now that you have initial intuition, what a formulation of RL-task consist of, we should provide a big picture overview and discuss how solving a problem via RL looks like.
@@ -109,8 +137,6 @@ Finally, we have a reasonable RL formulation and can apply an RL algorithm to it
 The following diagram summarizes the tweaks we can make when using RL in practice:
 
 <img src="{{ site.baseurl }}/assets/images/rl-task-result.svg" width="95%">
-
-## RL algorithm-related definitions (value function, ...)
 
 ## TODO
 

@@ -25,3 +25,6 @@ nav_order: 1
 <div align="center">
     <img src="{{ site.baseurl }}/assets/images/NPO_logo.png" width="800">
 </div>
+<!-- 
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script> -->

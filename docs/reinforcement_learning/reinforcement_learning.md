@@ -23,7 +23,7 @@ mathjax: true
 
 This page covers reinforcement learning **(RL)** concepts and algorithms. Some formulations in this document might be a bit informal, since the goal is to provide the natural explanation of the terms, rather than keeping the strict formalism.
 
-At first, we provide introduction to formalization of RL task, and then we explain terms like: *RL task, RL algorithm, states, rewards, actions, value function, action-value function, return, advantage, policy.*
+At first, we provide introduction to formalization of RL task, and then we explain terms like: *RL task, RL algorithm, states, rewards, actions, value function, action-value function, return, advantage, policy.* Similar page providing this introduction is this[^1].
 
 The page [Road to PPO]({% link docs/reinforcement_learning/road_to_ppo.md %}) then uses the mentioned terms to explain what is a [policy gradient](https://en.wikipedia.org/wiki/Policy_gradient_method) and how the popular [PPO](https://en.wikipedia.org/wiki/Proximal_policy_optimization) algorithm can be derived from it.
 
@@ -37,7 +37,7 @@ We start with an introductory example, which mentions important terms from the w
 > This problem can be formulated as a reinforcement learning task, where the goal is to maximize cumulative wealth.
 >
 > The **state** $s\in\mathcal{S}$ of the person might consist of the financial situation, qualifications, and age of the person.
-> At each decision point, the person can choose from a set of **actions** $a\in\mathcal{A}$ , such as starting a job (providing immediate income), enrolling in a paid course to improve qualifications (incurring an immediate cost but potentially increasing future income), or making financial investments (with uncertain long-term returns).
+> At each decision point, the person can choose from a set of **actions** $a\in\mathcal{A}$, such as starting a job (providing immediate income), enrolling in a paid course to improve qualifications (incurring an immediate cost but potentially increasing future income), or making financial investments (with uncertain long-term returns).
 > The person can also **exploit** - keep its current salary in a company or **explore** - decide starting its own business, where the resulting **rewards** $r_x,r_{x+1},r_{x+2}, ...$ are unsure.
 > The reward function $r: \mathcal{S}\times\mathcal{A} \rightarrow \mathbb{R}$ assigns immediate rewards (based on the previously taken actions and state in which you are now).
 
@@ -101,7 +101,7 @@ After introduction of  RL-task, we need to define a few terms that occurs during
 > $$ v_\pi:\mathcal{S} \rightarrow \mathbb{R} $$
 >
 > It is a function assigning each state $s$ the expected return
-> $v_\pi(s)=\mathbb{E}_\pi R$
+> $v_\pi(s)=\mathbb{E}_{\tau \sim \pi} [R(\tau)|s_0=s]$
 
 Just remember that value function depends on policy.
 
@@ -114,10 +114,33 @@ Now we can define the action-value function. As the name says, it gives us what 
 {: .definition}
 > An **Action-Value function** for a policy $\pi$ is
 >
->$$Q_\pi(s,a) = r(s,a)+V_\pi(s') $$
+>$$Q_\pi(s,a) = \sum_{s'\in\mathcal{S}} p(s'|s,a)( r(s,a,s')+V_\pi(s')) $$
 >
 
-Action-Value function can give advice in style: "What if we keep everything as it is but make change in this action". This is important for us to come up with better and better policy.
+Action-Value function can give advice in style: "What return we get, if we keep everything as it is but make change in this action". This is important for us to come up with a better and better policy.
+
+Last, but not least we have the Advantage function:
+
+{: .definition}
+> An **Advantage function** for a policy $\pi$ is
+>
+>$$A^\pi(s,a) = Q^\pi(s,a) - V^\pi(s)$$
+>
+
+We can interpret it as: "how much better or worse is this action in comparison with other actions on average".
+
+## Practice problem
+
+<img src="{{ site.baseurl }}/assets/images/rl_problem.svg" width="90%">
+
+1. Given the diagram and $\gamma=0.8$, calculate:
+    1. $V^\pi(\textbf{s}_2)$
+    2. $V^\pi(\textbf{s}_3)$
+    3. $Q^\pi(\textbf{s}_1,a=\\{ 1,2 \\})$
+    4. $V^\pi(\textbf{s}_1)$
+    5. $A^\pi(\textbf{s}_1,a=\\{ 1,2 \\})$
+2. Assume, that states $\textbf{s}_4,\textbf{s}_5,\textbf{s}_6$ are terminal.
+
 
 ## Real applications  
 
@@ -140,13 +163,17 @@ The following diagram summarizes the tweaks we can make when using RL in practic
 
 ## TODO
 
-- [x] definition of RL task
-  - [x] What are states? Actions - discrete vs continous
-  - [x] Note about reward
-- [x] Definition of Policy
-- [x] what is goal, RL formulation and RL algorithms
-  - [x] diagram
-- [ ] Definition of Value Function, Advantage function
-  - [ ] action value function
-  - [ ] example RL task to compute value functions,...
-- [ ] Sources
+* [x] definition of RL task
+  * [x] What are states? Actions - discrete vs continous
+  * [x] Note about reward
+* [x] Definition of Policy
+* [x] what is goal, RL formulation and RL algorithms
+  * [x] diagram
+* [x] Definition of Value Function, Advantage function
+  * [x] action value function
+* [ ] example RL task to compute value functions,...
+* [ ] Sources
+
+## References
+
+[^1]: [Spinning up RL](https://spinningup.openai.com/en/latest/spinningup/rl_intro.html)

@@ -42,7 +42,7 @@ We will now derive the approximation of gradient:
 $$ \nabla_\theta J \approx \dfrac{1}{N} \sum_{i=1}^N \nabla_\theta \log (p(\tau_i | \theta)) R(\tau_i) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) $$
 where $R(\tau_i)$ is the return of the ith trajectory.
 
-<details open markdown="block"><summary><b>click to open/collapse the proof</b></summary>
+<details collapse markdown="block"><summary><b>click to open/collapse the proof</b></summary>
 
 {: .proof}
 

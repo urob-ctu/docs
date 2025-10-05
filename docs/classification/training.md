@@ -63,7 +63,7 @@ The [prediction function]({{ site.baseurl }}{% link docs/classification/logits.m
 
 ### Forward Pass
 
-In the forward pass the loss is computed given the input $$\boldsymbol{x}x$$ and the true label $$y$$. This is computed using the weights $$\boldsymbol{w}$$ as discussed before. Output of the forward pass is the loss $$\ell$$. 
+In the forward pass, the loss is computed given the input $$\boldsymbol{x}$$ and the true label $$y$$. This is computed using the weights $$\boldsymbol{w}$$ as discussed before. Output of the forward pass is the loss $$\ell$$. 
 
 <br>
 <div align="center">

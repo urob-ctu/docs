@@ -120,3 +120,13 @@ The Tanh function is another activation function. The main difference between th
 <div align="center">
 <video src="{{ site.baseurl }}/assets/videos/spirals_tanh.mp4" width="640" autoplay loop controls muted></video>
 </div>
+
+## Expected Knowledge
+
+From this text, you should understand the following concepts:
+
+- **Artificial Neuron**: The basic building block of neural networks and how it performs linear transformation followed by non-linear activation.
+- **Multi-Layer Perceptron (MLP)**: The structure and operation of MLPs with multiple layers of interconnected neurons.
+- **Forward Pass**: How data flows through the network from input to output through matrix multiplications and activation functions.
+- **Activation Functions**: The role and characteristics of different activation functions (ReLU, Sigmoid, Tanh) and their impact on network behavior.
+- **Feature Space Transformation**: How neural networks transform the input feature space to make data more linearly separable.

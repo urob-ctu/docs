@@ -101,7 +101,7 @@ We trained a linear classifier on this dataset and visualized the rows of the we
 
 For example, if we look at the *plane* or *ship* templates, we see mostly blue backgrounds. This is because planes are typically seen in the sky and ships in the water. We also see a template of a green *frog* in the middle of the image.
 
-We have mentioned the training of classifiers multiple times. Let's now proceed to the next section, which covers how to [train classifiers]({{ site.baseurl }}{% link docs/classification/training.md %}).
+We have mentioned the training of classifiers multiple times. However, before diving into the training process, it's important to understand how we measure the performance of our trained classifiers. The next section covers [evaluation metrics]({{ site.baseurl }}{% link docs/classification/evaluation.md %}) that help us assess how well our classifiers perform. After understanding evaluation, we'll proceed to learn how to [train classifiers]({{ site.baseurl }}{% link docs/classification/training.md %}).
 
 ## Expected Knowledge
 

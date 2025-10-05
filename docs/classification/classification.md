@@ -36,7 +36,7 @@ Before we dive into the details of classification, let's introduce **Features** 
 >
 >$$\mathcal{P}: \mathcal{X} \rightarrow \mathcal{Y}$$
 >
->$$\mathcal{P}(x) = y, \quad x \in \mathcal{X}, \quad y \in \mathcal{Y}$$
+>$$\mathcal{P}(\boldsymbol{x}) = y, \quad \boldsymbol{x} \in \mathcal{X}, \quad y \in \mathcal{Y}$$
 
 Although this definition is correct, we will make a few simplifications for our course.
 
@@ -47,7 +47,7 @@ Although this definition is correct, we will make a few simplifications for our 
 {: .note }
 >For this course **Classification** is the process of mapping from a feature space $\mathbb{R}^{d}$ to a label space $\mathbb{N}$. The task is to learn a prediction function $\mathcal{P}$ that creates a prediction $\hat{y}$ from the feature vector $\boldsymbol{x}$ and we want the prediction to be as close as possible to the true label $y$.
 >
->$$\mathcal{P}(x) = \hat{y}, \quad x \in \mathbb{R}^{d}, \quad \hat{y} \in \mathbb{N}$$
+>$$\mathcal{P}(\boldsymbol{x}) = \hat{y}, \quad \boldsymbol{x} \in \mathbb{R}^{d}, \quad \hat{y} \in \mathbb{N}$$
 
 This can be visualized as the following schematic:
 
@@ -99,4 +99,16 @@ From this text, you should understand the following concepts:
 
 - **Features** and **Labels**: What are they and some examples.
 - **Prediction Function**: The definition of the prediction function.
-- **Dataset splits**: The training, validation, and test sets, and their roles in model development. 
+- **Dataset splits**: The training, validation, and test sets, and their roles in model development.
+
+## What's Next?
+
+Now that you understand the fundamentals of classification, we'll explore different types of classifiers:
+
+1. **[k-Nearest Neighbors]({{ site.baseurl }}{% link docs/classification/knn.md %})** - A simple, intuitive classifier based on similarity
+2. **[Logits/Scores]({{ site.baseurl }}{% link docs/classification/logits.md %})** - Understanding confidence in predictions
+3. **[Linear Classifier]({{ site.baseurl }}{% link docs/classification/linear_classifier.md %})** - A more efficient approach using linear functions
+4. **[Evaluation Metrics]({{ site.baseurl }}{% link docs/classification/evaluation.md %})** - How to measure classifier performance
+5. **[Training Classifiers]({{ site.baseurl }}{% link docs/classification/training.md %})** - The learning process using gradient descent
+6. **[Loss Functions]({{ site.baseurl }}{% link docs/classification/loss.md %})** - Mathematical foundations of training
+7. **[Multi-Layer Perceptron]({{ site.baseurl }}{% link docs/classification/mlp.md %})** - Neural networks for complex patterns 

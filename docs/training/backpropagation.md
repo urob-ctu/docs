@@ -1,8 +1,8 @@
 ---
 title: Backpropagation
 layout: default
-has_children: false
 nav_order: 3
+parent: Training
 mathjax: true
 ---
 
@@ -21,7 +21,11 @@ mathjax: true
 
 ## Introduction
 
-Backpropagation is a cornerstone algorithm in the field of machine learning, particularly in the training of neural networks. It serves as the engine that enables the training of deep learning models. In this text, we will explain the backpropagation algorithm and its components.
+Backpropagation is a cornerstone algorithm in the field of machine learning, particularly in the training of neural networks. It serves as the engine that enables the training of deep learning models. 
+
+Conceptually, backpropagation is an algorithm for assigning "blame" or "responsibility" for the final loss to every parameter in the network. It starts with the total error at the end and works backward, using the chain rule to calculate how much each weight contributed to that error.
+
+In this text, we will explain the backpropagation algorithm and its components.
 
 {: .note }
 >Note that we will not explain every term used in this text. We assume that you are familiar with the basic concepts of neural networks. If you are not yet, we recommend reading the previous texts in this course.
@@ -106,17 +110,22 @@ It is more efficient to calculate the gradient of the loss function with respect
 >
 >&nbsp;&nbsp;&nbsp;&nbsp;return $\boldsymbol{v}^{\top}\cdot\frac{\partial f}{\partial\boldsymbol{z}}$
 
+The primary advantage of the VJP approach is its efficiency. For a function mapping $$\mathbb{R}^n \rightarrow \mathbb{R}^m$$, the full Jacobian matrix has $$m \times n$$ elements. For a deep neural network, this is an enormous matrix that would be impossible to store in memory. The VJP calculates the required gradient contribution without ever forming this full matrix.
+
 <div align="center">
   <img src="{{ site.baseurl }}/assets/images/vjp_graph.png" width="800">
 </div>
 
 ## Expected Knowledge
 
-From this text, you should understand the following concepts:
+Answer the following questions to test your understanding of backpropagation.
 
-- **Computational graph**: A visual representation of the computations that are performed in a neural network.
-- **Forward pass**: The step in the backpropagation algorithm where the input data is passed through the network, and the output is calculated.
-- **Backward pass**: The step in the backpropagation algorithm where the gradient of the loss function with respect to the weights of the network is calculated.
-- **Vector-Jacobian product**: An efficient way to calculate the gradients in the backward pass using the chain rule.
+1. **Conceptual Understanding:** Explain backpropagation in non-mathematical terms. What is a "computation graph," and how does backpropagation use it to compute gradients?
+
+2. **The Chain Rule:** Imagine a simple computation: $$z = w \cdot x + b$$, followed by $$a = \text{ReLU}(z)$$, and a loss $$L = (a_{true} - a)^2$$. Using the chain rule, write down the expression for the partial derivative of the loss with respect to the weight, $$\frac{\partial L}{\partial w}$$.
+
+3. **Vector-Jacobian Product (VJP):** What is the main practical advantage of using the Vector-Jacobian Product (VJP) to implement backpropagation in deep learning libraries like PyTorch or TensorFlow, compared to explicitly calculating the entire Jacobian matrix?
+
+4. **Forward vs. Backward Pass:** What key quantity is computed during the **forward pass**? What key quantity is computed for each parameter during the **backward pass**? How do these two passes work together in the context of gradient descent?
 
 In practice, the backpropagation algorithm is implemented using automatic differentiation libraries such as TensorFlow and PyTorch. These libraries handle the computation of the gradients automatically, so you don't have to worry about the details of the backpropagation algorithm, while using them. However, understanding the backpropagation algorithm is essential for understanding how neural networks are trained.

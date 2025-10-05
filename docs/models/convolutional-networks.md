@@ -1,8 +1,8 @@
 ---
-title: Convolutional Neural Networks
+title: Convolutional Networks
 layout: default
-has_children: false
 nav_order: 4
+parent: Models
 mathjax: true
 ---
 
@@ -24,6 +24,14 @@ mathjax: true
 Convolutional neural networks are highly utilized in architecture designs for processing of structured data. The most prominent example would be their use in image processing networks used for various task such as detection, classification or segmentation.
 
 While fully connected layer and convolutional layer may be converted into the other, convolutions offer multiple non-negligible advantages for structured data.
+
+## Core Concepts of CNNs
+
+While a fully connected layer from an MLP *can* be used on an image (by flattening it into a vector), this approach is inefficient and ignores the image's structure. CNNs introduce two key principles to exploit this structure:
+
+1. **Parameter Sharing:** In a fully connected layer, every input pixel would have a unique weight connecting it to a neuron. In a convolutional layer, the *same* small kernel (with its set of weights) is applied across the entire image. This means a feature detector (e.g., for a horizontal edge) learned in one part of the image is reused everywhere else. This dramatically reduces the number of parameters, making the network more efficient to train and less prone to overfitting.
+
+2. **Spatial Locality:** CNNs assume that features that are close together in the input (e.g., pixels in a small patch) are more related than features that are far apart. By using small kernels, the network first learns simple, local patterns (edges, corners, colors), and subsequent layers combine these into more complex patterns (eyes, wheels, text). This builds a hierarchy of features.
 
 ## Convolution layer
 
@@ -108,7 +116,7 @@ There are two main types of pooling layer, maxpooling and minpooling. These laye
 
 ## Gradient backpropagation
 
-While [backpropagation]({{ site.baseurl }}{% link docs/backpropagation.md %}) is explained in the following article, the backpropagation through convolution and pooling layers is included here for completion and easier navigation.
+While [backpropagation]({{ site.baseurl }}{% link docs/training/backpropagation.md %}) is explained in the training section, the backpropagation through convolution and pooling layers is included here for completion and easier navigation.
 
 ### Convolution layer
 
@@ -144,8 +152,14 @@ The convolutional neural network is a concatenation of convolutional layers, act
 
 The convolutional layers are used to extract features from the input data, while the pooling layers are used to lower the spatial dimension of the data.
 
-## Expected knowledge
+## Expected Knowledge
 
-- **Forward pass** - The process of calculating the output of the convolutional network or layer.
-- **Backward pass** - The process of calculating the gradients of the convolutional network or layer.
-- **Concepts** - The meaning of kernel, convolution, pooling, stride, padding, dilation, ...
+Answer the following questions to test your understanding of convolutional networks.
+
+1. **Core Advantages:** What are the two main advantages of using a convolutional layer over a fully connected (dense) layer for processing image data? Explain each concept briefly.
+
+2. **Output Size Calculation:** You have an input feature map of size 64x64 pixels. You apply a single convolutional layer with a kernel size of 5x5, a stride of 2, and padding of 1. What will be the spatial dimension (height x width) of the output feature map? Show your calculation.
+
+3. **Component Roles:** What is the primary purpose of a **pooling layer** (e.g., MaxPooling) in a CNN? How does its function of reducing spatial dimensions differ from using a large **stride** in a convolutional layer?
+
+4. **Receptive Field:** How does **dilation** affect the receptive field of a neuron in a convolutional layer? Why might you use a 3x3 kernel with a dilation of 2 instead of a standard 5x5 kernel?

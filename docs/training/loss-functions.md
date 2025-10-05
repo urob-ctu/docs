@@ -1,11 +1,11 @@
 ---
-title: Loss, MLE
+title: Loss Functions
 layout: default
-nav_order: 6
-parent: Classification
+nav_order: 1
+parent: Training
 ---
 
-# Loss
+# Loss Functions
 {: .no_toc }
 
 <details open markdown="block">
@@ -175,6 +175,8 @@ $$
 
 where $$\mathcal{D}$$ is the dataset and $$N$$ is the number of samples in the dataset.
 
+This step is where theory meets practice. Since we cannot compute the true expectation over the unknown distribution $$p^*$$, we approximate it with an average over the dataset $$\mathcal{D}$$, which is a sample from $$p^*$$. This is a form of **Monte Carlo estimation**.
+
 {: .definition }
 
 >The **Cross-Entropy Loss** from observed data from the true distribution $$p^*(y \,\vert\, \boldsymbol{x})$$ is defined as
@@ -220,10 +222,12 @@ The softmax function takes the logits $$\boldsymbol{s}$$ as input and outputs a 
 
 ## Expected Knowledge
 
-From this text, you should understand the following concepts:
+Answer the following questions to test your understanding of the theoretical basis for loss functions.
 
-- **Statistical Machine Learning Task**: The machine learning task from the statistical point of view.
-- **Kullback-Leibler (KL) Divergence**: An understanding of the KL divergence between two probability distributions and the intuition behind it.
-- **Cross-Entropy Loss**: The definition and the relationship between the cross-entropy loss and the KL divergence.
-- **Maximum Likelihood Estimation (MLE)**: The relationship between the maximizing likelihood estimation and minimizing the Cross-Entropy loss.
-- **Softmax Function**: The definition and why we use the softmax function.
+1. **KL Divergence vs. Cross-Entropy:** In training, our goal is to make our model's distribution $$p$$ as close as possible to the true data distribution $$p^*$$. While KL Divergence ($$D_{\text{KL}}(p^* || p)$$) directly measures this, in practice we minimize the Cross-Entropy Loss ($$H(p^*, p)$$). Based on the derivation, explain *why* minimizing cross-entropy is equivalent to minimizing KL divergence. What term from the KL divergence formula can we ignore during optimization and why?
+
+2. **The Role of Softmax:** The cross-entropy loss function requires a probability distribution as input from our model. What specific function do we use to convert the raw `logits` from a neural network into a valid probability distribution? Describe one key property of this function's output.
+
+3. **Intuition and Application:** What is the relationship between minimizing cross-entropy loss and the principle of Maximum Likelihood Estimation (MLE)? Explain it conceptually. If you were building a classifier from scratch, what principle does this connection justify about your choice of loss function?
+
+4. **KL Divergence Asymmetry:** KL Divergence is not a true "distance" metric because it is asymmetric, i.e., $$D_{\text{KL}}(p || q) \neq D_{\text{KL}}(q || p)$$. What does the value $$D_{\text{KL}}(p || q)$$ intuitively represent, in terms of information or "surprise"?

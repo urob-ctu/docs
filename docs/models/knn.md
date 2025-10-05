@@ -1,8 +1,8 @@
 ---
-title: k-NN
+title: k-Nearest Neighbors
 layout: default
 nav_order: 1
-parent: Classification
+parent: Models
 ---
 
 
@@ -52,10 +52,27 @@ To illustrate, here's an example of k-Nearest Neighbors classification with $k=3
 
 In this example, the two nearest neighbors belong to the green class, while one belongs to the red class. Consequently, the yellow point is classified as part of the green class.
 
+## Advantages and Disadvantages of k-NN
+
+**Advantages:**
+
+* **Simple and Intuitive:** The algorithm is easy to understand and implement.
+* **No Training Phase:** The "training" is just storing the dataset, which is very fast.
+* **Adapts to new data easily:** New training samples can be added without retraining the entire model.
+
+**Disadvantages:**
+
+* **Slow Inference:** The algorithm must compute the distance to *every* training sample to make a single prediction. This is computationally expensive, especially with large datasets, making it unsuitable for many real-time robotics applications.
+* **Curse of Dimensionality:** Performance degrades as the number of features (dimensions) increases, because the distance between points becomes less meaningful.
+* **Sensitive to irrelevant features:** All features contribute to the distance calculation, so irrelevant or noisy features can significantly degrade performance.
+* **Requires feature scaling:** Features with larger ranges can dominate the distance calculation, so data normalization (e.g., scaling to [0, 1]) is often necessary.
+
 ## Expected Knowledge
 
-From this text, you should understand the following concepts:
+Answer the following questions to test your understanding of the k-NN algorithm.
 
-- **Nearest Neighbors Classifier**: The basic idea and steps of the Nearest Neighbors classifier.
-- **Euclidean Distance**: How to calculate the Euclidean distance between two samples.
-- **k-Nearest Neighbors Classifier**: The concept of k-Nearest Neighbors and how it differs from the basic Nearest Neighbors classifier.
+1. **Algorithmic Steps:** A k-NN classifier has already "trained" on a dataset. Describe, step-by-step, the process it follows to classify a new, unseen data point $$\boldsymbol{x}_{new}$$.
+
+2. **Application & Calculation:** In the image provided, if you were to classify the yellow point using $$k=5$$ instead of $$k=3$$, what would the new classification be? Explain your reasoning.
+
+3. **Performance Trade-offs:** The "training" phase for k-NN is extremely fast, while the "inference" phase is very slow. Explain why this is the case. Why might this characteristic make k-NN a poor choice for a self-driving car's object detection system?

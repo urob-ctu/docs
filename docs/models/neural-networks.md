@@ -1,8 +1,8 @@
 ---
-title: Multi-Layer Perceptron
+title: Neural Networks
 layout: default
-nav_order: 10
-parent: Classification
+nav_order: 3
+parent: Models
 ---
 
 # Multi-Layer Perceptron (MLP)
@@ -59,12 +59,12 @@ The image illustrates a neural network with two hidden layers, enhancing the mod
 $$\boldsymbol{g}_1(\boldsymbol{x}) = \boldsymbol{\sigma}(\boldsymbol{W}^{(1)} \cdot \boldsymbol{x} + \boldsymbol{b}^{(1)})$$
 Where the $\boldsymbol{W}^{(1)}$ is the weight matrix of dimensions $\mathbb{R}^{h_1 \times d}$ and the $\boldsymbol{b}^{(1)}$ is the bias vector of dimensions $\mathbb{R}^{h_1}$
 
-2. **Second Hidden Layer:** Likewise, the output of the second hidden layer, $\boldsymbol{g}_2(\boldsymbol{x})$, is computed as:
-$$\boldsymbol{g}_2(\boldsymbol{x}) = \boldsymbol{\sigma}(\boldsymbol{W}^{(2)} \cdot \boldsymbol{x} + \boldsymbol{b}^{(2)})$$ 
+2. **Second Hidden Layer:** Likewise, the output of the second hidden layer, $\boldsymbol{g}_2(\boldsymbol{g}_1(\boldsymbol{x}))$, is computed as:
+$$\boldsymbol{g}_2(\boldsymbol{g}_1(\boldsymbol{x})) = \boldsymbol{\sigma}(\boldsymbol{W}^{(2)} \cdot \boldsymbol{g}_1(\boldsymbol{x}) + \boldsymbol{b}^{(2)})$$ 
 Where the $\boldsymbol{W}^{(2)}$ is the weight matrix of dimensions $\mathbb{R}^{h_2 \times h_1}$ and the $\boldsymbol{b}^{(2)}$ is the bias vector of dimensions $\mathbb{R}^{h_2}$
 
 3. **Output Layer:** Finally, the output of the network, $\boldsymbol{y}$, is calculated as:
-$$\boldsymbol{g}_3(\boldsymbol{x}) = \boldsymbol{W}^{(3)} \cdot \boldsymbol{x} + \boldsymbol{b}^{(3)}$$
+$$\boldsymbol{g}_3(\boldsymbol{g}_2(\boldsymbol{g}_1(\boldsymbol{x}))) = \boldsymbol{W}^{(3)} \cdot \boldsymbol{g}_2(\boldsymbol{g}_1(\boldsymbol{x})) + \boldsymbol{b}^{(3)}$$
 Where the $\boldsymbol{W}^{(3)}$ is the weight matrix of dimensions $\mathbb{R}^{c \times h_2}$ and the $\boldsymbol{b}^{(3)}$ is the bias vector of dimensions $\mathbb{R}^{c}$
 
 In this notation, each hidden layer progressively transforms the input, generating a more abstract representation of the data. This leads us to the **forward pass** of the neural network with two hidden layers, described as:
@@ -75,7 +75,7 @@ Where $$\boldsymbol{s}$$ refers to the logits of the neural network.
 
 ## Under the Hood of Neural Networks
 
-To understand neural networks better, we can break them down into two main components. The first part involves a non-linear transformation of the feature space $\mathbb{R}^{d}$ into a higher-dimensional space, enhancing the data's separability. The second part functions as a linear classifier, akin to what we discussed in the [Linear Classifier section]({{ site.baseurl }}{% link docs/classification/linear_classifier.md %}).
+To understand neural networks better, we can break them down into two main components. The first part involves a non-linear transformation of the feature space $\mathbb{R}^{d}$ into a higher-dimensional space, enhancing the data's separability. The second part functions as a linear classifier, akin to what we discussed in the [Linear Classifiers section]({{ site.baseurl }}{% link docs/models/linear-classifiers.md %}).
 
 The behavior of the first part heavily relies on the activation function chosen. We'll illustrate this using the example of the spiral dataset, initially not linearly separable. The following videos demonstrate how different activation functions affect network behavior."
 
@@ -89,7 +89,7 @@ The ReLU function is defined as:
 
 $$f(x) = \max(0, x)$$
 
-The ReLU function is the most commonly used activation function in neural networks. We can see that it transforms the feature space only to the positive values.
+The ReLU (Rectified Linear Unit) function is the most commonly used activation function in modern deep learning. Its popularity stems from its simplicity and computational efficiency; the derivative is simply 0 for negative inputs and 1 for positive inputs, making gradient calculations very fast. Crucially, unlike Sigmoid and Tanh, it does not saturate in the positive domain, which helps mitigate the "vanishing gradient problem" that can slow down or stall training in deep networks.
 
 <div align="center">
 <video src="{{ site.baseurl }}/assets/videos/spirals_relu.mp4" width="640" autoplay loop controls muted></video>
@@ -120,3 +120,13 @@ The Tanh function is another activation function. The main difference between th
 <div align="center">
 <video src="{{ site.baseurl }}/assets/videos/spirals_tanh.mp4" width="640" autoplay loop controls muted></video>
 </div>
+
+## Expected Knowledge
+
+Answer the following questions to test your understanding of neural networks.
+
+1. **The Role of Non-Linearity:** What is the fundamental purpose of an activation function in a neural network? What would happen if you built a multi-layer network but used no activation functions (or used a "linear" activation function, $$f(x)=x$$)? How would its expressive power compare to a simple Linear Classifier?
+
+2. **Forward Pass Dimensions:** You have a 2-hidden-layer MLP. The input $$\boldsymbol{x}$$ is 20-dimensional. The first hidden layer has 100 neurons, and the second hidden layer has 50 neurons. The network must output logits for a 5-class classification problem. What are the dimensions of the weight matrix $$\boldsymbol{W}^{(2)}$$ for the second hidden layer?
+
+3. **Activation Function Trade-offs:** What is the "vanishing gradient problem" associated with Sigmoid and Tanh functions? Based on its definition, $$f(x) = \max(0, x)$$, how does the ReLU activation function help solve this problem?

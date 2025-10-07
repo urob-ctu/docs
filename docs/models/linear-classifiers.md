@@ -1,8 +1,8 @@
 ---
-title: Linear Classifier
+title: Linear Classifiers
 layout: default
-nav_order: 3
-parent: Classification
+nav_order: 2
+parent: Models
 ---
 
 # Linear Classifier
@@ -42,7 +42,7 @@ The linear classifier differs primarily in how it calculates the logits. Instead
 
 ## Training and Inference
 
-- **Training**: The process of training a linear classifier involves finding the optimal weight matrix $$\boldsymbol{W}$$ and bias vector $$\boldsymbol{b}$$. This is typically done using a method called **gradient descent**, which will be discussed in detail in the next section on how to [train classifiers]({{ site.baseurl }}{% link docs/classification/training.md %}).
+- **Training**: The process of training a linear classifier involves finding the optimal weight matrix $$\boldsymbol{W}$$ and bias vector $$\boldsymbol{b}$$. This is typically done using a method called **gradient descent**, which will be discussed in detail in the [Training]({{ site.baseurl }}{% link docs/training/gradient-descent.md %}) section.
 - **Inference**: Once the model is trained, inference refers to the process of making a prediction for a given input $$\boldsymbol{x}$$. The prediction of the linear classifier is made by finding the class corresponding to the maximum value of the logits:
   
   $$
@@ -62,6 +62,8 @@ However, when we visualize the decision boundaries of a linear classifier, we se
 <br>
 
 This requirement for linear separability is the main drawback of linear classifiers. In many real-world datasets, the classes are not linearly separable, which limits the effectiveness of linear classifiers.
+
+This limitation is precisely what more complex models like neural networks aim to solve. They do so by first learning a non-linear transformation of the data into a new feature space where the classes *are* linearly separable, and then applying a linear classifier in that new space.
 
 ## Linear Classifier as Template Matching Algorithm
 
@@ -101,13 +103,14 @@ We trained a linear classifier on this dataset and visualized the rows of the we
 
 For example, if we look at the *plane* or *ship* templates, we see mostly blue backgrounds. This is because planes are typically seen in the sky and ships in the water. We also see a template of a green *frog* in the middle of the image.
 
-We have mentioned the training of classifiers multiple times. Let's now proceed to the next section, which covers how to [train classifiers]({{ site.baseurl }}{% link docs/classification/training.md %}).
+We have mentioned the training of classifiers multiple times. To understand how these classifiers learn their parameters, see the [Training]({{ site.baseurl }}{% link docs/training/gradient-descent.md %}) section. For more complex models that can handle non-linear patterns, explore [Neural Networks]({{ site.baseurl }}{% link docs/models/neural-networks.md %}).
 
 ## Expected Knowledge
 
-From this text, you should understand the following concepts:
+Answer the following questions to test your understanding of linear classifiers.
 
-- **Linear Classifier**: What it is and how it differs from the k-NN classifier.
-- **Training and Inference**: The processes of training and making predictions with a linear classifier.
-- **Properties of Linear Classifier**: The advantages and limitations..
-- **Template Matching Algorithm**: Understanding the linear classifier as a template matching algorithm, particularly when applied to image classification.
+1. **Mathematical Representation:** A linear classifier is given by the function $$\boldsymbol{s} = \boldsymbol{W}\boldsymbol{x} + \boldsymbol{b}$$. If your input feature vector $$\boldsymbol{x}$$ has a dimension of $$d=1024$$ and you have $$c=5$$ classes, what are the dimensions of the weight matrix $$\boldsymbol{W}$$ and the bias vector $$\boldsymbol{b}$$?
+
+2. **Template Matching Intuition:** Looking at the visualized CIFAR-10 templates, the "ship" template is very blue. If you passed an image of a horse standing in the ocean to this classifier, why might it be wrongly classified as a ship? What does this tell you about the features a linear classifier learns?
+
+3. **Core Limitation:** What does it mean for a dataset to be "linearly separable"? Sketch a simple 2D dataset with two classes that a linear classifier would be unable to classify correctly, and draw the (unsuccessful) linear decision boundary it might create.

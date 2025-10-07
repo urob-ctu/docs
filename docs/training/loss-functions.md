@@ -6,228 +6,168 @@ parent: Training
 ---
 
 # Loss Functions
+
 {: .no_toc }
 
 <details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
+  <summary>Table of contents</summary>
   {: .text-delta }
 1. TOC
 {:toc}
 </details>
 
-## Machine Learning from a Statistical Perspective
+---
 
-In machine learning, we can adopt a statistical viewpoint where $$\boldsymbol{x}$$ and $$y$$ are random variables connected by an **unknown** joint probability distribution function $$p^{*}(\boldsymbol{x}, y)$$. We can only gather examples $$(\boldsymbol{x}, y)$$ from this distribution. Our objective is to learn a function $$\mathcal{p}(\boldsymbol{x}, y\vert \boldsymbol{w})$$ that approximates the true distribution $$p^{*}(\boldsymbol{x}, y)$$, allowing us to make predictions on new, unseen data.
+### An Example: A Robot Identifying Tools
+>
+> Before we dive into the math, let's use a simple robotics scenario. Imagine a robot on an assembly line that needs to identify tools placed in front of its camera. It must distinguish between a 'wrench', a 'screwdriver', and a 'hammer'.
+>
+> In this machine learning problem:
+>
+> * `x` is the **input data**: This is the image from the robot's camera.
+> * `y` is the **output label**: This is the name of the tool, e.g., 'wrench'.
+> * `w` are the **model's parameters**: These are all the tunable "knobs" of our machine learning model. If we are using a neural network, `w` represents all of its weights and biases. The values of `w` determine the model's behavior.
+>
+> Our goal is to create a model that, given an image `x`, predicts the correct label `y`. Because the world is complex and measurements are noisy, we frame this in terms of probability. We want our model to calculate:
+>
+> **`p(y | x, w)`**
+>
+> This is a **conditional probability**. It reads as: "The probability of the tool being `y` (e.g., 'wrench'), **given** the input image `x` and our model's current parameters `w`."
+>
+> For a single image `x`, our model will output three probabilities:
+>
+> * `p(y='wrench' | x, w)` = 0.7
+> * `p(y='screwdriver' | x, w)` = 0.2
+> * `p(y='hammer' | x, w)` = 0.1
+>
+> The goal of training is to adjust the parameters `w` so that for every image of a wrench we see, the model assigns the highest possible probability to the correct label.
+
+---
+
+### Machine Learning via Maximum Likelihood
+
+How do we choose the best settings (parameters, `w`) for our model?
+The usual answer in machine learning is simple: pick the settings that make the data we actually saw **most likely**.
+This principle is called **Maximum Likelihood Estimation (MLE)**.
+
+Formally, if our data samples $$(\boldsymbol{x}_i, y_i)$$ are independent, the total likelihood of our model parameters is the product of the probabilities our model assigns to each sample:
+
+$$ \text{Likelihood}(\boldsymbol{w}) = p_{\text{model}}(\mathcal{D} | \boldsymbol{w}) = \prod_{i=1}^{N} p(y_i | \boldsymbol{x}_i, \boldsymbol{w}) $$
+
+Our goal is to find the parameters that make this likelihood as large as possible:
+
+$$ \boldsymbol{w}_{\text{MLE}} = \arg\max_{\boldsymbol{w}} \prod_{i=1}^{N} p(y_i | \boldsymbol{x}_i, \boldsymbol{w}) $$
+
+---
+
+### The Log-Likelihood Trick
+
+Multiplying thousands or millions of small probability values is difficult numerically and mathematically. A long product can easily result in a number so small it can't be stored accurately (arithmetic underflow).
+
+To fix this, we work with the **logarithm** of the likelihood instead.
+
+Why does this help?
+
+* **Logs turn multiplication into addition**, which is computationally stable and much easier to differentiate.
+* **The logarithm is a strictly increasing function.** This means that if `likelihood_A > likelihood_B`, then `log(likelihood_A) > log(likelihood_B)`. Maximizing the log-likelihood is the same as maximizing the likelihood.
+
+So instead of maximizing a product, we maximize a sum: the **Log-Likelihood**.
+
+$$ \mathcal{LL}(\boldsymbol{w}) = \sum_{i=1}^{N} \log p(y_i | \boldsymbol{x}_i, \boldsymbol{w}) $$
+
+---
+
+### Connecting to Loss Functions
+
+So far, we’ve been talking about maximizing the log-likelihood. But in practice, training algorithms like gradient descent are designed to **minimize** a *loss function*.
+
+That’s an easy fix—we just flip the sign and minimize the **Negative Log-Likelihood (NLL)**:
+
+$$ -\sum_{i=1}^{N} \log p(y_i | \boldsymbol{x}_i, \boldsymbol{w}) $$
+
+There’s one final adjustment: we usually **divide by the number of samples, $$N$$**.
+This gives us the *average* loss per sample, which allows us to compare model performance across datasets of different sizes. A total loss of 500 is bad for 100 samples but great for a million; an average loss is a more consistent metric.
+
+This gives us our final loss function, the **Negative Log-Likelihood Loss**:
+
+$$ \mathcal{L}_{\text{NLL}} = -\frac{1}{N} \sum_{i=1}^{N} \log p(y_i | \boldsymbol{x}_i, \boldsymbol{w}) $$
+
+This is the loss function used by most classifiers, famously known as **Cross-Entropy Loss**.
+
+### The Theoretical Justification: Kullback-Leibler (KL) Divergence
+
+We've established a practical procedure (MLE) that leads to our cross-entropy loss function. But *why* is maximizing the likelihood the correct goal from a statistical point of view? The answer lies in **Kullback-Leibler (KL) Divergence**, which provides the theoretical foundation for this approach.
+
+Let's build the idea of KL Divergence from the ground up by first considering a simple case.
+
+Imagine we have a "true" probability distribution, let's call it `p_data`, which generates outcomes. We also have our model, `p`, which tries to approximate it. We want to measure how similar our model `p` is to the true distribution `p_data`.
+
+Suppose we draw a long sequence of `N` samples from the true distribution: `A = (y_1, y_2, ..., y_N)`. A good model `p` should assign a high probability to this sequence, ideally one that is close to the true probability assigned by `p_data`.
+
+A way to measure the difference in their perspectives is to look at the **difference between their log-likelihoods** for the sequence. Our goal is to make this difference as small as possible. Using the logarithm rule $$\log(a) - \log(b) = \log(a/b)$$, this difference becomes:
+
+$$ \sum_{k=1}^{N} \log p_{\text{data}}(y_k) - \sum_{k=1}^{N} \log p(y_k) = \sum_{k=1}^{N} \log\left(\frac{p_{\text{data}}(y_k)}{p(y_k)}\right) $$
+
+This sum depends on the length of our sample sequence, `N`. To create a stable metric that doesn't depend on the dataset size, we must normalize by `N` to get the **average log-probability ratio**:
+
+$$ \frac{1}{N} \sum_{k=1}^{N} \log\left(\frac{p_{\text{data}}(y_k)}{p(y_k)}\right) $$
+
+Now for the crucial step. The Law of Large Numbers states that as we collect an infinite amount of data ($$N \to \infty$$), this sample average converges to its theoretical expectation, taken over the true distribution `p_data`.
+
+$$ \mathbb{E}_{y \sim p_{\text{data}}}\left[\log\frac{p_{\text{data}}(y)}{p(y)}\right] = \sum_{y} p_{\text{data}}(y) \log\left(\frac{p_{\text{data}}(y)}{p(y)}\right) $$
+
+This final expression is the general formula for **Kullback-Leibler (KL) Divergence**. It represents the "extra surprise" or information loss when we use distribution `p` to model `p_data`.
+
+**Now, let's apply this concept to our actual robotics problem.** In our case, the probabilities are not simple; they are **conditional** on the input `x` (the camera image).
+For any given input `x`, we are comparing:
+
+* `p_data(y | x)`: The **true, ideal distribution** of labels `y` for that input `x`.
+* `p(y | x, w)`: Our **model's approximation** for that `x`.
+
+So, we take the general KL Divergence formula and substitute these conditional distributions into it. This gives us the divergence *for a specific input `x`*.
 
 {: .definition }
-> **Machine Learning Task**: The goal is to approximate the real **unknown** probability distribution 
-> 
-> $$p^{*}(\boldsymbol{x}, y), \quad \boldsymbol{x} \in \mathbb{R}^{d}, \quad y \in \mathbb{N}$$
+> **Kullback-Leibler (KL) Divergence**: Denoted as $$D_{\text{KL}}(p_{\text{data}} \parallel p)$$, it measures how a probability distribution `p` diverges from a reference probability distribution `p_data`. For our machine learning context with a given input `x`, the formula is:
 >
-> with another probability distribution
->
-> $$\mathcal{p}(\boldsymbol{x}, y\vert \boldsymbol{w}), \quad \boldsymbol{x} \in \mathbb{R}^{d}, \quad y \in \mathbb{N}, \quad \boldsymbol{w} \in \mathbb{R}^{m}$$
->
-> parameterized by $$\boldsymbol{w}$$.
+>$$
+D_{\text{KL}}\left(p_{\text{data}}(y|x) \parallel p(y|x, w)\right) = \sum_{y \in \mathcal{Y}} p_{\text{data}}(y|x) \log \left(\frac{p_{\text{data}}(y|x)}{p(y|x, w)}\right)
+>$$
 
-## Kullback-Leibler (KL) Divergence
+Our overall goal during training is to find the parameters `w` that minimize this divergence on average over all the possible inputs `x` we might encounter.
 
-To deepen our understanding, we examine the **Kullback-Leibler (KL) Divergence**.
+### The Big Connection
 
-{: .definition }
-> **Kullback-Leibler (KL) Divergence**: Denoted as $$D_{\text{KL}}(p \vert\vert q)$$, it measures how one probability distribution $$p$$ differs from another probability distribution $$q$$. For discrete distributions $$p$$ and $$q$$, the formula is:
->
-> $$D_{\text{KL}}(p \vert\vert q) = \sum_{x \in \mathcal{X}} p(x) \log \frac{p(x)}{q(x)}.$$
+Minimizing the KL Divergence is the correct theoretical goal. But how does this connect back to the loss function we use in practice?
 
-While this definition might not seem intuitive at first—especially since KL divergence is not symmetric, unlike many distance measures—let’s break it down with an example.
-
-{: .note }
-> The term **divergence** implies asymmetry. Unlike **metrics**, divergences are not required to be symmetric.
-
-Consider a coin with two sides. Define a random variable $$x \in \{0, 1\}$$ (heads or tails) and assume the coin is fair, so the probability distribution $$p$$ is:
-
-<br>
-
-$$p(x) = \begin{cases}
-    \frac{1}{2}, \quad x = 1 \\
-    \frac{1}{2}, \quad x = 0
-\end{cases}$$
-
-<br>
-
-This means the probability of heads or tails is each $$\frac{1}{2}$$. Now, consider another distribution $$q$$:
-
-<br>
-
-$$q(x) = \begin{cases}
-    \frac{1}{3}, \quad x = 1 \\
-    \frac{2}{3}, \quad x = 0
-\end{cases}$$
-
-<br>
-
-To measure how different these distributions are, you might think to simply sum the differences between their probabilities. However, this is not typically how differences between probability distributions are measured in practice.
-
-Instead, consider sampling data from distribution $$p$$ and calculating the likelihood of these samples under both distributions $$p$$ and $$q$$. For example, if we flip the coin ten times and observe:
-
-<br>
-
-$$x_{1} = 0, \quad x_{2} = 1, \quad x_{3} = 0, \quad x_{4} = 1, \quad x_{5} = 0,$$
-
-$$x_{6} = 1, \quad x_{7} = 0, \quad x_{8} = 1, \quad x_{9} = 0, \quad x_{10} = 1$$
-
-<br>
-
-With five heads and five tails, representing distribution $$p$$, we can calculate the probability of these observations under $$p$$ and $$q$$:
-
-<br>
-
-$$p(\text{Observations} \vert p) = p(0) \cdot p(1) \cdot \ldots \cdot p(1)$$
-
-$$p(\text{Observations} \vert q) = q(0) \cdot q(1) \cdot \ldots \cdot q(1)$$
-
-<br>
-
-The ratio of these probabilities is:
-
-<br>
-
-$$\frac{p(\text{Observations} \vert p)}{p(\text{Observations} \vert q)} = \frac{\Pi_{i=1}^{10}p(x_i)}{\Pi_{i=1}^{10}q(x_i)} = \frac{p(0)^{n_0}p(1)^{n_1}}{q(0)^{n_0}q(1)^{n_1}}$$
-
-<br>
-
-where $$n_0$$ is the number of tails and $$n_1$$ is the number of heads. Normalizing and taking the logarithm, we get:
-
-<br>
+Let's expand the KL Divergence formula for a single input `x`:
 
 $$
-\begin{aligned}
-&\log\biggl(\frac{p(\text{Observations} \vert p)}{p(\text{Observations} \vert q)}\biggl)^{\frac{1}{N}} = \frac{1}{N}\cdot\log\biggl(\frac{p(Observations \vert p)}{p(Observations \vert q)}\biggl) \\ \\
-&=\frac{1}{N}\cdot\log\biggl(\frac{p(0)^{n_0}p(1)^{n_1}}{q(0)^{n_0}q(1)^{n_1}}\biggl) = \frac{1}{N}\log{p(0)^{n_0}} + \frac{1}{N}\log{p(1)^{n_1}} - \frac{1}{N}\log{q(0)^{n_0}} - \frac{1}{N}\log{q(1)^{n_1}} \\ \\
-&=\frac{n_0}{N}\log{p(0)} + \frac{n_1}{N}\log{p(1)} - \frac{n_0}{N}\log{q(0)} - \frac{n_1}{N}\log{q(1)} \\ \\
-&= \frac{n_0}{N}\log\frac{p(0)}{q(0)} + \frac{n_1}{N}\log\frac{p(1)}{q(1)}
-\end{aligned}
+D_{\text{KL}}(p_{\text{data}}(y|x) \parallel p(y|x,w)) = \sum_{y} p_{\text{data}}(y|x) \log p_{\text{data}}(y|x) - \sum_{y} p_{\text{data}}(y|x) \log p(y|x,w)
 $$
 
-<br>
+Look closely at the two parts:
 
-As $$N$$ approaches infinity, $$\frac{n_0}{N}$$ converges to $$p(0)$$ and $$\frac{n_1}{N}$$ converges to $$p(1)$$, leading to:
+1. `Σ p_data(y|x) log p_data(y|x)`: This is the **entropy** of the true data distribution for a given `x`. From our model's perspective, this is a fixed value. We cannot change it by adjusting our model's parameters `w`.
+2. `-Σ p_data(y|x) log p(y|x,w)`: This is the **cross-entropy**. It depends on our model's predictions `p(y|x,w)` and is the only part we can minimize.
 
-<br>
+So, minimizing KL Divergence is equivalent to minimizing the cross-entropy. But we don't know `p_data(y|x)`.
 
-$$ \frac{n_0}{N}\log\frac{p(0)}{q(0)} + \frac{n_1}{N}\log\frac{p(1)}{q(1)} \quad \xrightarrow{N \to \infty} \quad p(0) \cdot \log\frac{p(0)}{q(0)} + p(1) \cdot \log\frac{p(1)}{q(1)}$$
+This is where our training data $$(\boldsymbol{x}_i, y_i)$$ comes in. For a training sample, we assume the ground truth label $$y_i$$ is the *only* correct outcome. We can represent this "true" distribution `p_data(y | x_i)` as a **one-hot encoded vector**: it's 1 for the true class $$y_i$$ and 0 for every other class.
 
-<br>
-
-This is precisely **Kullback-Leibler (KL) Divergence**!
-
-{: .slogan }
-> The **KL Divergence** between probability distributions $$p$$ and $$q$$:
->
-> $$D_{\text{KL}}(p \vert\vert q) = \sum_{x \in \mathcal{X}} p(x) \log \frac{p(x)}{q(x)}$$
->
-> quantifies how "**surprised**" we would be if samples from distribution $$p$$ were claimed to come from distribution $$q$$. The smaller the **KL Divergence**, the more similar the distributions are.
->
-> {: .note }
-> The term [Surprisal](https://en.wikipedia.org/wiki/Information_content) refers to the amount of information gained, commonly known as **Information content** or **Shannon information**.
-
-Understanding the **KL Divergence** helps us see why it is used in machine learning: we sample data from the distribution $$p^{*}(\boldsymbol{x}, y)$$ and measure how **surprised** we would be if these samples came from the distribution $$p(\boldsymbol{x}, y \vert \boldsymbol{w})$$ that we have learned.
-
-## Cross-Entropy Loss
-
-Let's consider our probability distributions within the context of **KL Divergence** $$D_{\text{KL}}(p^* \,\vert\vert \,p)$$.
-
-<br>
+Let's see what happens to the cross-entropy sum with this one-hot assumption:
 
 $$
-\begin{aligned}
-&D_{\text{KL}}(p^* \,\vert\vert \,p) = \sum_{(\boldsymbol{x}, y) \sim p^{*}} p^*(y, \boldsymbol{x}) \cdot \log \biggl(\frac{p^*(y, \boldsymbol{x})}{p(y, \boldsymbol{x} \,\vert\, \boldsymbol{w})}\biggr) = \\ \\
-&= \sum_{(\boldsymbol{x}, y) \sim p^{*}} p^*(y, \boldsymbol{x}) \cdot \biggl[\log p^*(y, \boldsymbol{x}) - \log\Bigl(p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) \cdot p(\boldsymbol{x})\Bigr)\biggr] = \\ \\
-&= \underbrace{\sum_{(\boldsymbol{x}, y)} p^*(y, \boldsymbol{x}) \cdot \log p^*(y, \boldsymbol{x})}_{\text{Constant term}} - \sum_{(\boldsymbol{x}, y)} p^*(y, \boldsymbol{x}) \cdot \log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) - \underbrace{\sum_{(\boldsymbol{x}, y)} p^*(y, \boldsymbol{x}) \cdot \log p(\boldsymbol{x})}_{\text{Constant term}} = \\ \\
-&= - \sum_{(\boldsymbol{x}, y) \sim p^{*}} p^*(y, \boldsymbol{x}) \cdot \log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w})
-\end{aligned}
+-\sum p_{\text{data}}(y \vert x_i) log p(y \vert x_i,w)
 $$
 
-<br>
+In this sum, the term `p_data(y|x_i)` is 0 for all `y` that are not the true label $$y_i$$. This makes all parts of the sum zero, *except* for the one where `y` = $$y_i$$. For that single term, `p_data(y_i|x_i)` is 1. The entire sum collapses to:
 
-Thus, minimizing the **Cross-Entropy Loss** $$H(p^*, p)$$ is equivalent to minimizing the **KL Divergence** $$D_{\text{KL}}(p^* \,\vert\vert \,p)$$. This is why we use the **Cross-Entropy Loss** in practice.
+$$-1 \cdot \log p(y_i | \boldsymbol{x}_i, \boldsymbol{w})$$
 
-<br>
-
-$$\arg\min_{\boldsymbol{w}} D_{\text{KL}}(p \,\vert\vert \,p^*) = \arg\min_{\boldsymbol{w}} - \sum_{(\boldsymbol{x}, y)} p^*(y, \boldsymbol{x}) \cdot \log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) = \arg\min_{\boldsymbol{w}} H(p^*, p)$$
-
-<br>
-
-Directly minimizing the **Cross-Entropy** is challenging because the true distribution $$p^*(y, \boldsymbol{x})$$ is unknown. We can approximate it as follows:
-
-<br>
+This is simply the negative log-probability of the correct class for a single sample! To get our final loss for the entire dataset, we just average this over all `N` samples:
 
 $$
-\begin{aligned}
-& \arg\min_{\boldsymbol{w}} \Bigl( - \sum_{(\boldsymbol{x}, y) \sim p^{*}} p^*(y, \boldsymbol{x}) \cdot \log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) \Bigr) = \arg\min_{\boldsymbol{w}} \Bigl( - \mathbb{E}_{(\boldsymbol{x}, y) \sim p^{*}} [\log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w})] \Bigr) \approx \\ \\
-&\approx \arg\min_{\boldsymbol{w}} \Bigl( \frac{1}{N} \sum_{(\boldsymbol{x}, y) \sim \mathcal{D}} -\log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) \Bigr) = \arg\min_{\boldsymbol{w}} \Bigl( - \sum_{(\boldsymbol{x}, y) \sim \mathcal{D}} \log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) \Bigr)
-\end{aligned}
+\mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} \log p(y_i | \boldsymbol{x}_i, \boldsymbol{w})
 $$
 
-<br>
-
-where $$\mathcal{D}$$ is the dataset and $$N$$ is the number of samples in the dataset.
-
-This step is where theory meets practice. Since we cannot compute the true expectation over the unknown distribution $$p^*$$, we approximate it with an average over the dataset $$\mathcal{D}$$, which is a sample from $$p^*$$. This is a form of **Monte Carlo estimation**.
-
-{: .definition }
-
->The **Cross-Entropy Loss** from observed data from the true distribution $$p^*(y \,\vert\, \boldsymbol{x})$$ is defined as
->
-> $$- \frac{1}{N} \sum_{(\boldsymbol{x}, y) \sim \mathcal{D}} \log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w})$$
->
-> where $$\mathcal{D}$$ is the dataset and $$N$$ is the number of samples in the dataset.
-
-### Maximum Likelihood Estimation (MLE)
-
-The **Cross-Entropy Loss** is closely related to **Maximum Likelihood Estimation (MLE)**. When we use MLE, we aim to find the parameters $$\boldsymbol{w}$$ that maximize the likelihood of the observed data. This is equivalent to minimizing the negative log-likelihood of the data, which leads to the same objective as minimizing the Cross-Entropy Loss. 
-
-<br>
-
-$$
-\begin{aligned}
-&\arg\min_{\boldsymbol{w}} \Bigl( - \sum_{(\boldsymbol{x}, y) \sim \mathcal{D}} \log p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) \Bigr) = \arg\min_{\boldsymbol{w}} \Bigl( -\log \prod_{(\boldsymbol{x}, y) \sim \mathcal{D}} p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) \Bigr) =  \\ \\
-&= \arg\max_{\boldsymbol{w}} \Bigl( \prod_{(\boldsymbol{x}, y) \sim \mathcal{D}} p(y \,\vert\, \boldsymbol{x}, \boldsymbol{w}) \Bigr)
-\end{aligned}
-$$
-
-<br>
-
-## Softmax Function
-
-As previously mentioned, the output of a classifier is a vector of unnormalized scores, or logits, $$\boldsymbol{s}$$. To convert these logits into probabilities, we use the softmax function $$\boldsymbol{\sigma}(\boldsymbol{s})$$.
-
-<br>
-<div align="center">
-    <img src="{{ site.baseurl }}/assets/images/statistical_model.png" width="600px"/>
-</div>
-<br>
-
-{: .definition }
-> The **Softmax Function**, denoted as $$\boldsymbol{\sigma}(\boldsymbol{s})$$, is defined as:
-> 
->$$\boldsymbol{\sigma}(\boldsymbol{s})_i = \frac{e^{s_i}}{\sum_{j=1}^{c} e^{s_j}}$$
->
-> where $$c$$ is the length of the vector $$\boldsymbol{s}$$.
-
-The softmax function takes the logits $$\boldsymbol{s}$$ as input and outputs a vector of probabilities that sum to one. This function is used to convert the raw scores output by the classifier into probabilities, representing the model's confidence in each class and used to make predictions.
-
-
-## Expected Knowledge
-
-Answer the following questions to test your understanding of the theoretical basis for loss functions.
-
-1. **KL Divergence vs. Cross-Entropy:** In training, our goal is to make our model's distribution $$p$$ as close as possible to the true data distribution $$p^*$$. While KL Divergence ($$D_{\text{KL}}(p^* || p)$$) directly measures this, in practice we minimize the Cross-Entropy Loss ($$H(p^*, p)$$). Based on the derivation, explain *why* minimizing cross-entropy is equivalent to minimizing KL divergence. What term from the KL divergence formula can we ignore during optimization and why?
-
-2. **The Role of Softmax:** The cross-entropy loss function requires a probability distribution as input from our model. What specific function do we use to convert the raw `logits` from a neural network into a valid probability distribution? Describe one key property of this function's output.
-
-3. **Intuition and Application:** What is the relationship between minimizing cross-entropy loss and the principle of Maximum Likelihood Estimation (MLE)? Explain it conceptually. If you were building a classifier from scratch, what principle does this connection justify about your choice of loss function?
-
-4. **KL Divergence Asymmetry:** KL Divergence is not a true "distance" metric because it is asymmetric, i.e., $$D_{\text{KL}}(p || q) \neq D_{\text{KL}}(q || p)$$. What does the value $$D_{\text{KL}}(p || q)$$ intuitively represent, in terms of information or "surprise"?
+This is exactly the **Negative Log-Likelihood (NLL)**, or Cross-Entropy loss. This provides the beautiful theoretical link: minimizing the NLL on our training data is a practical way of minimizing the KL Divergence between our model's distribution and the true underlying data distribution.

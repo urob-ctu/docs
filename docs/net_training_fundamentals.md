@@ -226,10 +226,55 @@ Common strategies:
 
 ## Expected Knowledge
 
-- **Initialization Theory** - Understanding Xavier/Glorot and Kaiming initialization methods
-- **Activation Functions** - Properties of tanh, ReLU, and saturation effects  
-- **Batch Normalization** - Mathematical formulation and benefits for training stability
-- **Forward/Backward Pass** - Step-by-step computation through MLP layers
-- **Gradient Descent** - Manual parameter updates and learning rate effects
-- **Data Augmentation** - Transformation techniques and proper application methodology
-- **Training Dynamics** - Loss initialization, convergence patterns, and debugging techniques
+Answer the following questions to test your understanding of neural network training fundamentals.
+
+### 1. Loss Initialization Understanding
+
+**Scenario:** You're training a 50-class image classification model. At initialization, before any training, you observe a loss of 8.2.
+
+- What is the expected loss for random predictions on this task?
+- Is the observed loss of 8.2 reasonable? What might it indicate about your model initialization?
+- If you see an initial loss of 100.0 instead, what's likely wrong?
+
+### 2. Weight Initialization
+
+**Question:** Given a layer with 784 input units and 256 output units using ReLU:
+- What should be the variance of the weight initialization?
+- Write the mathematical expression for sampling these weights.
+
+### 3. Batch Normalization Analysis
+
+**Implementation Question:** You have this layer sequence:
+```python
+linear = nn.Linear(128, 64, bias=True)
+batch_norm = nn.BatchNorm1d(64)
+activation = nn.Tanh()
+```
+
+- Should you keep `bias=True` in the Linear layer? Why or why not?
+- Explain mathematically what happens to the bias term during batch normalization.
+- Rewrite the layer definition with the optimal configuration.
+
+**Inference Question:** Your model uses batch normalization. During inference on a single image:
+- Can you use batch statistics? Why or why not?
+- What statistics should you use instead?
+- Explain how these statistics are computed during training.
+
+### 4. Training Dynamics
+
+**Question:** Calculate the running mean update:
+- Current running mean: μ_running = 2.5
+- New batch mean: μ_batch = 3.0
+- Momentum parameter: α = 0.9
+- What is the new running mean after this update?
+
+### 5. Complete Network Design
+
+**Task:** Design a 2-layer MLP for MNIST (28×28 grayscale images, 10 classes):
+
+Specify:
+- Input dimension and required preprocessing
+- Hidden layer size (your choice, justify it)
+- Output dimension
+- Activation functions for each layer
+- Weight initialization method for each layer

@@ -175,9 +175,63 @@ Effective triplet loss training requires batches with sufficient diversity. Each
 
 ## Expected Knowledge
 
-- **Embedding Space** - Understanding how data points are mapped to vector representations
-- **Distance Functions** - Knowledge of Euclidean and cosine distance computations  
-- **Triplet Loss** - Understanding the anchor-positive-negative relationship and margin concept
-- **Multi-task Learning** - Combining metric learning with classification and segmentation
-- **Evaluation Metrics** - Interpreting ROC curves, AUC, and TPR@FPR metrics
-- **Training Strategies** - Triplet mining and embedding normalization techniques
+Answer the following questions to test your understanding of metric learning concepts.
+
+### 1. Distance Functions and Embedding Space
+
+**Scenario:** You have two normalized embeddings (unit vectors):
+- Embedding A: [0.6, 0.8, 0.0]
+- Embedding B: [0.8, 0.6, 0.0]
+
+Calculate:
+- The Euclidean distance between A and B
+- The cosine distance between A and B
+- Explain why the cosine distance equals `1 - dot_product` for normalized embeddings
+- Which distance metric is more appropriate for normalized embeddings? Why?
+
+### 2. Triplet Loss Understanding
+
+**Given a triplet:**
+- Anchor: face image of Person X
+- Positive: another face image of Person X
+- Negative: face image of Person Y
+- Margin α = 0.2
+
+After computing embeddings:
+- Distance(anchor, positive) = 0.5
+- Distance(anchor, negative) = 0.6
+
+Questions:
+- Calculate the triplet loss for this example
+- Do you think that this is a "hard" or "easy" triplet?
+- What would happen if distance(anchor, negative) = 1.0 instead?
+- Why do we need the margin parameter α?
+
+### 3. Multi-task Learning
+
+**Architecture:** You're training a model with three objectives:
+- Classification loss: 2.5
+- Segmentation loss: 0.8
+- Triplet loss: 0.3
+
+With loss weights: α = 1.0, β = 2.0, γ = 5.0
+
+Calculate:
+- The total combined loss
+- Which task contributes most to the gradient updates?
+- If triplet loss becomes 0.0 (all triplets satisfied), what happens to embedding learning?
+- Explain why we might want different weights for different losses
+
+### 4. Evaluation Metrics
+
+**Verification task results at threshold=0.5:**
+- True Positives (TP): 85 (correctly identified as same person)
+- False Positives (FP): 10 (incorrectly identified as same person)
+- True Negatives (TN): 180 (correctly identified as different people)
+- False Negatives (FN): 25 (incorrectly identified as different people)
+
+Calculate:
+- True Positive Rate (TPR)
+- False Positive Rate (FPR)
+- If we require TPR@FPR=5%, what does this constraint mean in practical terms?
+- Why might we prefer TPR@FPR=5% over overall accuracy for face verification?

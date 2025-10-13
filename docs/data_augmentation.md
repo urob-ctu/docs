@@ -246,64 +246,16 @@ test_data = process_images(test_paths, val_test_transform)   # ✅ Clean
 >- Gradually increase intensity based on results
 >- Tune hyperparameters systematically (rotation range, brightness factor, etc.)
 
-## Expected Training Effects
+## Questions and Exercises
 
-### Training Dynamics
+### 1. Why Use Data Augmentation?
 
-{: .definition }
->**Training behavior changes significantly** when augmentation is applied, affecting convergence patterns and performance metrics.
+Explain the main purpose of data augmentation in machine learning. What problems does it solve and how does it improve model performance?
 
-**Without augmentation:**
-- 🔴 Training loss decreases rapidly
-- 🔴 Large gap between train and validation loss  
-- 🔴 High risk of overfitting
+### 2. Types of Augmentations
 
-**With augmentation:**
-- 🟢 Training loss decreases more slowly (but steadily)
-- 🟢 Smaller gap between train and validation loss
-- 🟢 Better generalization to unseen data
+Describe the difference between geometric and photometric transformations. Give examples of each type and explain when you would use them.
 
-### Performance Metrics
+### 3. Training vs Evaluation
 
-{: .important }
->**Expected changes when enabling augmentation:**
-
-**Training accuracy:** May decrease initially (model sees harder, varied examples)
-
-**Validation accuracy:** Should increase over time (better generalization)
-
-**Test accuracy:** Should increase (more robust feature learning)
-
-**Training time:** Increases (more diverse examples require longer learning)
-
-## Common Pitfalls and Solutions
-
-### Pitfall 1: Over-Augmentation
-
-**Problem:** Too aggressive augmentation creates unrealistic samples
-**Solution:** Start conservative and increase gradually
-
-### Pitfall 2: Wrong Domain Assumptions
-
-**Problem:** Applying inappropriate transformations (e.g., vertical flip for text)
-**Solution:** Use domain knowledge to select appropriate augmentations
-
-### Pitfall 3: Augmenting Validation/Test Data
-
-**Problem:** Breaks reproducibility and fair evaluation
-**Solution:** Strict separation - augmentation only for training
-
-### Pitfall 4: Ignoring Label Preservation
-
-**Problem:** Transformations that change the true class
-**Solution:** Validate that augmented samples are still correctly labeled
-
-## Expected Knowledge
-
-- **Augmentation Principles** - Understanding when and why to apply data augmentation
-- **Transform Types** - Knowledge of geometric vs photometric transformations
-- **Implementation Strategy** - Proper separation of training vs evaluation pipelines
-- **Domain Considerations** - Selecting appropriate augmentations for specific tasks
-- **Training Effects** - Understanding how augmentation affects training dynamics
-- **Hyperparameter Tuning** - Systematically adjusting augmentation strength
-- **Common Pitfalls** - Avoiding over-augmentation and improper evaluation
+Why should augmentation be applied only to training data and not to validation or test data? What would happen if you augmented your test set?

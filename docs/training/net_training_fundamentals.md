@@ -1,6 +1,7 @@
 ---
 title: Neural Network Training Fundamentals
 layout: default
+parent: Training
 has_children: false
 nav_order: 6
 mathjax: true

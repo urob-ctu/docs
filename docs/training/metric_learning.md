@@ -1,6 +1,7 @@
 ---
 title: Metric Learning
 layout: default
+parent: Training
 has_children: false
 nav_order: 5
 mathjax: true

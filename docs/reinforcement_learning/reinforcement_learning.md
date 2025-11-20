@@ -199,7 +199,7 @@ The following diagram summarizes the tweaks we can make when using RL in practic
 
 <img src="{{ site.baseurl }}/assets/images/rl-task-result.svg" width="95%">
 
-## TODO
+<!-- ## TODO
 
 * [x] definition of RL task
   * [x] What are states? Actions - discrete vs continous
@@ -210,7 +210,7 @@ The following diagram summarizes the tweaks we can make when using RL in practic
 * [x] Definition of Value Function, Advantage function
   * [x] action value function
 * [x] example RL task to compute value functions,...
-* [x] Sources
+* [x] Sources -->
 
 ## References
 

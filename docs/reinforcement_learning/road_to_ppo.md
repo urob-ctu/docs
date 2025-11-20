@@ -331,10 +331,10 @@ The following image illustrates the clipping objective for positive and negative
 <img src="{{ site.baseurl }}/assets/gifs/ppo.gif" width="95%"><figcaption><strong>PPO</strong></figcaption>
 </figure>
 
-## TODO
+<!-- ## TODO
 
 - [x] add GIF of inverse pendulum for vanilla policy-grad and its improvements
-<!-- - [ ] Leibniz rule
+- [ ] Leibniz rule
 - [ ] drawing explaining bootstrapping -->
 
 ## References

@@ -86,3 +86,6 @@ By the end of this course, you will be able to:
     <p><em>Department of Cybernetics, Faculty of Electrical Engineering</em></p>
     <p><em>Czech Technical University in Prague</em></p>
 </div>
+<!-- 
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script> -->

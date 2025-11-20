@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (1:1.4.2+202505120737+ebf0e940d0)"
+   sodipodi:docname="RL-task.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.4307099"
+     inkscape:cx="464.45475"
+     inkscape:cy="282.72678"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="1112"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g20"
+     showguides="true">
+    <sodipodi:guide
+       position="155.15753,162.92466"
+       orientation="0,-1"
+       id="guide1"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="120.76027,226.5411"
+       orientation="1,0"
+       id="guide27"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <rect
+       x="449.61856"
+       y="220.60123"
+       width="223.47387"
+       height="68.066659"
+       id="rect8" />
+    <rect
+       x="126.92139"
+       y="396.62934"
+       width="243.266"
+       height="125.15859"
+       id="rect18" />
+    <rect
+       x="181.5681"
+       y="442.46207"
+       width="454.80165"
+       height="363.1362"
+       id="rect17" />
+    <symbol
+       id="FlowSymbols.svg:Terminal">
+      <title
+         id="title14">Terminal/Interrupt</title>
+      <desc
+         id="desc14">A terminal point in a flowchart: start, stop, halt, etc.</desc>
+      <path
+         d="m 35,95 a 20,20 0 0 1 0,-40 h 80 a 20,20 0 0 1 0,40 z"
+         style="stroke-width:2"
+         id="path14" />
+    </symbol>
+    <symbol
+       id="FlowSymbols.svg:Process">
+      <title
+         id="title2">Process</title>
+      <desc
+         id="desc2">Any processing function.</desc>
+      <rect
+         x="15"
+         y="35"
+         width="120"
+         height="80"
+         style="stroke-width:2"
+         id="rect2-2" />
+    </symbol>
+    <symbol
+       id="FlowSymbols.svg:Decision">
+      <title
+         id="title8">Decision</title>
+      <desc
+         id="desc8">A decision or switching type operation.</desc>
+      <path
+         d="M 15,75 75,35 135,75 75,115 Z"
+         style="stroke-width:2"
+         id="path8-3" />
+    </symbol>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#b5835a;stroke:#3584e4;stroke-width:0.465;-inkscape-stroke:none"
+       id="rect5"
+       width="91.726021"
+       height="22.916866"
+       x="26.445072"
+       y="77.870804"
+       rx="8.1369867"
+       ry="8.1369867" />
+    <rect
+       style="fill:#e5a50a;stroke:#000000;stroke-width:0.465;-inkscape-stroke:none"
+       id="rect2"
+       width="84.88356"
+       height="24.410959"
+       x="29.079092"
+       y="58.367409"
+       ry="8.1369867"
+       rx="8.1369867" />
+    <rect
+       style="fill:#f8e45c;stroke:#000000;stroke-width:0.465;-inkscape-stroke:none"
+       id="rect1"
+       width="47.342464"
+       height="22.191784"
+       x="47.897255"
+       y="45.137928"
+       ry="8.1369867"
+       rx="8.1369867" />
+    <text
+       xml:space="preserve"
+       style="font-size:6.35px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:center;letter-spacing:0px;text-anchor:middle;stroke-width:0.264583"
+       x="71.520866"
+       y="58.367409"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman,  Bold';stroke-width:0.264583"
+         x="71.520866"
+         y="58.367409">RL Problem</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.76111px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:center;letter-spacing:0px;text-anchor:middle;stroke-width:0.264569"
+       x="72.308083"
+       y="77.870804"
+       id="text2"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.76111px;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman,  Bold';stroke-width:0.264569"
+         x="72.308083"
+         y="77.870804">RL-task formulation</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.76111px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:center;letter-spacing:0px;text-anchor:middle;stroke-width:0.264569"
+       x="72.245995"
+       y="91.242355"
+       id="text2-8"><tspan
+         sodipodi:role="line"
+         id="tspan2-3"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.76111px;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman,  Bold';stroke-width:0.264569"
+         x="72.245995"
+         y="91.242355">RL algorithm</tspan></text>
+    <rect
+       style="fill:none;stroke:#3584e4;stroke-width:0.526014;-inkscape-stroke:none"
+       id="rect3"
+       width="185.59732"
+       height="66.73259"
+       x="20.389832"
+       y="43.460033" />
+    <g
+       id="g13"
+       transform="matrix(1.0372537,0,0,1.000246,-2.6964797,2.1711602)">
+      <rect
+         style="fill:none;stroke:#3584e4;stroke-width:0.402222;-inkscape-stroke:none"
+         id="rect4"
+         width="82.312447"
+         height="18.441944"
+         x="118.93019"
+         y="58.336021" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:start;letter-spacing:0px;text-anchor:start;stroke-width:0.264583"
+         x="119.75224"
+         y="62.541481"
+         id="text6"><tspan
+           sodipodi:role="line"
+           id="tspan6"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="62.541481">State representation</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="67.833145"
+           id="tspan12">Reward function</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="73.124802"
+           id="tspan13">Reward shaping</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="78.416466"
+           id="tspan11" /><tspan
+           sodipodi:role="line"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="83.70813"
+           id="tspan10" /><tspan
+           sodipodi:role="line"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="88.999794"
+           id="tspan8" /><tspan
+           sodipodi:role="line"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="94.291458"
+           id="tspan7" /></text>
+    </g>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text8"
+       style="line-height:1.25;font-family:'Latin Modern Roman';font-size:24px;letter-spacing:0px;text-orientation:auto;-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:center;white-space:pre;shape-inside:url(#rect8)" />
+    <g
+       id="g20"
+       transform="matrix(1.0331547,0,0,0.9997733,-2.1107019,24.056409)">
+      <rect
+         style="fill:none;stroke:#3584e4;stroke-width:0.402222;-inkscape-stroke:none"
+         id="rect13"
+         width="82.312447"
+         height="18.441944"
+         x="118.93019"
+         y="58.336021" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.18538px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:start;letter-spacing:0px;text-anchor:start;stroke-width:0.261586"
+         x="121.12704"
+         y="61.833015"
+         id="text20"
+         transform="scale(0.98867203,1.0114578)"><tspan
+           sodipodi:role="line"
+           style="font-size:4.18538px;text-align:start;text-anchor:start;stroke-width:0.261586"
+           x="121.12704"
+           y="61.833015"
+           id="tspan20">Choice of algorithm</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:4.18538px;text-align:start;text-anchor:start;stroke-width:0.261586"
+           x="121.12704"
+           y="67.064743"
+           id="tspan26">Learning rate (most important hyperparam)</tspan><tspan
+           sodipodi:role="line"
+           style="font-size:4.18538px;text-align:start;text-anchor:start;stroke-width:0.261586"
+           x="121.12704"
+           y="72.296463"
+           id="tspan27">other hyperparams (lambda, gamma,...)</tspan></text>
+    </g>
+  </g>
+</svg>

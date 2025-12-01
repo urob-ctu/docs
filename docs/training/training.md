@@ -15,6 +15,7 @@ This section covers how machine learning models learn from data, including the m
 
 - **[Loss Functions]({{ site.baseurl }}{% link docs/training/loss-functions.md %})** - How we measure model performance and define learning objectives
 - **[Gradient Descent]({{ site.baseurl }}{% link docs/training/gradient-descent.md %})** - The fundamental optimization algorithm for training models
+- **[Optimization]({{ site.baseurl }}{% link docs/training/optimization.md %})** - Convergence rate, oscillations, and diminishing gradients in optimization
 - **[Backpropagation]({{ site.baseurl }}{% link docs/training/backpropagation.md %})** - How gradients are computed efficiently in neural networks
 - **[Data Augmentation]({{ site.baseurl }}{% link docs/training/data_augmentation.md %})** - Techniques to artificially expand training datasets
 - **[Metric Learning]({{ site.baseurl }}{% link docs/training/metric_learning.md %})** - Learning similarity measures for better representations

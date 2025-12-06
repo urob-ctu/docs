@@ -33,5 +33,5 @@ EXPOSE 35729
 
 # This is the command that will run when the container starts.
 # We've removed --open and added --host=0.0.0.0.
-CMD [ "bundle", "exec", "jekyll", "serve", "--host=0.0.0.0", "--livereload", "--incremental" ]
+CMD [ "bundle", "exec", "jekyll", "serve", "--host=0.0.0.0", "--livereload" , "--incremental" ]
 

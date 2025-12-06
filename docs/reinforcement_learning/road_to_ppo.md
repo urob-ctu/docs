@@ -21,7 +21,7 @@ mathjax: true
 
 ## Introduction
 
-The [previous page]({% link docs/reinforcement_learning/reinforcement_learning.md %}) introduced a RL task and informed us, that the ultimate goal of the RL algorithm is to find a policy $$\pi^*: \mathcal{S} \rightarrow \mathcal{A}$$, such that:
+The [previous page]({% link docs/reinforcement_learning/reinforcement_learning.md %}) introduced a RL task and informed us that the ultimate goal of the RL algorithm is to find a policy $$\pi^*: \mathcal{S} \rightarrow \mathcal{A}$$, such that:
 
 $$\pi^* = \arg \max_\pi J_\pi$$
 
@@ -32,17 +32,33 @@ In this page we will continue with equations to derive the policy gradient: $$\n
 <img src="{{ site.baseurl }}/assets/gifs/random_policy.gif" width="65%"><figcaption><strong>Random policy</strong></figcaption>
 </figure>
 
+To be all on the same page, we have to define two properties of estimator - bias and variance.
+
+{: .definition}
+> An estimator $\hat{\theta}$ of a parameter $\theta$ is **unbiased** if its expected value equals the true parameter value:
+>
+> $$ \mathbb{E}[\hat{\theta}] = \theta $$
+
+ In our context, it means that if we sampled an infinite number of trajectories, the average of our gradient estimates would be exactly the true gradient.
+
+{: .definition}
+> The **variance** of an estimator measures how much the estimate fluctuates around its expected value.
+>
+> $$ \text{Var}(\hat{\theta}) = \mathbb{E}[(\hat{\theta} - \mathbb{E}[\hat{\theta}])^2] $$
+
+ High variance means that even if the estimator is unbiased, any single estimate (from a batch of trajectories) might be very far from the true gradient, leading to noisy and unstable updates.
+
 ## Simplest Policy Gradient
 
 Before we continue, we will assume that our policy $$ \pi $$ is:
 
-- **parametrized**: We are using neural network with learnable parameters $$\theta$$. This network provides mapping: $$\mathcal{S} \rightarrow_\theta \mathcal{A}$$. From this point now, the symbol $\pi_\theta$ denotes policy parametrized by parameters $\theta$. This neural network is often called an _actor network_.
+- **parameterized**: We are using neural network with learnable parameters $$\theta$$. This network provides mapping: $$\mathcal{S} \rightarrow_\theta \mathcal{A}$$. From this point on, the symbol $\pi_\theta$ denotes policy parameterized by parameters $\theta$. This neural network is often called an _actor network_.
 - **stochastic**: Instead of directly outputting the action, our neural network will output parameters for a probability distribution. As an example our network outputs $\mu_\theta$, $\sigma_\theta$ and this will be used in normal distribution $\mathcal{N}(\mu,\sigma)$.
 
 {: .warning}
 > From this point we will write expected return just as $J$ and we interpret it as a function of weights $\theta$
 
-We will now derive the approximation of gradient:
+Let's now derive the approximation of gradient:
 $$ \nabla_\theta J \approx \dfrac{1}{N} \sum_{i=1}^N \nabla_\theta \log (p(\tau_i | \theta)) R(\tau_i) = \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) $$
 where $R(\tau_i)$ is the return of the ith trajectory.
 
@@ -60,15 +76,17 @@ where $R(\tau_i)$ is the return of the ith trajectory.
 > \begin{align*}
 > \nabla_{\theta} J &= \nabla_{\theta} \mathbb{E}_{\tau \sim \pi_{\theta}}{R(\tau)} & \\
 > &= \nabla_{\theta} \int_{\tau} p(\tau|\theta) R(\tau) & \text{Expand expectation} \\
-> &= \int_{\tau} \nabla_{\theta} p(\tau|\theta) R(\tau) & \text{Bring gradient under integral} \\
+> &= \int_{\tau} \nabla_{\theta} p(\tau|\theta) R(\tau) & \text{Leibniz Rule} \\
 > &= \int_{\tau} p(\tau|\theta) \nabla_{\theta} \log p(\tau|\theta) R(\tau) & \text{Log-derivative trick} \\
 > &= \mathbb{E}_{\tau \sim \pi_{\theta}}{\nabla_{\theta} \log p(\tau|\theta) R(\tau)} & \text{Return to expectation form} \\
 > &= \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta} (a_t |s_t) R(\tau)} & \text{Expression for grad-log-prob} \\
-> &\approx  \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) & \text{Estimatation via sample mean}
+> &\approx  \dfrac{1}{N}\dfrac{1}{T} \sum_{i=1}^N R(\tau_i) \sum_{t=0}^{T-1} \nabla_\theta \log (\pi_\theta(a^i_t | s^i_t)) & \text{Estimation via sample mean}
 > \end{align*}
 > $$
 >
 > In the derivation a few tricks were used:
+>
+> - **Leibniz Rule**: This rule allows moving the gradient inside the integral. This is valid because the domain of integration (the set of all possible trajectories $\tau$) does not depend on $\theta$. Changing $\theta$ changes the *probability* of a trajectory, but not which trajectories are theoretically possible.
 >
 > - **Probability of the trajectory**: The probability of a trajectory $\tau = (s_0, a_0, ..., s_{T+1})$ given that actions come from $\pi_{\theta}$ is
 >   $$ p(\tau|\theta) = \rho_0 (s_0) \prod_{t=0}^{T} p(s_{t+1}|s_t, a_t) \pi_{\theta}(a_t |s_t) $$
@@ -92,14 +110,14 @@ Nevertheless, if we use directly this approximation for a RL problem, the result
 ## Introducing rewards-to-go
 
 The current formula
-$$\mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta} (a_t |s_t) R(\tau)}$$ takes into account whole reward of the trajectory, but this does not make much sense. Imagine a trajectory where at the first half suboptimal actions are performed and in the second half really great actions are taken. The reward of this trajectory will reinforce all the actions of the trajectory.
+$$\mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta} (a_t |s_t) R(\tau)}$$ takes into account the whole reward of the trajectory, but this does not make much sense. Imagine a trajectory where at the first half suboptimal actions are performed and in the second half really great actions are taken. The reward of this trajectory will reinforce all the actions of the trajectory.
 
 But since we are dealing with MDP, the chosen action affects only rewards obtained after performing this action.
 We edit formula for our gradient to the form:
 
-$$ \nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T R(s_{t'}, a_{t'}, s\_{t'+1})} $$
+$$ \nabla_{\theta} J = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T r(s_{t'}, a_{t'}, s_{t'+1})} $$
 
-This form is also justified mathematically. It can be proven that rewards taken before action has zero mean, but non-zero variance. The reward-to-go formula is still unbiased, but with lower variance.
+This form is also justified mathematically. It can be proven that terms involving rewards obtained before the current action sum to zero in expectation. The reward-to-go formula is still unbiased, but with lower variance.
 
 <figure>
 <img src="{{ site.baseurl }}/assets/gifs/reward_to_go_undiscounted.gif" width="95%"><figcaption><strong>Rewards to go</strong></figcaption>
@@ -107,19 +125,19 @@ This form is also justified mathematically. It can be proven that rewards taken 
 
 ## Introducing discount factor
 
-Another effect that we can take into account is the fact, that rewards occuring far in the future are highly variable and weakly correlated with current actions. Due to this fact, we can introduce a discount factor $\gamma \in (0,1)$ and compute rewards of trajectory as:
+Another effect that we can take into account is the fact that rewards occurring far in the future are highly variable and weakly correlated with current actions. Due to this fact, we can introduce a discount factor $\gamma \in (0,1)$ and compute rewards of trajectory as:
 
-$$ R(\tau) = \sum\_{t=0}^{\infty} \gamma^{t} r_t $$
+$$ R(\tau) = \sum_{t=0}^{\infty} \gamma^{t} r_t $$
 
-Plugin this intro our previous estimator, we obtain:
+Plugging this into our previous estimator, we obtain:
 
-$$ \nabla_{\theta} J_\gamma = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T \gamma^{t'-t} R(s_{t'}, a_{t'}, s\_{t'+1})} $$
+$$ \nabla_{\theta} J_\gamma = \mathbb{E}_{\tau \sim \pi_{\theta}}{\sum_{t=0}^{T} \nabla_{\theta} \log \pi_{\theta}(a_t |s_t) \sum_{t'=t}^T \gamma^{t'-t} r(s_{t'}, a_{t'}, s_{t'+1})} $$
 
 Nevertheless, this estimator is biased, we are no longer converging to the true objective
 
 $$
  J= \mathbb{E}_{\tau}[\sum^{T-1}_{t=0}r_t]
- $$, but rather the discounted objective $$
+ $$, but rather to the discounted objective $$
  J_\gamma= \mathbb{E}_{\tau}[\sum^{T-1}_{t=0}  \gamma^t r_t]
  $$. Thus
 
@@ -129,7 +147,7 @@ $$
 
 $$
 
-The closer is $\gamma$ to zero, the more we are converging to a policy that prefers immediate rewards (better to rob a bank now, then to gradually invest...)
+The closer is $\gamma$ to zero, the more we are converging to a policy that prefers immediate rewards (better to rob a bank now than to gradually invest...)
 
 <figure>
 <img src="{{ site.baseurl }}/assets/gifs/reward_to_go_discounted.gif" width="95%"><figcaption><strong>Rewards to go + discount factor</strong></figcaption>
@@ -139,7 +157,7 @@ The closer is $\gamma$ to zero, the more we are converging to a policy that pref
 
 In this section, we will show that subtracting any baseline function $b(s_t)$ depending only on states, does not change the policy gradient $\nabla_\theta J$.
 
-For this approach we use the fact known as EGLP lemma:
+For this approach we use the fact known as EGLP (Expected Grad-Log-Prob) lemma:
 
 $$ \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))]=0 $$
 
@@ -151,8 +169,7 @@ $$ \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))]=0 $$
 > one can observe the fact:
 >
 >
-$$
-
+>$$
 > \nabla_\theta \int_{a_t} \pi_\theta(a_t|s_t) = \nabla_\theta 1 = 0
 >
 > $$
@@ -162,7 +179,7 @@ $$
 >
 > $$
 >
-> \nabla_\theta \int_{a_t} \pi_\theta(a_t|s_t) = \int_{a_t} \nabla_\theta \pi\_\theta(a_t|s_t)
+> \nabla_\theta \int_{a_t} \pi_\theta(a_t|s_t) = \int_{a_t} \nabla_\theta \pi_\theta(a_t|s_t)
 >
 > $$
 >
@@ -182,7 +199,7 @@ $$
 \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x)) b(s_t)] = b(s_t) \mathbb{E}_{a_t \sim \pi_\theta}[\nabla_\theta \log(P_\theta(x))] = b(s_t) \cdot 0 = 0
 $$
 
-for arbitrary function $b$ which only depends on state.
+for arbitrary function $b$ which **depends ONLY on state**.
 This allows us to add or subtract any number of terms like this from our expression for the policy gradient, without changing it in expectation:
 
 $$
@@ -190,8 +207,8 @@ $$
 $$
 
 The common choice of baseline is **on-policy value function** $b(s_t) = V^\pi(s_t) $
-We are unable to have the _real_, so we use approximation of it.
-Usually, a neural network $V_\phi(s_t)$ is used (often called _critic network_). The part of the formula $$((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t))$$ is estimate of the advantage function $A^\pi(s_t,a_t)$
+We are unable to have the _real_ value function, so we use an approximation of it.
+Usually, a neural network $V_\phi(s_t)$ is used (often called _critic network_). The part of the formula $$((\sum_{t'=t}^T R(s_{t'}, a_{t'}, s_{t'+1})) - b(s_t))$$ is an estimate of the advantage function $A^\pi(s_t,a_t)$
 
 This value (critic) network is trained in parallel with the policy to regress value targets $\hat{V}(s)$, which are estimated from the trajectory rewards. This is typically done by minimizing the L2 distance between the value network and the value targets
 
@@ -205,29 +222,29 @@ The architecture of actor and critic networks can be totally isolated ($\phi$ an
 <img src="{{ site.baseurl }}/assets/gifs/actor_critic.gif" width="95%"><figcaption><strong>Subtracted baseline</strong></figcaption>
 </figure>
 
-## Idea of bootstraping
+## Idea of bootstrapping
 
 For feeding the rewards of trajectories into our _critic_ network, two options are available:
 
 - We feed only discounted trajectory rewards: for value target $V^*(s_t)$ we feed $r_t + \gamma r_{t+1}+ \gamma^2 r_{t+2} + \dots + r_{T-1} $
 
-This means that for last state in the trajectory, we are trying to learn to regress to $V^_(s_{T-1})=r_{T-1}$ - only one reward, this brings high variance, so netowrk is hard to learn!
+This means that for last state in the trajectory, we are trying to learn to regress to
+$$\hat{V}(s_{T-1})=r_{T-1}$$ - only one reward, this brings high variance, so network is hard to learn!
 
 - To mitigate this issue we append at the end of trajectory our estimate of value function from the terminal state: $$r_t + \gamma r_{t+1}+ \gamma^2 r_{t+2} + \dots + (r_{T-1} + \gamma \hat{V}_\phi (s_{T-1}) )$$. **This idea is called bootstrapping**.
 
-If our estimate of value function is good, the bootstraping reduces variance. Nevertheless, this sword is double-edge. For bad estimate, we are introducing bias.
+If our estimate of value function is good, the bootstrapping reduces variance. Nevertheless, this is a double-edged sword. For bad estimate, we are introducing bias.
 
-## Generalized advantage estimate (Optional)
+## Generalized advantage estimate (Optional Reading)
 
-The article[^3] introduces another hyperpameter for tuning $\lambda$. This parameter gives us a way to mix estimation between TD(0) and TD(1).
+The article[^3] introduces another hyperparameter for tuning $\lambda$. This parameter gives us a way to mix estimation between TD(0) and TD(1).
 
 - If $\lambda=0$ we estimate:
   $$A^\pi(s_t,a_t) = r_t + \gamma \hat{V}_\phi(s_{t+1})- \hat{V}_\phi(s_t)$$.
   Meaning "I trust more to my estimate than to my current experience". This is nice at the end of the learning, if good value estimate is present. Otherwise, we are introducing bias.
 - If $\lambda=1$ we estimate:
-  $$A^\pi(s_t,a_t) = (\sum_{l=0}^{T-1} \gamma^l (r_{t+l} + \gamma \hat{V}_\phi (s_{T-1}))) - V(s_t)$$.
-  As one can observe with this setting it is the same as learning the Critic network with enabled bootstraping.
-
+  $$A^\pi(s_t,a_t) = (\sum_{l=0}^{T-1} \gamma^l r_{t+l}) - V(s_t)$$.
+  This corresponds to the Monte Carlo estimate (using the full actual return). It has **high variance** (because it depends on many random rewards in the future) but **low bias** (it doesn't rely on potentially incorrect critic estimates).
 Further explanation of GAE is in [this article](https://arxiv.org/abs/1506.02438).
 
 ## Proximal Policy Optimization
@@ -267,13 +284,13 @@ where:
 - $\hat{A}(s,a)$ is the estimated advantage function,
 - $\delta$ is a small positive constant bounding the KL divergence.
 
-The objective function is a lower bound on policy return, improving it inside thes bounds provide impeovement of policy return.
+The objective function is a lower bound on policy return, improving it inside these bounds provide improvement of policy return.
 
 ### PPO
 
-Nevertheless, TRPO problem is a constrained optimization problem, so we would be unable to solve it with standard gradient descent. To overcome this issue, the same team that was behind TRPO reformulated the problem as PPO - **Proximal Policy optimization** (paper can be found [here](https://arxiv.org/abs/1707.06347)).
+Nevertheless, TRPO problem is a constrained optimization problem, so we would be unable to solve it with standard gradient descent. To overcome this issue, the same team that was behind TRPO reformulated the problem as PPO - **Proximal Policy Optimization** (paper can be found [here](https://arxiv.org/abs/1707.06347)).
 
-As we can see $r_\theta$ is simply the ratio of the 'new' probabilities $\pi_\theta(a_t | s_t)$ divided by the 'old' probabilities $\pi_{\theta_{old}}(a_t | s_t)$. The 'old' probabilities correspond to $\theta_{old}$, which are the policy parameters before the gradient update. The reason for these additional terms is that we will keep track of the 'old' parameters $\theta_{old}$ in order to enforce the proximity of the policy behaviour.
+As we can see $r_\theta$ is simply the ratio of the 'new' probabilities $\pi_\theta(a_t | s_t)$ divided by the 'old' probabilities $\pi_{\theta_{old}}(a_t | s_t)$. The 'old' probabilities correspond to $\theta_{old}$, which are the policy parameters before the gradient update. The reason for these additional terms is that we will keep track of the 'old' parameters $\theta_{old}$ in order to enforce the proximity of the policy behavior.
 Note that
 
 $$

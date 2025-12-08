@@ -30,3 +30,8 @@ callouts:
   warning:
     title: Warning
     color: red
+  proof:
+    title: Proof
+    color: purple
+
+

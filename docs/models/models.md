@@ -18,4 +18,6 @@ This section covers different types of machine learning models, from simple simi
 - **[Neural Networks]({{ site.baseurl }}{% link docs/models/neural-networks.md %})** - Multi-layer perceptrons for complex pattern recognition
 - **[Convolutional Networks]({{ site.baseurl }}{% link docs/models/convolutional-networks.md %})** - Specialized architectures for structured data like images
 
+- **[Transformers]({{ site.baseurl }}{% link docs/models/transformers.md %})**
+
 Each model we explore has different strengths, computational requirements, and ideal use cases. A key skill you will develop is understanding these trade-offs, which will allow you to select the right approach for a given robotics problem.

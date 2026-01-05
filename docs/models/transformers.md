@@ -83,6 +83,45 @@ Another analogy to understand these components is to think of them as a library 
 Now the next natural move is to compare the Query <b>Q</b> with all Keys <b>K</b> to determine how relevant each token is to the current token's context. This is done by calculating the attention score using the following formula:
 $$\text{Attention Score} = {Q \cdot K^T}$$
 
+#### Attention Score Masking
+
+In Natural Language Processing (NLP), especially for **next-word prediction** (Generative AI), we must prevent the model from "cheating" by seeing future tokens in the sequence. If the model could see the word it is supposed to predict, it would simply learn to copy the next token rather than understanding the underlying language patterns.
+
+To prevent this, we modify the attention calculation by adding an **Attention Mask**:
+
+<div align="center">
+$$\text{Masked Attention Score} = Q \cdot K^T + M$$
+</div>
+
+Where $M$ is a mask matrix with the same dimensions as the attention scores. This mask ensures that the representation of a token at position $i$ only depends on tokens at positions $j \le i$.
+
+### The Causal Mask Matrix
+
+To effectively "hide" future tokens, the mask matrix $M$ is filled with either **0** (for allowed positions) or $-\infty$ (for forbidden future positions). When these scores are passed through the **Softmax** function, the $-\infty$ values drop to **0**, effectively nullifying any influence from the future context.
+
+For a sequence of length $n$, the mask $M$ is defined as:
+
+$$
+M_{ij} = \begin{cases} 
+0 & \text{if } i \geq j \\
+-\infty & \text{if } i < j 
+\end{cases}
+$$
+
+In matrix form, this appears as a **lower triangular matrix**:
+
+$$
+M = \begin{bmatrix} 
+0 & -\infty & -\infty & \dots & -\infty \\
+0 & 0 & -\infty & \dots & -\infty \\
+0 & 0 & 0 & \dots & -\infty \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \dots & 0 
+\end{bmatrix}
+$$
+
+
+
 Now we can use these attention scores to weigh the Values <b>V</b> and mix them to get the context-aware representation of the current token <b>Z</b>: 
 <div align="center">
   
@@ -105,6 +144,7 @@ For example the word bank is very ambigouous. Without context it is impossible t
 
 This is the essence of the self-attention mechanism: each token can "attend" to all other tokens in the sequence, allowing the model to capture complex dependencies and relationships.
 
+
 ### Multi-Head Attention
 
 <div align="center">
@@ -116,3 +156,4 @@ The benefit of this approach is that instead of trying to learn everything in a 
 
 ### Building the Transformer
 Now that we understand the self-attention mechansim, we can build the full transformer block.
+Most models today use Encoder - Decoder architecture. 

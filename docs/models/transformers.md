@@ -44,9 +44,14 @@ Can be tokenized as:
   <i>"UROB", "is", "the", "best", "course", "in", "the", "world", "!"</i>
 </p>
 
-These tokens live in a high-dimensional space. The process known as <b>Embedding</b> transforms a token into a numerical vector that carries specific geometric meaning.
-- <b>Semantic proximity:</b> Tokens with similar meanings or grammatical roles are close to each other.
-- <b>Logic as direction:</b>Distance and angle between the individual embeddings represents logical and contextual relationship between the words.  
+These tokens live in a high-dimensional space.
+
+{: .definition }
+>The process known as **Embedding** transforms a token into a numerical vector that carries specific geometric meaning.
+>
+>- **Semantic proximity:** Tokens with similar meanings or grammatical roles are close to each other.
+>- **Logic as direction:** Distance and angle between the individual embeddings represents logical and contextual relationship between the words.
+
 <small><i>**Btw, one of the grandfather of modern embeddings was <a href="https://en.wikipedia.org/wiki/Word2vec" target="_blank">Word2Vec</a> developed by a Czech researcher <a href ="https://en.wikipedia.org/wiki/Tom%C3%A1%C5%A1_Mikolov" target="_blank">Tomas Mikolov</a></i></small>
 
 <div align="center">
@@ -55,7 +60,11 @@ These tokens live in a high-dimensional space. The process known as <b>Embedding
 </div>
 
 #### Positional Encoding
-Since the transformer architecture does not have any built-in notion of order (unlike RNNs or CNNs), we need to provide some information about the position of each token in the sequence. This is done using <b>Positional Encoding</b>, which adds a unique vector to each token embedding based on its position in the sequence. This way, the model can differentiate between tokens based on their order.  
+Since the transformer architecture does not have any built-in notion of order (unlike RNNs or CNNs), we need to provide some information about the position of each token in the sequence.
+
+{: .definition }
+>This is done using **Positional Encoding**, which adds a unique vector to each token embedding based on its position in the sequence. This way, the model can differentiate between tokens based on their order.
+
 The positional encoding can be passed as both static (original transformer from <a href="https://arxiv.org/abs/1706.03762" target="_blank">Attention Is All You Need</a>) or learnable vectors (GPT).
 
 
@@ -83,9 +92,10 @@ Another analogy to understand these components is to think of them as a library 
 Now the next natural move is to compare the Query <b>Q</b> with all Keys <b>K</b> to determine how relevant each token is to the current token's context. This is done by calculating the attention score using the following formula:
 $$\text{Attention Score} = {Q \cdot K^T}$$
 
-#### Attention Score Masking
+### The Causal Mask Matrix
 
-In Natural Language Processing (NLP), especially for **next-word prediction** (Generative AI), we must prevent the model from "cheating" by seeing future tokens in the sequence. If the model could see the word it is supposed to predict, it would simply learn to copy the next token rather than understanding the underlying language patterns.
+{: .important }
+>In Natural Language Processing (NLP), especially for **next-word prediction** (Generative AI), we must prevent the model from "cheating" by seeing future tokens in the sequence. If the model could see the word it is supposed to predict, it would simply learn to copy the next token rather than understanding the underlying language patterns.
 
 To prevent this, we modify the attention calculation by adding an **Attention Mask**:
 
@@ -95,7 +105,6 @@ $$\text{Masked Attention Score} = Q \cdot K^T + M$$
 
 Where $M$ is a mask matrix with the same dimensions as the attention scores. This mask ensures that the representation of a token at position $i$ only depends on tokens at positions $j \le i$.
 
-### The Causal Mask Matrix
 
 To effectively "hide" future tokens, the mask matrix $M$ is filled with either **0** (for allowed positions) or $-\infty$ (for forbidden future positions). When these scores are passed through the **Softmax** function, the $-\infty$ values drop to **0**, effectively nullifying any influence from the future context.
 
@@ -125,7 +134,7 @@ $$
 Now we can use these attention scores to weigh the Values <b>V</b> and mix them to get the context-aware representation of the current token <b>Z</b>: 
 <div align="center">
   
-$$Z = \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{Q \cdot K^T}{\sqrt{d_k}}\right)V$$
+$$Z = \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{Q \cdot K^T + M}{\sqrt{d_k}}\right)V$$
 
 <small>
 Note that the attention scores are often scaled by the square root of the dimension of the keys ($d_k$) to prevent extremely large values that can destabilize the softmax function.
@@ -151,9 +160,17 @@ This is the essence of the self-attention mechanism: each token can "attend" to 
     <img src="{{ site.baseurl }}/assets/images/multihead_attention.png" alt="Multi-Head Attention" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Multi-Head Attention block</i></figcaption>
 </div>
 
-To enhance the model's ability to capture different types of relationships, transformers use a technique called <b>Multi-Head Attention</b>. Instead of performing a single attention operation, the model splits the input into multiple "heads", each with its own set of Q, K, and V matrices. This allows the model to focus on different aspects of the input simultaneously. These heads <b>represent different subspaces </b> of the input data and are smaller in dimension compared to the original embedding size. The outputs of all heads are then concatenated to produce the final output.  
-The benefit of this approach is that instead of trying to learn everything in a single attention mechanism, the model can learn to <b>focus on different features or relationship at once</b>, leading to a richer understanding of the input.
+To enhance the model's ability to capture different types of relationships, transformers use a technique called **Multi-Head Attention**.
+
+{: .important }
+>Instead of performing a single attention operation, the model splits the input into multiple "heads", each with its own set of Q, K, and V matrices. This allows the model to focus on different aspects of the input simultaneously.
+
+These heads **represent different subspaces** of the input data and are smaller in dimension compared to the original embedding size. The outputs of all heads are then concatenated to produce the final output.  
+The benefit of this approach is that instead of trying to learn everything in a single attention mechanism, the model can learn to **focus on different features or relationship at once**, leading to a richer understanding of the input.
 
 ### Building the Transformer
-Now that we understand the self-attention mechansim, we can build the full transformer block.
-Most models today use Encoder - Decoder architecture. 
+Now that we understand the self-attention mechanism, we can build the full Transformer architecture.
+
+The original Transformer proposed in *Attention Is All You Need* utilized an **Encoder-Decoder** structure (typically used for translation). However, modern adaptations often split this architecture:
+* **Encoder-only (e.g., BERT):** Used for understanding tasks like text classification and search.
+* **Decoder-only (e.g., GPT, Llama):** Used for generative tasks like writing text or code.

@@ -31,7 +31,7 @@ Before reading this page however, we strongly recommend you to check and learn h
     <img src="{{ site.baseurl }}/assets/images/input_block.png" alt="Input Block" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Input block of the transformer.</i></figcaption>
 </div>
 
-#### Input Embeddings 
+### Input Embeddings 
 To understand how a transformer thinks, it is helpful to develop a geometrical intuition of how it represents information. Inside the model, language is not stored as letters or strings, but as tokens—the fundamental building blocks of text.
 
 While a token usually represents a group of characters or sub-words (rather than a single whole word), for the sake of simplicity, we can think of each token as an individual word. For example the sentence:
@@ -58,7 +58,7 @@ These tokens live in a high-dimensional space.
      <i>Notice the operation "king" + "woman" = "queen".</i>
 </div>
 
-#### Positional Encoding
+### Positional Encoding
 Since the transformer architecture does not have any built-in notion of order (unlike RNNs or CNNs), we need to provide some information about the position of each token in the sequence.
 
 {: .definition }
@@ -91,7 +91,7 @@ Another analogy to understand these components is to think of them as a library 
 Now the next natural move is to compare the Query <b>Q</b> with all Keys <b>K</b> to determine how relevant each token is to the current token's context. This is done by calculating the attention score using the following formula:
 $$\text{Attention Score} = {Q \cdot K^T}$$
 
-#### The Causal Mask Matrix
+### The Causal Mask Matrix
 
 {: .important }
 >In Natural Language Processing (NLP), especially for **next-word prediction** (Generative AI), we must prevent the model from "cheating" by seeing future tokens in the sequence. If the model could see the word it is supposed to predict, it would simply learn to copy the next token rather than understanding the underlying language patterns.
@@ -153,7 +153,7 @@ For example the word bank is very ambigouous. Without context it is impossible t
 This is the essence of the self-attention mechanism: each token can "attend" to all other tokens in the sequence, allowing the model to capture complex dependencies and relationships.
 
 
-#### Multi-Head Attention
+### Multi-Head Attention
 
 <div align="center">
     <img src="{{ site.baseurl }}/assets/images/multihead_attention.png" alt="Multi-Head Attention" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Multi-Head Attention block</i></figcaption>
@@ -167,9 +167,33 @@ To enhance the model's ability to capture different types of relationships, tran
 These heads **represent different subspaces** of the input data and are smaller in dimension compared to the original embedding size. The outputs of all heads are then concatenated to produce the final output.  
 The benefit of this approach is that instead of trying to learn everything in a single attention mechanism, the model can learn to **focus on different features or relationship at once**, leading to a richer understanding of the input.
 
-### Building the transformer
+## Building the transformer
 Now that we understand the self-attention mechanism, we can build the full transformer architecture.
 
 The original transformer proposed in *Attention Is All You Need* utilized an **Encoder-Decoder** structure (typically used for translation). However, modern adaptations often split this architecture:
 * **Encoder-only (e.g., BERT):** Used for understanding tasks like text classification and search.
 * **Decoder-only (e.g., GPT, Llama):** Used for generative tasks like writing text or code.
+
+We will now describe the architecture of the Transformer decoder. We begin by defining the final essential component: the Feed-Forward Network.
+### Feed-Forward Network (FFN)
+Unlike the attention mechanism, which focuses on the relationships between different tokens, the <b>Feed-Forward Network (FFN)</b> focuses on processing the information of each token independently.
+The FFN can be interpreted as a Key-Value memory that stores <b>static knowledge and facts learned during training</b>. These facts are retrieved when a <b>specific token triggers the layer</b> (Hence also the alternative name Position-wise Feed-Forward Network).
+
+In our previous "bank" example, the distinction works like this:
+The Attention Mechanism analyzes the context (surrounding words) to disambiguate the word, determining that "bank" refers to a financial institution rather than a river edge.
+The FFN then takes this specific financial concept and enriches it with static knowledge associated with it (such as "loans," "interest," or "vaults").
+Crucially, the FFN is placed after the Multi-Head Attention block to ensure it processes a context-aware representation, rather than an ambiguous raw token.
+
+<div align="center">
+$$FFN(x) = \text{Activation}(xW_1 + b_1)W_2 + b_2$$
+</div>
+
+{: .important }
+The Feed-Forward Network consists usually of three operations: Linear layer, Activation, Linear layer. The use of Activation is crucial to introduce non linearity to our transformer architecture. Without it, the whole transformer would collapse into a single linear function unable to learn complex patterns. Currently the most popular one is a <a href = "https://en.wikipedia.org/wiki/Rectifier_(neural_networks)" target="_blank">ReLU</a> with its variants like <a href = "https://en.wikipedia.org/wiki/ReLU#Gaussian-error_linear_unit_(GELU)" target="_blank">GELU</a> or <a href ="https://en.wikipedia.org/wiki/Swish_function" target="_blank">Swish</a>.
+
+### Putting it all together
+Now we can put all the components together to build the full transformer decoder architecture.
+<div align="center">
+    <img src="{{ site.baseurl }}/assets/images/transformer_block.png" alt="Transformer Decoder" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Full architecture of the transformer decoder.</i></figcaption>
+</div>
+<small><i>Notice the encapsulation into a transformer block. Each block contains a Multi-Head Attention layer followed by a Feed-Forward Network. For example GPT-1 consists of 12 of these blocks consecutively.</i></small>

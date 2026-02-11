@@ -1,27 +1,91 @@
 ---
 title: Home
-layout: home
+layout: default
 nav_order: 1
 ---
-# Robot Learning
 
-| Date | Lecture | Lab | Lecturer | Homework |
-| :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------ | :----------------- |
-| 23.9.2024 | Lec 1: Machine learning 101: model, loss, learning, issues, regression, classification | Intro: ML | Ales | - |
-| 30.9.2024 | Lec 2: Under the hood of a linear classifier: two-class and multi-class linear classifier on RGB images | 1D regression and 2D classification: Revision of the regression and classification theory, analytic gradient computation, gradient in computational graph and loss minimization. | Karel | - |
-| 7.10.2024 | Lec 3: Where the hell does the loss come from? MAP and ML estimate, KL divergence and losses. | Loss, MLP | Ales | HW1 - MLP |
-| 14.10.2024 | Lec 4: Under the hood of auto-differentiation: Vector-Jacobian-Product (VJP) vs chainrule and multiplication of Jacobians, convolutional layer and its VJP | Backpropagation | Honza | - |
-| 21.10.2024 | Lec 5: The story of the cat's brain surgery: fully-connected NN + fast backpropagation via Vector-Jacobian-Product (VJP), cortex + convolutional layer | Convolutional neural networks | Honza | HW2 - Autograd |
-| 28.10.2024 | Independence Day of Czechoslovakia | Preparation for midterm test | - | - |
-| 4.11.2024 | **Midterm test** | HPC Tutorial | Roman | - |
-| 11.11.2024 | Lec 6: Why is learning prone to fail? - Structural issues: layers + issues, batch-norm, drop-out | Optimization | Karel | - |
-| 18.11.2024 | Lec 7: Why is learning prone to fail? - Optimization issues: optimization vs learning, KL divergence, SGD, momentum, convergence rate, Adagrad, RMSProp, AdamOptimizer, diminishing/exploding gradient, oscillation, double descent | Layers | Roman | HW3 - Segmentation |
-| 25.11.2024 | Lec 8: Architectures, Transformers | Transformers | David Č. | - |
-| 2.12.2024 | Lec 9: Transformers | Transformers | David Č. | HW4 - Transformers |
-| 9.12.2024 | Lec 10: Reinforcement learning: Approximated Q-learning, DQN, DDPG, Derivation of the policy gradient (REINFORCE), A2C, TRPO, PPO, Reward shaping, Inverse RL, Applications, | Reinforcement learning I | David K. | - |
-| 16.12.2024 | Lec 11: Implicit layers | Reinforcement learning II | David K. | HW5 - RL |
-| 6.1.2024 | **Exam** | - | - | - |
+# Robot Learning Course
+{: .no_toc }
+
+## Welcome to B3B33UROB
+
+This course introduces fundamental and advanced concepts in machine learning with a focus on robotics applications. You'll learn how robots can learn from data to perform complex tasks, from basic classification and regression to deep neural networks and reinforcement learning.
+
+## Course Overview
+
+**Robot Learning** bridges the gap between traditional robotics and modern machine learning techniques. In this course, you will:
+
+- Master the fundamentals of supervised learning (classification and regression)
+- Understand how neural networks work from the ground up
+- Learn to train models using gradient descent and backpropagation
+- Explore convolutional neural networks for vision tasks
+- Dive into reinforcement learning for robot control
+- Apply these techniques to real robotics problems
+
+## Course Structure
+
+The course content is organized into the following main sections:
+
+### 📚 [Fundamentals]({{ site.baseurl }}{% link docs/fundamentals/fundamentals.md %})
+Start here to understand the basic building blocks of machine learning:
+- Datasets and Features
+- Classification and Regression
+- Evaluation Metrics
+
+### 🤖 [Models]({{ site.baseurl }}{% link docs/models/models.md %})
+Explore different types of machine learning models:
+- k-Nearest Neighbors
+- Linear Classifiers
+- Neural Networks (MLPs)
+- Convolutional Networks
+
+### 🎯 [Training]({{ site.baseurl }}{% link docs/training/training.md %})
+Learn how models learn from data:
+- Loss Functions
+- Gradient Descent
+- Backpropagation
+
+## Prerequisites
+
+- Linear Algebra (matrix operations, vector spaces)
+- Calculus (derivatives, chain rule)
+- Basic Programming (Python recommended)
+- Probability and Statistics (basic concepts)
+
+## Learning Outcomes
+
+By the end of this course, you will be able to:
+
+1. **Understand** the mathematical foundations of machine learning
+2. **Implement** basic learning algorithms from scratch
+3. **Train** neural networks for various tasks
+4. **Apply** machine learning to robotics problems
+5. **Evaluate** model performance and debug training issues
+6. **Design** appropriate models for specific applications
+
+## Getting Started
+
+1. Begin with the [Fundamentals]({{ site.baseurl }}{% link docs/fundamentals/fundamentals.md %}) section to build a solid foundation
+2. Work through the examples and exercises in each section
+3. Implement the algorithms to reinforce your understanding
+4. Apply the concepts to the course assignments
+
+## Resources
+
+- **Course Materials**: Available through [CourseWare](https://cw.fel.cvut.cz/b241/courses/b3b33urob/start)
+- **Assignments**: Submit through [BRUTE](https://cw.felk.cvut.cz/brute/student/)
+- **Code Repository**: [GitHub](https://github.com/urob-ctu)
+
+---
 
 <div align="center">
-    <img src="{{ site.baseurl }}/assets/images/NPO_logo.png" width="800">
+    <img src="{{ site.baseurl }}/assets/images/NPO_logo.png" width="600">
 </div>
+
+<div align="center">
+    <p><em>Department of Cybernetics, Faculty of Electrical Engineering</em></p>
+    <p><em>Czech Technical University in Prague</em></p>
+</div>
+<!-- 
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<script src="https://tikzjax.com/v1/tikzjax.js"></script> -->

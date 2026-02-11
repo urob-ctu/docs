@@ -1,13 +1,13 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll site to Pages
+# .github/workflows/deploy.yml
+name: Build and Deploy Jekyll Site
 
 on:
+  # Run on pushes to the main branch
   push:
+    branches: ["main"]
+
+  # Run on pull requests targeting the main branch
+  pull_request:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -19,13 +19,13 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# Allow only one concurrent deployment, cancel older runs
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  # Build job
+  # Build job - runs on both pull requests and pushes to main
   build:
     runs-on: ubuntu-latest
     steps:
@@ -34,28 +34,30 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3' # Not needed with a .ruby-version file
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-          cache-version: 0 # Increment this number if you need to re-download cached gems
+          ruby-version: '3.3'
+          bundler-cache: true # runs 'bundle install' and caches installed gems
+          cache-version: 0
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
-        # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
       - name: Upload artifact
-        # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v3
 
-  # Deployment job
+  # Deployment job - runs ONLY on a push to main
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    # This 'if' condition is the key: it only runs the deployment job
+    # if the event that triggered the workflow was a 'push'.
+    # On a 'pull_request' trigger, this job will be skipped.
+    if: github.event_name == 'push'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

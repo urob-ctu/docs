@@ -7,7 +7,7 @@ mathjax: true
 ---
 
 # Transformers 
-<img src="{{ site.baseurl }}/assets/images/transformer_icon.jpg" alt="Transformer Icon" width="50" style="float:right"/>
+<img src="{{ site.baseurl }}/assets/images/transformer_icon.jpg" alt="transformer Icon" width="50" style="float:right"/>
 
 {: .no_toc }
 
@@ -22,18 +22,17 @@ mathjax: true
 
 ## Introduction
 
-The Transformer architecture has become the universal powerhorse of modern AI. It drives everything from the immense reasoning capabilities of Large Language Models to the precision required for Google Photos to identify a "cute kitten pictures" in your library.  
+The transformer architecture has become the universal powerhorse of modern AI. It drives everything from the immense reasoning capabilities of Large Language Models to the precision required by Google Photos to identify a "cute kitten pictures" in your library.  
 On this page you will learn the core mechanisms behind transformer network and how it became the universal backbone for any deep learning task.  
-Before reading this page however, we strongly recommend you to check and learn how the **[Convolutional Networks]({{ site.baseurl }}{% link docs/models/convolutional-networks.md %})** works.
+Before reading this page however, we strongly recommend you to check and learn how the **[Convolutional Network]({{ site.baseurl }}{% link docs/models/convolutional-networks.md %})** works.
 
-## Building the transformer block by block
-### Input Block
+## Input Block
 <div align="center">
     <img src="{{ site.baseurl }}/assets/images/input_block.png" alt="Input Block" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Input block of the transformer.</i></figcaption>
 </div>
 
-#### Input (word) Embeddings 
-To understand how a Transformer thinks, it is helpful to develop a geometrical intuition of how it represents information. Inside the model, language is not stored as letters or strings, but as tokens—the fundamental building blocks of text.
+#### Input Embeddings 
+To understand how a transformer thinks, it is helpful to develop a geometrical intuition of how it represents information. Inside the model, language is not stored as letters or strings, but as tokens—the fundamental building blocks of text.
 
 While a token usually represents a group of characters or sub-words (rather than a single whole word), for the sake of simplicity, we can think of each token as an individual word. For example the sentence:
 <p align="center">
@@ -47,15 +46,15 @@ Can be tokenized as:
 These tokens live in a high-dimensional space.
 
 {: .definition }
->The process known as **Embedding** transforms a token into a numerical vector that carries specific geometric meaning.
+>The term **embedding** refers both to the mapping from tokens to vectors and to the resulting vector itself. The vector is learned during training and serves as a compact numeric representation of the token.
 >
->- **Semantic proximity:** Tokens with similar meanings or grammatical roles are close to each other.
->- **Logic as direction:** Distance and angle between the individual embeddings represents logical and contextual relationship between the words.
+>- **Semantic proximity (intuition):** Tokens with similar meanings or grammatical roles often end up near each other, but this is an emergent property and not guaranteed.
+>- **Logic as direction (intuition):** Some linear relationships can appear (e.g., analogies), yet this is a rough mental model rather than a strict rule.
 
 <small><i>**Btw, one of the grandfather of modern embeddings was <a href="https://en.wikipedia.org/wiki/Word2vec" target="_blank">Word2Vec</a> developed by a Czech researcher <a href ="https://en.wikipedia.org/wiki/Tom%C3%A1%C5%A1_Mikolov" target="_blank">Tomas Mikolov</a></i></small>
 
 <div align="center">
-    <img src="{{ site.baseurl }}/assets/images/word_embedding.png" alt="Word Embeddings" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Geometrical representation of word embeddings​.</i></figcaption>
+    <img src="{{ site.baseurl }}/assets/images/word_embedding.png" alt="Word Embeddings" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Geometrical intuition of word embeddings​.</i></figcaption>
      <i>Notice the operation "king" + "woman" = "queen".</i>
 </div>
 
@@ -65,10 +64,10 @@ Since the transformer architecture does not have any built-in notion of order (u
 {: .definition }
 >This is done using **Positional Encoding**, which adds a unique vector to each token embedding based on its position in the sequence. This way, the model can differentiate between tokens based on their order.
 
-The positional encoding can be passed as both static (original transformer from <a href="https://arxiv.org/abs/1706.03762" target="_blank">Attention Is All You Need</a>) or learnable vectors (GPT).
+The positional encoding can be both static (original transformer from <a href="https://arxiv.org/abs/1706.03762" target="_blank">Attention Is All You Need</a>) or learnable vectors (GPT).
 
 
-### Self-Attention Block
+## Self-Attention Block
 Now that we have our input embeddings ready, it's time to understand the core mechanism that makes transformers so powerful: the Attention Mechanism.
 <div align="center">
     <img src="{{ site.baseurl }}/assets/images/self_attention.png" alt="Attention Block" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Attention block of the transformer.</i></figcaption>
@@ -92,7 +91,7 @@ Another analogy to understand these components is to think of them as a library 
 Now the next natural move is to compare the Query <b>Q</b> with all Keys <b>K</b> to determine how relevant each token is to the current token's context. This is done by calculating the attention score using the following formula:
 $$\text{Attention Score} = {Q \cdot K^T}$$
 
-### The Causal Mask Matrix
+#### The Causal Mask Matrix
 
 {: .important }
 >In Natural Language Processing (NLP), especially for **next-word prediction** (Generative AI), we must prevent the model from "cheating" by seeing future tokens in the sequence. If the model could see the word it is supposed to predict, it would simply learn to copy the next token rather than understanding the underlying language patterns.
@@ -154,7 +153,7 @@ For example the word bank is very ambigouous. Without context it is impossible t
 This is the essence of the self-attention mechanism: each token can "attend" to all other tokens in the sequence, allowing the model to capture complex dependencies and relationships.
 
 
-### Multi-Head Attention
+#### Multi-Head Attention
 
 <div align="center">
     <img src="{{ site.baseurl }}/assets/images/multihead_attention.png" alt="Multi-Head Attention" style="display: block; margin: auto; width: 70%;"/><figcaption><i>Multi-Head Attention block</i></figcaption>
@@ -168,9 +167,9 @@ To enhance the model's ability to capture different types of relationships, tran
 These heads **represent different subspaces** of the input data and are smaller in dimension compared to the original embedding size. The outputs of all heads are then concatenated to produce the final output.  
 The benefit of this approach is that instead of trying to learn everything in a single attention mechanism, the model can learn to **focus on different features or relationship at once**, leading to a richer understanding of the input.
 
-### Building the Transformer
-Now that we understand the self-attention mechanism, we can build the full Transformer architecture.
+### Building the transformer
+Now that we understand the self-attention mechanism, we can build the full transformer architecture.
 
-The original Transformer proposed in *Attention Is All You Need* utilized an **Encoder-Decoder** structure (typically used for translation). However, modern adaptations often split this architecture:
+The original transformer proposed in *Attention Is All You Need* utilized an **Encoder-Decoder** structure (typically used for translation). However, modern adaptations often split this architecture:
 * **Encoder-only (e.g., BERT):** Used for understanding tasks like text classification and search.
 * **Decoder-only (e.g., GPT, Llama):** Used for generative tasks like writing text or code.

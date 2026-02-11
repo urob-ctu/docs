@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="186.12497mm"
+   height="67.258598mm"
+   viewBox="0 0 186.12497 67.258598"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-20.126824,-43.197028)">
+    <rect
+       style="fill:#b5835a;stroke:#3584e4;stroke-width:0.465;-inkscape-stroke:none"
+       id="rect5"
+       width="91.726021"
+       height="22.916866"
+       x="26.445072"
+       y="77.870804"
+       rx="8.1369867"
+       ry="8.1369867" />
+    <rect
+       style="fill:#e5a50a;stroke:#000000;stroke-width:0.465;-inkscape-stroke:none"
+       id="rect2"
+       width="84.88356"
+       height="24.410959"
+       x="29.079092"
+       y="58.367409"
+       ry="8.1369867"
+       rx="8.1369867" />
+    <rect
+       style="fill:#f8e45c;stroke:#000000;stroke-width:0.465;-inkscape-stroke:none"
+       id="rect1"
+       width="47.342464"
+       height="22.191784"
+       x="47.897255"
+       y="45.137928"
+       ry="8.1369867"
+       rx="8.1369867" />
+    <text
+       xml:space="preserve"
+       style="font-size:6.35px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:center;letter-spacing:0px;text-anchor:middle;stroke-width:0.264583"
+       x="71.520866"
+       y="58.367409"
+       id="text1"><tspan
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman,  Bold';stroke-width:0.264583"
+         x="71.520866"
+         y="58.367409">RL Problem</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.76111px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:center;letter-spacing:0px;text-anchor:middle;stroke-width:0.264569"
+       x="72.308083"
+       y="77.870804"
+       id="text2"><tspan
+         id="tspan2"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.76111px;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman,  Bold';stroke-width:0.264569"
+         x="72.308083"
+         y="77.870804">RL-task formulation</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.76111px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:center;letter-spacing:0px;text-anchor:middle;stroke-width:0.264569"
+       x="72.245995"
+       y="91.242355"
+       id="text2-8"><tspan
+         id="tspan2-3"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7.76111px;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman,  Bold';stroke-width:0.264569"
+         x="72.245995"
+         y="91.242355">RL algorithm</tspan></text>
+    <rect
+       style="fill:none;stroke:#3584e4;stroke-width:0.526014;-inkscape-stroke:none"
+       id="rect3"
+       width="185.59732"
+       height="66.73259"
+       x="20.389832"
+       y="43.460033" />
+    <g
+       id="g13"
+       transform="matrix(1.0372537,0,0,1.000246,-2.6964797,2.1711602)">
+      <rect
+         style="fill:none;stroke:#3584e4;stroke-width:0.402222;-inkscape-stroke:none"
+         id="rect4"
+         width="82.312447"
+         height="18.441944"
+         x="118.93019"
+         y="58.336021" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:start;letter-spacing:0px;text-anchor:start;stroke-width:0.264583"
+         x="119.75224"
+         y="62.541481"
+         id="text6"><tspan
+           id="tspan6"
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="62.541481">State representation</tspan><tspan
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="67.833145"
+           id="tspan12">Reward function</tspan><tspan
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="73.124802"
+           id="tspan13">Reward shaping</tspan><tspan
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="78.416466"
+           id="tspan11" /><tspan
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="83.70813"
+           id="tspan10" /><tspan
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="88.999794"
+           id="tspan8" /><tspan
+           style="font-size:4.23333px;text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="119.75224"
+           y="94.291458"
+           id="tspan7" /></text>
+    </g>
+    <g
+       id="g20"
+       transform="matrix(1.0331547,0,0,0.9997733,-2.1107019,24.056409)">
+      <rect
+         style="fill:none;stroke:#3584e4;stroke-width:0.402222;-inkscape-stroke:none"
+         id="rect13"
+         width="82.312447"
+         height="18.441944"
+         x="118.93019"
+         y="58.336021" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.18538px;line-height:1.25;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, Normal';font-variant-ligatures:none;text-align:start;letter-spacing:0px;text-anchor:start;stroke-width:0.261586"
+         x="121.12704"
+         y="61.833015"
+         id="text20"
+         transform="scale(0.98867203,1.0114578)"><tspan
+           style="font-size:4.18538px;text-align:start;text-anchor:start;stroke-width:0.261586"
+           x="121.12704"
+           y="61.833015"
+           id="tspan20">Choice of algorithm</tspan><tspan
+           style="font-size:4.18538px;text-align:start;text-anchor:start;stroke-width:0.261586"
+           x="121.12704"
+           y="67.064743"
+           id="tspan26">Learning rate (most important hyperparam)</tspan><tspan
+           style="font-size:4.18538px;text-align:start;text-anchor:start;stroke-width:0.261586"
+           x="121.12704"
+           y="72.296463"
+           id="tspan27">other hyperparams (lambda, gamma,...)</tspan></text>
+    </g>
+  </g>
+</svg>

@@ -1,110 +1,81 @@
-# How to Contribute
+# How to contribute 
 
 - [Introduction](#introduction)
-- [Run the Website Locally](#run-the-website-locally)
-  - [Fork and Clone the Repoitory](#fork-and-clone-the-repository)
-  - [Building and Previewing the Website](#building-and-previewing-the-website)
-  - [Making Changes](#making-changes)
-  - [Without Docker](#without-docker)
-- [Contribution Guidelines](#contribution-guidelines)
+- [Local Development Setup](#local-development-setup)
+  - [Prerequisites](#prerequisites)
+  - [Fork and Clone the Repository](#fork-and-clone-the-repository)
+  - [Running the Development Server](#running-the-development-server)
+- [Making and Submitting Changes](#making-and-submitting-changes)
+- [Content & Style Guidelines](#content--style-guidelines)
 
 ## Introduction
 
-The materials you see are primarily written by the teachers of the UROB course, but you can also contribute! In fact we encourage you to do so! If you notice an error or a typo, please simply [open an issue](https://github.com/urob-ctu/urob-ctu.github.io/issues) on GitHub. If you have a more complex suggestion or an entirely new section, follow the contribution guidelines.
+The materials you see are primarily written by the teachers of the UROB course, but community contributions are highly encouraged! If you notice an error, a typo, or think something could be explained better, we invite you to help us improve the course.
 
-Why should you contribute? First, it helps you gain a better understanding of the subject. Second, it helps us improve the course. Most importantly, you can **earn points for your contribution**.
+Why should you contribute? First, it helps you gain a deeper understanding of the subject. Second, you are helping future students learn more effectively. Most importantly, you can **earn points for your contribution**.
 
-## Run the Website Locally
+For simple fixes like typos, feel free to [open an issue](https://github.com/urob-ctu/docs/issues) on GitHub. For more complex suggestions or new content, please follow the development and contribution guide below.
 
-When making more complex changes to the website, you should run the website locally to see the results of your changes. To develop the website locally, follow these steps:
+## Local Development Setup
+
+To make complex changes and preview them, you must run the website on your local machine. We use Docker to provide a simple, one-command setup that works consistently for everyone.
+
+### Prerequisites
+
+You must have **Docker and Docker Compose** installed. This is available as a single download for all major operating systems.
+
+*   **[Get Docker (includes Docker Compose)](https://docs.docker.com/get-docker/)**
+
+> **Note:** These instructions use the modern `docker compose` command (with a space). If you have an older version, you may need to use `docker-compose` (with a hyphen), but we strongly recommend using an up-to-date version of Docker.
 
 ### Fork and Clone the Repository
 
-First, fork the [repository](https://github.com/urob-ctu/docs) to your own account by clicking the button at the top of the page.
+1.  **Fork** the repository to your own GitHub account using the button at the top of the project page.
 
-<div align="center">
-    <img src="./assets/images/fork-button.webp" width="800">
-</div>
+    <div align="center">
+        <img src="./assets/images/fork-button.webp" width="800">
+    </div>
 
-Then, clone the forked repository by running:
+2.  **Clone** your forked repository to your local machine and navigate into the project directory:
+    ```bash
+    git clone git@github.com:YOUR-USERNAME/docs.git
+    cd docs
+    ```
 
-```bash
-git clone git@github.com:YOUR-USERNAME/docs.git
-```
+### Running the Development Server
 
-Navigate to the cloned repository:
+1.  **Start the server** with a single command:
+    ```bash
+    docker compose up
+    ```
+    The first time you run this, Docker will build the necessary image, which may take a few minutes. Subsequent startups will be much faster.
 
-```bash
-cd docs
-```
+2.  **View the website.** Once the server is running, you will see output like this in your terminal:
+    > Server address: http://0.0.0.0:4000
+    > Server running... press ctrl-c to stop.
 
-### Building and Previewing the Website
+    You can now view the live site by navigating your browser to **[http://localhost:4000](http://localhost:4000)**.
 
-We prepared a Docker container that contains all the dependencies needed to build and run the website.
+3.  **Make your changes.** The server is configured for **LiveReload**. When you save changes to any file, the site will automatically rebuild, and your browser will refresh to show your edits.
 
-To run the Docker container use the `run.sh` script:
+4.  **Stop the server** when you are finished by pressing **`Ctrl+C`** in the terminal.
 
-```bash
-bash run.sh
-```
+To perform a full cleanup and remove the container, run `docker compose down`.
 
-The script will start the container and automatically build the website and start the Jekyll server. You can access the website at `localhost:4000`, it will not open it automatically.
+## Making and Submitting Changes
 
-You do not need to build the docker image, it will be built automatically the first time you run the script.
+1.  Create a new branch for your feature or bugfix.
+2.  Make your changes, previewing them with the local server as needed.
+3.  Commit your changes following the [commit message guidelines](#commit-message-guidelines).
+4.  Push the branch to your fork on GitHub.
+5.  Open a Pull Request from your branch to the `main` branch of the original `urob-ctu/docs` repository.
 
-If you would like for some reason to rebuild the docker image run the `run.sh` script with the `--build` or `-b` flag:
+## Content & Style Guidelines
 
-```bash
-bash run.sh --build
-```
+To keep the materials consistent and easy to read, please follow these guidelines:
 
-The docker is run in a detached mode, so you can continue working in the same terminal. This means that to stop the Jekyll server and the container, you need to run the `kill.sh` script.
-  
-```bash
-bash kill.sh
-```
-
-This will stop the Jekyll server and the container.
-
-To run the docker in normal (interactive) mode, you can use the `--interactive` or `-i` flag:
-
-```bash
-bash run.sh --interactive
-```
-
-### Making Changes
-
-When you make changes to the website, the website will automatically rebuild and refresh in your browser. You can now make changes to the website and see the results in real-time.
-
-### Without Docker
-
-We encourage you to use the Docker image; if you are, however, unable or unwilling to do so, you can run the whole thing natively.
-
-The following dependencies are required to build the website locally:
-
-- [Jekyll](https://jekyllrb.com)
-- [Bundler](https://bundler.io)
-
-Assuming you are in the cloned repository directory, run:
-
-```bash
-bundle install
-```
-
-Then run the following script to start the Jekyll server:
-
-```bash
-bundle exec jekyll serve -l -o
-```
-
-The website should automatically open in your browser. If not, you can find it at `localhost:4000`.
-
-## Contribution Guidelines
-
-To make the materials consistent and easy to read, follow these guidelines:
-
-1. **Language:** Write only in English.
-2. **Table of Contents:** Include a table of contents at the top of each page using the following snippet:
+1.  **Language:** Write only in English.
+2.  **Table of Contents:** Include a table of contents at the top of each page using this snippet:
 
     ```markdown
     # Header
@@ -120,19 +91,15 @@ To make the materials consistent and easy to read, follow these guidelines:
     </details>
     ```
 
-3. **Introduction:** Include an introduction at the beginning of each page that describes the purpose of the page.
+3.  **Introduction:** Include an introduction at the beginning of each page that describes its purpose.
 {% raw %}
-1. **Images:** Use the following snippet for images:
+4.  **Images:** Use the following snippet for images. Always add images to the `assets/images` folder.
 
    ```markdown
    <div align="center">
      <img src="{{ site.baseurl }}/assets/images/IMAGE_NAME.png" width="800">
    </div>
-   ```
-
-    - The `<div align="center">` tag centers the image.
-    - The `{{ site.baseurl }}` is the path to the website directory. Then add the relative path to the image in the `assets/images` folder. Always add images to the `assets/images` folder.
-    - The `width="800"` is the width of the image. You can adjust it as needed.
+  ```
 
 2. **Videos:** Use the following snippet for videos:
 
@@ -141,9 +108,6 @@ To make the materials consistent and easy to read, follow these guidelines:
      <video src="{{ site.baseurl }}/assets/videos/spirals_relu.mp4" width="640" autoplay loop controls muted></video>
    </div>
    ```
-
-    - The `width="640"` attribute sets the video width. You can adjust it as needed.
-    - The `{{ site.baseurl }}` is the path to the website directory. Then add the relative path to the video in the `assets/videos` folder. Always add videos to the `assets/videos` folder.
 
 6. **Callouts:** You can use the following callouts:
    - `{: .definition }` for definitions

@@ -1,4 +1,4 @@
-FROM ruby:4.0
+FROM ruby:3.4
 
 # Install essential dependencies for building gems and for Jekyll's JS runtime.
 RUN apt-get update && apt-get install -y --no-install-recommends \

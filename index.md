@@ -5,9 +5,10 @@ nav_order: 1
 ---
 
 # Robot Learning Course
+
 {: .no_toc }
 
-## Welcome to B3B33UROB
+## Welcome to B0B33DPL
 
 This course introduces fundamental and advanced concepts in machine learning with a focus on robotics applications. You'll learn how robots can learn from data to perform complex tasks, from basic classification and regression to deep neural networks and reinforcement learning.
 
@@ -27,20 +28,26 @@ This course introduces fundamental and advanced concepts in machine learning wit
 The course content is organized into the following main sections:
 
 ### 📚 [Fundamentals]({{ site.baseurl }}{% link docs/fundamentals/fundamentals.md %})
+
 Start here to understand the basic building blocks of machine learning:
+
 - Datasets and Features
 - Classification and Regression
 - Evaluation Metrics
 
 ### 🤖 [Models]({{ site.baseurl }}{% link docs/models/models.md %})
+
 Explore different types of machine learning models:
+
 - k-Nearest Neighbors
 - Linear Classifiers
 - Neural Networks (MLPs)
 - Convolutional Networks
 
 ### 🎯 [Training]({{ site.baseurl }}{% link docs/training/training.md %})
+
 Learn how models learn from data:
+
 - Loss Functions
 - Gradient Descent
 - Backpropagation
@@ -72,7 +79,7 @@ By the end of this course, you will be able to:
 
 ## Resources
 
-- **Course Materials**: Available through [CourseWare](https://cw.fel.cvut.cz/b241/courses/b3b33urob/start)
+- **Course Materials**: Available through [CourseWare](https://cw.fel.cvut.cz/wiki/courses/b0b33dpl/start)
 - **Assignments**: Submit through [BRUTE](https://cw.felk.cvut.cz/brute/student/)
 - **Code Repository**: [GitHub](https://github.com/urob-ctu)
 

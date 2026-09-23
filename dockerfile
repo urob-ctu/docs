@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /usr/src/app
 
 # Copy Gemfile first to leverage Docker's layer caching.
-# Gems will only be re-installed if this file changes.
-COPY Gemfile ./
+# Gems will only be re-installed if these files change.
+COPY Gemfile Gemfile.lock ./
 
 # Install the gems
 RUN bundle install

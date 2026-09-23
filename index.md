@@ -5,7 +5,6 @@ nav_order: 1
 ---
 
 # Deep Learning Essentials
-
 {: .no_toc }
 
 ## Welcome to B0B33DPL

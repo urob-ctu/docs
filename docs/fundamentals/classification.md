@@ -3,7 +3,6 @@ title: Classification
 layout: default
 nav_order: 2
 parent: Fundamentals
-mathjax: true
 ---
 
 # Classification

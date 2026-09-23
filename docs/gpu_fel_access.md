@@ -3,7 +3,6 @@ title: GPU FEL Remote
 layout: default
 has_children: false
 nav_order: 8
-mathjax: true
 ---
 
 

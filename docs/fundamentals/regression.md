@@ -3,7 +3,6 @@ title: Regression
 layout: default
 nav_order: 3
 parent: Fundamentals
-mathjax: true
 ---
 
 # Regression

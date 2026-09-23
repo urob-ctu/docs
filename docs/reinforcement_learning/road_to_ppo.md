@@ -3,7 +3,6 @@ title: Road to PPO
 layout: default
 parent: Reinforcement Learning
 nav_order: 1
-mathjax: true
 ---
 
 # Road to PPO

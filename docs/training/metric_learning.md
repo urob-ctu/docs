@@ -4,7 +4,6 @@ layout: default
 parent: Training
 has_children: false
 nav_order: 5
-mathjax: true
 ---
 
 # Metric Learning

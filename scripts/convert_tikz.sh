@@ -1,5 +1,4 @@
 #!/bin/bash
-# filepath: /home/michal/Documents/Skola/ucitel/UROB/urob-docs/scripts/convert_tikz.sh
 
 # Create temporary cache directory
 CACHE_DIR=$(mktemp -d)

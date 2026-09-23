@@ -3,7 +3,6 @@ title: Gradient Descent
 layout: default
 nav_order: 2
 parent: Training
-mathjax: true
 ---
 
 # Gradient Descent and Training Process

@@ -2,7 +2,6 @@
 title: How to Contribute
 layout: default
 nav_order: 10
-mathjax: true
 ---
 
 # How to Contribute

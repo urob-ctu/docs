@@ -3,7 +3,6 @@ title: Backpropagation
 layout: default
 nav_order: 3
 parent: Training
-mathjax: true
 ---
 
 # Backpropagation

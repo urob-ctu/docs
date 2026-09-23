@@ -3,7 +3,6 @@ title: Reinforcement Learning
 layout: default
 has_children: true
 nav_order: 5
-mathjax: true
 ---
 
 # Reinforcement Learning

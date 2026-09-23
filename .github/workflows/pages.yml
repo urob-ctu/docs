@@ -36,7 +36,6 @@ jobs:
         with:
           ruby-version: "3.4"
           bundler-cache: true # runs 'bundle install' and caches installed gems
-          cache-version: 0
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6

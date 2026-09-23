@@ -3,7 +3,6 @@ title: Training
 layout: default
 has_children: true
 nav_order: 4
-mathjax: true
 ---
 
 # Model Training

@@ -3,7 +3,6 @@ title: Fundamentals
 layout: default
 has_children: true
 nav_order: 2
-mathjax: true
 ---
 
 # Machine Learning Fundamentals

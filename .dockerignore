@@ -3,9 +3,5 @@
 _site
 .jekyll-cache
 .jekyll-metadata
-node_modules
-run.sh
-kill.sh
-Dockerfile
 .dockerignore
 docker-compose.yml

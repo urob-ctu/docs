@@ -1,10 +1,8 @@
 FROM ruby:3.4
 
-# Install essential dependencies for building gems and for Jekyll's JS runtime.
+# Install essential dependencies for building gems.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    nodejs \
-    npm \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory. This path is used in the docker-compose.yml volumes.

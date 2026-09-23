@@ -3,7 +3,6 @@ title: Datasets and Features
 layout: default
 nav_order: 1
 parent: Fundamentals
-mathjax: true
 ---
 
 # Datasets and Features

@@ -33,3 +33,7 @@ callouts:
   proof:
     title: Proof
     color: purple
+
+# just-the-docs 0.12 Sass trips Dart Sass 3.0 deprecations; not fixable on our side
+sass:
+  silence_deprecations: [import, global-builtin, color-functions]

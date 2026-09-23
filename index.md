@@ -4,7 +4,7 @@ layout: default
 nav_order: 1
 ---
 
-# Robot Learning Course
+# Deep Learning Essentials
 
 {: .no_toc }
 
